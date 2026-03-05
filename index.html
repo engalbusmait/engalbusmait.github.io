@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Waleed Albusmait | Cybersecurity Leader & Digital Forensics Expert</title>
+  <meta name="description" content="Waleed Yusuf Albusmait – Cybersecurity leader, digital forensics expert, AI innovator, and strategic advisor in Bahrain." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── RESET ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:        #0d1220;
+      --bg2:       #0d1220;
+      --bg3:       #111827;
+      --surface:   rgba(255,255,255,0.04);
+      --border:    rgba(255,255,255,0.08);
+      --cyan:      #00d4ff;
+      --cyan2:     #00a8cc;
+      --green:     #00ff88;
+      --purple:    #8b5cf6;
+      --gold:      #f59e0b;
+      --text:      #e2e8f0;
+      --muted:     #8892a4;
+      --r:         16px;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    [lang="ar"] body, body.ar {
+      font-family: 'Cairo', sans-serif;
+    }
+    ::selection { background: rgba(0,212,255,.2); }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--cyan2); border-radius: 3px; }
+
+    /* ─── CANVAS ─── */
+    #bg-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 clamp(1.5rem,5vw,4rem); height: 64px;
+      background: rgba(7,11,20,.75);
+      backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--cyan); text-decoration: none;
+    }
+    .nav-logo em { color: var(--green); font-style: normal; }
+    .nav-right { display: flex; align-items: center; gap: 1.5rem; }
+    .nav-links { display: flex; gap: 1.75rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--muted);
+      font-size: .85rem; font-weight: 500;
+      transition: color .2s; position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+      height: 1px; background: var(--cyan);
+      transform: scaleX(0); transition: transform .2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    /* Language toggle */
+    .lang-btn {
+      display: flex; align-items: center; gap: .35rem;
+      padding: .35rem .8rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      color: var(--muted);
+      font-size: .78rem; font-weight: 600;
+      cursor: pointer;
+      transition: border-color .2s, color .2s;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+    .lang-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: .3s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-menu {
+      display: none; position: fixed; top: 64px; left: 0; right: 0;
+      background: rgba(7,11,20,.97); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 2rem; z-index: 99;
+      flex-direction: column; gap: 1.25rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { color: var(--muted); text-decoration: none; font-size: 1rem; font-weight: 500; }
+    .mobile-menu a:hover { color: var(--cyan); }
+    .mobile-lang-btn { align-self: flex-start; }
+
+    /* ─── LAYOUT ─── */
+    section { position: relative; z-index: 1; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 clamp(1.5rem,5vw,3rem); }
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem; color: var(--cyan);
+      letter-spacing: .2em; text-transform: uppercase; margin-bottom: .6rem;
+    }
+    .section-title { font-size: clamp(1.75rem,4vw,2.5rem); font-weight: 800; line-height: 1.2; margin-bottom: .75rem; }
+    .section-sub { color: var(--muted); max-width: 580px; margin-bottom: 3rem; font-size: .95rem; text-align: justify; }
+
+    /* ─── HERO ─── */
+    #hero { min-height: 100vh; display: flex; align-items: center; padding: 80px clamp(1.5rem,5vw,3rem) 0; }
+    .hero-inner {
+      max-width: 1100px; margin: 0 auto; width: 100%;
+      display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(0,255,136,.07); border: 1px solid rgba(0,255,136,.2);
+      border-radius: 100px; padding: .35rem 1rem;
+      font-size: .78rem; color: var(--green); width: fit-content; margin-bottom: 1.5rem;
+    }
+    .hero-badge::before {
+      content: ''; width: 6px; height: 6px;
+      background: var(--green); border-radius: 50%; animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.5)} }
+    .hero-name { font-size: clamp(2.75rem,6.5vw,4.5rem); font-weight: 900; line-height: 1.08; margin-bottom: .5rem; }
+    .hero-name .first { color: var(--text); }
+    .hero-name .last {
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero-role { font-size: clamp(.95rem,1.8vw,1.15rem); color: var(--muted); margin-bottom: 1.5rem; }
+    .hero-role .hl { color: var(--cyan); font-weight: 600; }
+    .hero-desc { color: var(--muted); max-width: 540px; font-size: .95rem; margin-bottom: 2.5rem; line-height: 1.8; text-align: justify; }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .75rem 1.75rem;
+      background: linear-gradient(135deg, var(--cyan), var(--cyan2));
+      color: #070b14; font-weight: 700; font-size: .875rem;
+      border-radius: 10px; text-decoration: none;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 0 24px rgba(0,212,255,.2);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(0,212,255,.4); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .75rem 1.75rem; border: 1px solid var(--border);
+      color: var(--text); font-weight: 600; font-size: .875rem;
+      border-radius: 10px; text-decoration: none;
+      transition: border-color .2s, background .2s;
+    }
+    .btn-secondary:hover { border-color: var(--cyan); background: rgba(0,212,255,.06); }
+
+    .hero-stats { display: flex; gap: 2.5rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+    .stat-num {
+      font-size: 1.9rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--cyan), var(--green));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .stat-label { font-size: .72rem; color: var(--muted); margin-top: .15rem; }
+
+    /* Avatar */
+    .hero-avatar-wrap { display: flex; align-items: center; justify-content: center; }
+    .avatar-ring {
+      position: relative;
+      width: clamp(200px,24vw,270px); height: clamp(200px,24vw,270px);
+    }
+    .avatar-ring::before, .avatar-ring::after {
+      content: ''; position: absolute; inset: -3px; border-radius: 50%;
+      background: conic-gradient(from 0deg, var(--cyan), var(--purple), var(--green), var(--cyan));
+      animation: spin 6s linear infinite; z-index: -1;
+    }
+    .avatar-ring::after { inset: -7px; opacity: .25; animation-duration: 10s; animation-direction: reverse; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .avatar-inner {
+      width: 100%; height: 100%; border-radius: 50%;
+      background: linear-gradient(135deg, var(--bg2), #1a2540);
+      display: flex; align-items: center; justify-content: center;
+      font-size: clamp(3rem,6vw,4.5rem); font-weight: 800;
+      color: var(--cyan); font-family: 'JetBrains Mono', monospace;
+      border: 3px solid var(--bg); overflow: hidden;
+    }
+    .avatar-inner img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+
+    /* ─── ABOUT ─── */
+    #about { padding: 7rem 0; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .about-text p { color: var(--muted); font-size: .95rem; line-height: 1.85; margin-bottom: 1.25rem; text-align: justify; }
+    .about-text p strong { color: var(--text); }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .875rem; margin-top: 1.5rem; }
+    .info-item { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: .875rem 1rem; }
+    .info-label { font-size: .68rem; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; margin-bottom: .3rem; }
+    .info-val { font-size: .875rem; font-weight: 600; }
+    .info-val a { color: var(--cyan); text-decoration: none; }
+    .info-val a:hover { text-decoration: underline; }
+
+    .about-highlights { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 1.75rem; }
+    .about-hl-title { font-size: .72rem; font-family: 'JetBrains Mono', monospace; color: var(--cyan); letter-spacing: .15em; text-transform: uppercase; margin-bottom: 1.25rem; }
+    .hl-item { display: flex; align-items: flex-start; gap: .75rem; padding: .875rem 0; border-bottom: 1px solid var(--border); }
+    .hl-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .hl-icon { width: 34px; height: 34px; flex-shrink: 0; background: rgba(0,212,255,.08); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: .95rem; }
+    .hl-text strong { font-size: .9rem; display: block; margin-bottom: .15rem; }
+    .hl-text span { font-size: .8rem; color: var(--muted); }
+
+    /* ─── SKILLS ─── */
+    #skills { padding: 7rem 0; background: linear-gradient(to bottom, transparent, rgba(13,18,32,.6), transparent); }
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap: 1.5rem; }
+    .skill-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 1.5rem;
+      transition: border-color .3s, transform .3s;
+    }
+    .skill-card:hover { border-color: rgba(0,212,255,.3); transform: translateY(-4px); }
+    .skill-header { display: flex; align-items: center; gap: .75rem; margin-bottom: 1.25rem; }
+    .skill-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+    .skill-title { font-size: .95rem; font-weight: 700; }
+    .tags { display: flex; flex-wrap: wrap; gap: .45rem; }
+    .tag { font-size: .71rem; font-weight: 500; padding: .28rem .65rem; border-radius: 6px; font-family: 'JetBrains Mono', monospace; }
+    .tc { background: rgba(0,212,255,.08);  color: var(--cyan);   border: 1px solid rgba(0,212,255,.18); }
+    .tg { background: rgba(0,255,136,.08);  color: var(--green);  border: 1px solid rgba(0,255,136,.18); }
+    .tp { background: rgba(139,92,246,.08); color: var(--purple); border: 1px solid rgba(139,92,246,.18); }
+    .tw { background: rgba(255,255,255,.04); color: var(--muted); border: 1px solid var(--border); }
+
+    /* ─── EXPERIENCE ─── */
+    #experience { padding: 7rem 0; }
+    .timeline { position: relative; }
+    .timeline::before {
+      content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--cyan), var(--purple), transparent);
+    }
+    .tl-item { display: grid; grid-template-columns: 60px 1fr; gap: 1.5rem; margin-bottom: 2.5rem; }
+    .tl-dot {
+      width: 40px; height: 40px; background: var(--bg2); border: 2px solid var(--cyan);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem;
+      flex-shrink: 0; margin-top: .25rem; box-shadow: 0 0 16px rgba(0,212,255,.2); z-index: 1;
+    }
+    .tl-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 1.75rem; transition: border-color .3s; }
+    .tl-card:hover { border-color: rgba(0,212,255,.25); }
+    .tl-head { display: flex; flex-wrap: wrap; gap: .75rem; align-items: flex-start; justify-content: space-between; margin-bottom: .75rem; }
+    .tl-title { font-size: 1.05rem; font-weight: 700; }
+    .tl-org { font-size: .875rem; color: var(--cyan); font-weight: 600; margin-bottom: .2rem; }
+    .tl-period { font-size: .73rem; font-family: 'JetBrains Mono', monospace; color: var(--muted); background: rgba(255,255,255,.04); border: 1px solid var(--border); padding: .25rem .7rem; border-radius: 6px; white-space: nowrap; }
+    .tl-bullets { list-style: none; margin-top: .75rem; }
+    .tl-bullets li { position: relative; padding-left: 1.25rem; font-size: .875rem; color: var(--muted); margin-bottom: .5rem; line-height: 1.65; text-align: justify; }
+    .tl-bullets li::before { content: '▹'; position: absolute; left: 0; color: var(--cyan); }
+    .tl-bullets li strong { color: var(--text); }
+    .tl-badges { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: 1rem; }
+
+    /* ─── PROJECTS ─── */
+    #projects { padding: 7rem 0; background: linear-gradient(to bottom, transparent, rgba(13,18,32,.6), transparent); }
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px,1fr)); gap: 1.5rem; }
+    .proj-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--r);
+      padding: 1.75rem; display: flex; flex-direction: column;
+      transition: border-color .3s, transform .3s, box-shadow .3s; position: relative; overflow: hidden;
+    }
+    .proj-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--cyan), var(--purple)); opacity: 0; transition: opacity .3s;
+    }
+    .proj-card:hover { border-color: rgba(0,212,255,.3); transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,.4); }
+    .proj-card:hover::before { opacity: 1; }
+    .proj-num { font-family: 'JetBrains Mono', monospace; font-size: .68rem; color: var(--cyan); opacity: .5; margin-bottom: .75rem; }
+    .proj-icon { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.25rem; }
+    .proj-title { font-size: 1.05rem; font-weight: 700; margin-bottom: .75rem; }
+    .proj-desc { font-size: .875rem; color: var(--muted); line-height: 1.75; flex: 1; text-align: justify; }
+    .proj-footer { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+    .proj-impact { display: flex; align-items: center; gap: .5rem; margin-top: .75rem; font-size: .78rem; color: var(--green); font-family: 'JetBrains Mono', monospace; }
+    .proj-impact::before { content: ''; width: 5px; height: 5px; background: var(--green); border-radius: 50%; flex-shrink: 0; }
+
+    /* Leadership metrics bar */
+    .leader-metrics { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-top: 3.5rem; }
+    .metric-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--r);
+      padding: 1.5rem; text-align: center;
+      transition: border-color .3s;
+    }
+    .metric-card:hover { border-color: rgba(0,212,255,.25); }
+    .metric-num { font-size: 2rem; font-weight: 800; background: linear-gradient(135deg,var(--cyan),var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .metric-label { font-size: .78rem; color: var(--muted); margin-top: .35rem; line-height: 1.4; }
+
+    /* ─── EDUCATION ─── */
+    #education { padding: 7rem 0; }
+    .edu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap: 1.5rem; }
+    .edu-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 1.75rem; transition: border-color .3s, transform .3s; }
+    .edu-card:hover { border-color: rgba(139,92,246,.3); transform: translateY(-4px); }
+    .edu-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .edu-degree { font-size: 1rem; font-weight: 700; margin-bottom: .35rem; line-height: 1.4; }
+    .edu-school { font-size: .875rem; color: var(--cyan); font-weight: 600; margin-bottom: .5rem; }
+    .edu-year { font-size: .75rem; font-family: 'JetBrains Mono', monospace; color: var(--muted); margin-bottom: 1rem; }
+    .edu-meta { display: flex; flex-wrap: wrap; gap: .45rem; }
+    .edu-badge { font-size: .71rem; padding: .25rem .65rem; border-radius: 6px; font-weight: 600; }
+    .eg { background: rgba(0,255,136,.08); color: var(--green); border: 1px solid rgba(0,255,136,.2); }
+    .ep { background: rgba(139,92,246,.08); color: var(--purple); border: 1px solid rgba(139,92,246,.2); }
+    .ec { background: rgba(0,212,255,.08); color: var(--cyan); border: 1px solid rgba(0,212,255,.2); }
+    .edu-thesis { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); font-size: .8rem; color: var(--muted); font-style: italic; }
+    .edu-thesis strong { color: var(--purple); font-style: normal; display: block; margin-bottom: .2rem; font-size: .71rem; text-transform: uppercase; letter-spacing: .05em; }
+
+    /* ─── ACHIEVEMENTS ─── */
+    #achievements { padding: 7rem 0; background: linear-gradient(to bottom, transparent, rgba(13,18,32,.6), transparent); }
+    .ach-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 1rem; }
+    .ach-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; transition: border-color .3s, transform .3s; }
+    .ach-card:hover { border-color: rgba(245,158,11,.25); transform: translateX(4px); }
+    .ach-medal { font-size: 1.5rem; flex-shrink: 0; width: 44px; height: 44px; background: rgba(255,255,255,.04); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .ach-text strong { font-size: .9rem; display: block; margin-bottom: .2rem; }
+    .ach-text span { font-size: .75rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+
+    /* ─── CERTIFICATES ─── */
+    #certificates { padding: 7rem 0; }
+    .certs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: .875rem; }
+    .cert-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: .875rem 1.125rem; display: flex; align-items: center; gap: .75rem; transition: border-color .3s; }
+    .cert-card:hover { border-color: rgba(0,212,255,.2); }
+    .cert-icon { width: 34px; height: 34px; flex-shrink: 0; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: .9rem; }
+    .cert-name { font-size: .8rem; font-weight: 600; line-height: 1.3; }
+    .cert-year { font-size: .68rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; margin-top: .15rem; }
+
+    /* ─── CONTACT ─── */
+    #contact { padding: 7rem 0; }
+    .contact-wrapper { max-width: 960px; margin: 0 auto; text-align: center; }
+    .contact-wrapper .section-sub { margin: 0 auto 2.5rem; text-align: center; }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.25rem;
+      text-align: center;
+    }
+    .contact-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 1.5rem 1rem;
+      display: flex; flex-direction: column; align-items: center; gap: .6rem;
+      text-decoration: none; color: var(--text);
+      transition: border-color .3s, transform .3s, box-shadow .3s;
+      cursor: pointer;
+    }
+    .contact-card:hover { border-color: rgba(0,212,255,.35); transform: translateY(-5px); box-shadow: 0 16px 48px rgba(0,0,0,.35); }
+    .cc-icon { font-size: 1.6rem; margin-bottom: .15rem; }
+    .cc-label { font-size: .68rem; color: var(--muted); text-transform: uppercase; letter-spacing: .12em; }
+    .cc-value { font-size: .8rem; font-weight: 600; color: var(--cyan); word-break: break-all; line-height: 1.3; }
+    .cc-qr {
+      width: 120px; height: 120px;
+      background: #fff;
+      border-radius: 10px;
+      padding: 6px;
+      margin-top: .5rem;
+      flex-shrink: 0;
+    }
+    .cc-qr canvas, .cc-qr img { display: block; width: 108px !important; height: 108px !important; }
+    .cc-scan { font-size: .65rem; color: var(--muted); margin-top: .35rem; font-family: 'JetBrains Mono', monospace; }
+    /* WhatsApp green accent */
+    .contact-card.wa:hover { border-color: rgba(37,211,102,.4); }
+    .contact-card.wa .cc-value { color: #25d366; }
+    @media (max-width: 560px) {
+      .contact-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ─── FOOTER ─── */
+    footer { border-top: 1px solid var(--border); padding: 2rem clamp(1.5rem,5vw,3rem); text-align: center; color: var(--muted); font-size: .8rem; position: relative; z-index: 1; }
+    footer span { color: var(--cyan); }
+
+    /* ─── REVEAL ─── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ─── RTL SUPPORT ─── */
+    html[dir="rtl"] .timeline::before { left: auto; right: 20px; }
+    html[dir="rtl"] .tl-item { grid-template-columns: 1fr 60px; }
+    html[dir="rtl"] .tl-item .tl-dot { order: 2; }
+    html[dir="rtl"] .tl-item .tl-card { order: 1; }
+    html[dir="rtl"] .tl-bullets li { padding-left: 0; padding-right: 1.25rem; }
+    html[dir="rtl"] .tl-bullets li::before { left: auto; right: 0; }
+    html[dir="rtl"] .ach-card:hover { transform: translateX(-4px); }
+    html[dir="rtl"] body { font-family: 'Cairo', sans-serif; }
+    html[dir="rtl"] .section-label { letter-spacing: 0; }
+    html[dir="rtl"] .nav-links { flex-direction: row-reverse; }
+    html[dir="rtl"] .hero-name .last { background: linear-gradient(135deg, var(--cyan), var(--purple)); -webkit-background-clip: text; background-clip: text; }
+    html[dir="rtl"] .proj-impact::before { flex-shrink: 0; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-avatar-wrap { display: none; }
+      .about-grid { grid-template-columns: 1fr; }
+      .leader-metrics { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 680px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .leader-metrics { grid-template-columns: 1fr; }
+      .timeline::before { left: 16px; }
+      html[dir="rtl"] .timeline::before { left: auto; right: 16px; }
+      .tl-item { grid-template-columns: 44px 1fr; gap: 1rem; }
+      html[dir="rtl"] .tl-item { grid-template-columns: 1fr 44px; }
+      .tl-dot { width: 32px; height: 32px; font-size: .8rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <a href="#hero" class="nav-logo">W<em>.</em>A</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#about" data-i18n="nav_about">About</a></li>
+      <li><a href="#skills" data-i18n="nav_skills">Skills</a></li>
+      <li><a href="#experience" data-i18n="nav_exp">Experience</a></li>
+      <li><a href="#projects" data-i18n="nav_proj">Projects</a></li>
+      <li><a href="#education" data-i18n="nav_edu">Education</a></li>
+      <li><a href="#certificates" data-i18n="nav_certs">Certs</a></li>
+      <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
+    </ul>
+    <button class="lang-btn" id="langToggle" aria-label="Switch language">
+      <span>🌐</span> <span id="langLabel">العربية</span>
+    </button>
+  </div>
+  <div class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#about" class="mobile-link" data-i18n="nav_about">About</a>
+  <a href="#skills" class="mobile-link" data-i18n="nav_skills">Skills</a>
+  <a href="#experience" class="mobile-link" data-i18n="nav_exp">Experience</a>
+  <a href="#projects" class="mobile-link" data-i18n="nav_proj">Projects</a>
+  <a href="#education" class="mobile-link" data-i18n="nav_edu">Education</a>
+  <a href="#certificates" class="mobile-link" data-i18n="nav_certs">Certificates</a>
+  <a href="#achievements" class="mobile-link" data-i18n="nav_ach">Achievements</a>
+  <a href="#contact" class="mobile-link" data-i18n="nav_contact">Contact</a>
+  <button class="lang-btn mobile-lang-btn" id="langToggleMobile">🌐 <span id="langLabelMobile">العربية</span></button>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge" data-i18n="hero_badge">Open to Collaboration & Advisory Roles</div>
+      <h1 class="hero-name">
+        <span class="first" data-i18n="hero_first">Waleed</span><br>
+        <span class="last" data-i18n="hero_last">Albusmait</span>
+      </h1>
+      <p class="hero-role">
+        <span class="hl" data-i18n="hero_r1">Cybersecurity Leader</span>
+        &nbsp;·&nbsp; <span data-i18n="hero_r2">Digital Forensics Expert</span>
+        &nbsp;·&nbsp; <span data-i18n="hero_r3">AI Innovator</span>
+      </p>
+      <p class="hero-desc" data-i18n="hero_desc">
+        I design and lead AI-powered forensic systems, build enterprise-grade security
+        infrastructure, and drive organizational transformation in cybercrime investigation.
+        Trusted by law enforcement agencies and recognized across international technology competitions.
+      </p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn-primary">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+          <span data-i18n="btn_work">View My Work</span>
+        </a>
+        <a href="#contact" class="btn-secondary">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span data-i18n="btn_talk">Let's Talk</span>
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num" data-target="80" data-suffix="%">80%</div>
+          <div class="stat-label" data-i18n="stat1">Efficiency gains delivered</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" data-target="150" data-suffix="+">150+</div>
+          <div class="stat-label" data-i18n="stat2">Professionals mentored</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" data-target="70" data-suffix="+">70+</div>
+          <div class="stat-label" data-i18n="stat3">Workshops led</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" data-target="25" data-suffix="+">25+</div>
+          <div class="stat-label" data-i18n="stat4">International certifications</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-avatar-wrap">
+      <div class="avatar-ring">
+        <div class="avatar-inner"><img src="pic.jpg" alt="Waleed Albusmait"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label" data-i18n="s_about_label">// about me</p>
+      <h2 class="section-title" data-i18n="s_about_title">Strategic Vision Meets Deep Expertise</h2>
+    </div>
+    <div class="about-grid">
+      <div class="reveal">
+        <div class="about-text">
+          <p data-i18n="about_p1">
+            I'm <strong>Waleed Yusuf Albusmait</strong> — an Informatics Engineer, cybersecurity
+            leader, and digital forensics expert with a master's degree awarded with Distinction
+            and over a decade of high-impact work at the intersection of law, technology, and intelligence.
+          </p>
+          <p data-i18n="about_p2">
+            I don't just implement solutions — I <strong>architect transformative systems</strong> that
+            redefine how organizations operate. My AI forensic reporting platform cut documentation
+            time by 80%. My child protection case management system replaced an entire paper-based
+            infrastructure with a court-compliant, role-gated, air-gapped platform. These are not
+            projects — they are institutional capabilities I created from the ground up.
+          </p>
+          <p data-i18n="about_p3">
+            Beyond building, I lead. I have designed and delivered <strong>national training programs</strong>,
+            mentored 150+ professionals, and represented Bahrain on the global
+            technology stage — earning multiple international podium finishes.
+          </p>
+        </div>
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-label" data-i18n="info_loc">Location</div>
+            <div class="info-val" data-i18n="info_loc_v">Bahrain</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label" data-i18n="info_email">Email</div>
+            <div class="info-val"><a href="mailto:albusmait.off@gmail.com">albusmait.off@gmail.com</a></div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">LinkedIn</div>
+            <div class="info-val"><a href="https://www.linkedin.com/in/engalbusmait" target="_blank" rel="noopener">engalbusmait</a></div>
+          </div>
+          <div class="info-item">
+            <div class="info-label" data-i18n="info_web">Website</div>
+            <div class="info-val"><a href="https://www.engalbusmait.com" target="_blank" rel="noopener">engalbusmait.com</a></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-highlights reveal">
+        <div class="about-hl-title" data-i18n="hl_title">// leadership strengths</div>
+        <div class="hl-item">
+          <div class="hl-icon">⚡</div>
+          <div class="hl-text">
+            <strong data-i18n="hl1_t">Strategic AI Integration</strong>
+            <span data-i18n="hl1_s">Architecting on-premises AI solutions for sensitive law enforcement environments</span>
+          </div>
+        </div>
+        <div class="hl-item">
+          <div class="hl-icon">🔍</div>
+          <div class="hl-text">
+            <strong data-i18n="hl2_t">Forensic Systems Design</strong>
+            <span data-i18n="hl2_s">End-to-end investigative platforms built to court-admissible standards</span>
+          </div>
+        </div>
+        <div class="hl-item">
+          <div class="hl-icon">₿</div>
+          <div class="hl-text">
+            <strong data-i18n="hl3_t">Cryptocurrency Investigation</strong>
+            <span data-i18n="hl3_s">Blockchain tracing, crypto crime analysis &amp; certified investigator</span>
+          </div>
+        </div>
+        <div class="hl-item">
+          <div class="hl-icon">🎓</div>
+          <div class="hl-text">
+            <strong data-i18n="hl4_t">National Knowledge Leadership</strong>
+            <span data-i18n="hl4_s">Designing and delivering training programs at scale for law enforcement</span>
+          </div>
+        </div>
+        <div class="hl-item">
+          <div class="hl-icon">🛡️</div>
+          <div class="hl-text">
+            <strong data-i18n="hl5_t">Threat Intelligence & OSINT</strong>
+            <span data-i18n="hl5_s">INTERPOL-trained advanced threat defense and open-source intelligence</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SKILLS ═══ -->
+<section id="skills">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label" data-i18n="s_skills_label">// technical mastery</p>
+      <h2 class="section-title" data-i18n="s_skills_title">Capabilities & Tools</h2>
+      <p class="section-sub" data-i18n="s_skills_sub">A deep, cross-domain toolkit spanning forensic platforms, software engineering, AI/ML, and security operations.</p>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <div class="skill-header">
+          <div class="skill-icon" style="background:rgba(0,212,255,.1)">🔬</div>
+          <div class="skill-title" data-i18n="sk1_t">Digital Forensics</div>
+        </div>
+        <div class="tags">
+          <span class="tag tc">Cellebrite UFED</span>
+          <span class="tag tc">Oxygen Forensics</span>
+          <span class="tag tc">Detego MD</span>
+          <span class="tag tc">OSINT</span>
+          <span class="tag tc">Chain of Custody</span>
+          <span class="tag tc">Mobile Forensics</span>
+          <span class="tag tc">Cloud Forensics</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-header">
+          <div class="skill-icon" style="background:rgba(0,255,136,.1)">💻</div>
+          <div class="skill-title" data-i18n="sk2_t">Software Engineering</div>
+        </div>
+        <div class="tags">
+          <span class="tag tg">Python</span>
+          <span class="tag tg">Flask</span>
+          <span class="tag tg">React</span>
+          <span class="tag tg">SQLite</span>
+          <span class="tag tg">HTML / CSS / JS</span>
+          <span class="tag tg">REST APIs</span>
+          <span class="tag tg">System Design</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-header">
+          <div class="skill-icon" style="background:rgba(139,92,246,.1)">🤖</div>
+          <div class="skill-title" data-i18n="sk3_t">AI & Machine Learning</div>
+        </div>
+        <div class="tags">
+          <span class="tag tp">LLM Integration</span>
+          <span class="tag tp">Ollama / Qwen2</span>
+          <span class="tag tp">Malware Detection</span>
+          <span class="tag tp">Behavior Analysis</span>
+          <span class="tag tp">Deep Learning</span>
+          <span class="tag tp">On-Premise AI</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-header">
+          <div class="skill-icon" style="background:rgba(0,212,255,.1)">🛡️</div>
+          <div class="skill-title" data-i18n="sk4_t">Cybersecurity</div>
+        </div>
+        <div class="tags">
+          <span class="tag tc">Threat Analysis</span>
+          <span class="tag tc">LogRhythm SIEM</span>
+          <span class="tag tc">Malware Analysis</span>
+          <span class="tag tc">Crypto Investigation</span>
+          <span class="tag tc">INTERPOL Tooling</span>
+          <span class="tag tc">Incident Response</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-header">
+          <div class="skill-icon" style="background:rgba(0,255,136,.1)">🌐</div>
+          <div class="skill-title" data-i18n="sk5_t">Infrastructure & Networking</div>
+        </div>
+        <div class="tags">
+          <span class="tag tg">Cisco CCNA</span>
+          <span class="tag tg">Huawei HCNA</span>
+          <span class="tag tg">Air-gapped Networks</span>
+          <span class="tag tg">IoT Security</span>
+          <span class="tag tg">Wireless Security</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-header">
+          <div class="skill-icon" style="background:rgba(139,92,246,.1)">👥</div>
+          <div class="skill-title" data-i18n="sk6_t">Leadership & Strategy</div>
+        </div>
+        <div class="tags">
+          <span class="tag tp">Program Design</span>
+          <span class="tag tp">Cross-functional Mentoring</span>
+          <span class="tag tp">Institutional Training</span>
+          <span class="tag tp">Strategic Planning</span>
+          <span class="tag tw">Arabic / English</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ EXPERIENCE ═══ -->
+<section id="experience">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label" data-i18n="s_exp_label">// experience</p>
+      <h2 class="section-title" data-i18n="s_exp_title">Where I've Led</h2>
+      <p class="section-sub" data-i18n="s_exp_sub">Driving measurable impact at the intersection of technology, law enforcement, and national security.</p>
+    </div>
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <div class="tl-dot">🏛️</div>
+        <div class="tl-card">
+          <div class="tl-head">
+            <div>
+              <div class="tl-title" data-i18n="exp1_title">Digital Forensics Expert & Cybersecurity Specialist</div>
+              <div class="tl-org" data-i18n="exp1_org">Anti-Cyber Crimes Directorate — Ministry of Interior, Bahrain</div>
+            </div>
+            <div class="tl-period" data-i18n="exp1_period">Current Position</div>
+          </div>
+          <ul class="tl-bullets">
+            <li data-i18n="exp1_b1"><strong>Architected and led</strong> the development of a pioneering AI forensic reporting system — the first on-premises bilingual LLM-powered platform in its domain — reducing case documentation time by <strong>80%</strong>.</li>
+            <li data-i18n="exp1_b2"><strong>Designed and delivered</strong> a national-scale training program, mentoring <strong>150+ professionals</strong> in digital forensics, cryptocurrency investigation, and advanced threat analysis.</li>
+            <li data-i18n="exp1_b3"><strong>Orchestrated 70+ specialized workshops</strong> across law enforcement agencies and academic institutions throughout Bahrain and the wider region — establishing regional thought leadership in cybercrime investigation.</li>
+            <li data-i18n="exp1_b4">Holds <strong>Licensed Engineer (Category C)</strong> designation — the professional qualification gateway in engineering.</li>
+          </ul>
+          <div class="tl-badges">
+            <span class="tag tc">AI Systems Architecture</span>
+            <span class="tag tg">Strategic Leadership</span>
+            <span class="tag tp">Digital Forensics</span>
+            <span class="tag tw">National Training Programs</span>
+            <span class="tag tc">Crypto Investigation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Leadership metrics -->
+    <div class="leader-metrics reveal">
+      <div class="metric-card">
+        <div class="metric-num">80%</div>
+        <div class="metric-label" data-i18n="m1">Reduction in forensic report generation time through AI automation</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-num">150+</div>
+        <div class="metric-label" data-i18n="m2">Professionals trained under direct mentorship programs</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-num">3</div>
+        <div class="metric-label" data-i18n="m3">Enterprise-grade platforms independently architected and deployed</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROJECTS ═══ -->
+<section id="projects">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label" data-i18n="s_proj_label">// innovations</p>
+      <h2 class="section-title" data-i18n="s_proj_title">Platforms I've Designed</h2>
+      <p class="section-sub" data-i18n="s_proj_sub">Enterprise-grade systems built for security-critical environments — delivering measurable institutional impact.</p>
+    </div>
+    <div class="projects-grid">
+
+      <div class="proj-card reveal">
+        <div class="proj-num">01 / INNOVATION</div>
+        <div class="proj-icon" style="background:rgba(0,212,255,.12)">🤖</div>
+        <div class="proj-title" data-i18n="p1_t">AI Bilingual Forensic Reporting Platform</div>
+        <div class="proj-desc" data-i18n="p1_d">
+          Pioneered an on-premises AI reporting platform powered by a locally hosted LLM (Ollama Qwen2 7.7B),
+          eliminating external API dependency entirely. The system auto-generates bilingual Arabic–English
+          court-ready forensic reports with a custom legal terminology engine — guaranteeing accuracy across
+          critical legal terms like chain of custody and cybercrime statutes. Sensitive case data never
+          leaves the secure environment. A first of its kind in the domain.
+        </div>
+        <div class="proj-footer">
+          <div class="tags">
+            <span class="tag tc">Ollama / LLM</span>
+            <span class="tag tg">Python</span>
+            <span class="tag tp">On-Premises AI</span>
+            <span class="tag tw">NLP / Bilingual</span>
+          </div>
+          <div class="proj-impact" data-i18n="p1_i">80% faster documentation · Zero external dependency · Court-admissible output</div>
+        </div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-num">02 / INNOVATION</div>
+        <div class="proj-icon" style="background:rgba(139,92,246,.12)">🧒</div>
+        <div class="proj-title" data-i18n="p2_t">Child Protection Intelligence Platform</div>
+        <div class="proj-desc" data-i18n="p2_d">
+          Designed and architected a comprehensive offline case intelligence platform for cybercrime
+          cases involving minors. Full Arabic RTL interface, digital evidence chain-of-custody tracking,
+          prosecution workflow management, multi-period statistical intelligence dashboards, and a
+          4-tier role-based access control model. Immutable audit logs, automated daily backups,
+          and support for 40 concurrent users across an air-gapped local network.
+        </div>
+        <div class="proj-footer">
+          <div class="tags">
+            <span class="tag tg">Python Flask</span>
+            <span class="tag tc">React</span>
+            <span class="tag tg">SQLite</span>
+            <span class="tag tp">RBAC</span>
+            <span class="tag tw">Air-gapped</span>
+          </div>
+          <div class="proj-impact" data-i18n="p2_i">Replaced full paper infrastructure · 40-user capacity</div>
+        </div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-num">03 / INNOVATION</div>
+        <div class="proj-icon" style="background:rgba(0,255,136,.12)">📊</div>
+        <div class="proj-title" data-i18n="p3_t">HR Operations Intelligence System</div>
+        <div class="proj-desc" data-i18n="p3_d">
+          Engineered an internal HR operations platform that automated leave management, shift
+          scheduling, and compensatory entitlement tracking across an entire directorate. Features
+          real-time supervisor dashboards, automated approval workflows, HR reporting modules,
+          and a complete audit trail — eliminating all manual paper processes and delivering
+          operational clarity across the organization.
+        </div>
+        <div class="proj-footer">
+          <div class="tags">
+            <span class="tag tg">Python</span>
+            <span class="tag tc">Web Platform</span>
+            <span class="tag tp">Workflow Automation</span>
+            <span class="tag tw">HR Analytics</span>
+          </div>
+          <div class="proj-impact" data-i18n="p3_i">Full paper-to-digital transformation · Real-time org-wide visibility</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ EDUCATION ═══ -->
+<section id="education">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label" data-i18n="s_edu_label">// education</p>
+      <h2 class="section-title" data-i18n="s_edu_title">Academic Excellence</h2>
+      <p class="section-sub" data-i18n="s_edu_sub">Top-of-class graduate with a research dissertation awarded Distinction and three consecutive first-place finishes.</p>
+    </div>
+    <div class="edu-grid">
+      <div class="edu-card reveal">
+        <div class="edu-icon">🎓</div>
+        <div class="edu-degree" data-i18n="e1_deg">MSc in IT & Computer Science</div>
+        <div class="edu-school">Ahlia University</div>
+        <div class="edu-year">2025</div>
+        <div class="edu-meta">
+          <span class="edu-badge eg">GPA 4.00</span>
+          <span class="edu-badge ep" data-i18n="e1_h">First Class Honours</span>
+          <span class="edu-badge ec" data-i18n="e1_dist">Graded With Distinction</span>
+        </div>
+        <div class="edu-thesis">
+          <strong data-i18n="e1_dis">Dissertation</strong>
+          <span data-i18n="e1_dis_t">Integrating Behavior Analysis For Next-Generation Malware Detection Using Machine Learning</span>
+        </div>
+      </div>
+      <div class="edu-card reveal">
+        <div class="edu-icon">🏫</div>
+        <div class="edu-degree" data-i18n="e2_deg">BSc in Informatics Engineering</div>
+        <div class="edu-school">AMA University</div>
+        <div class="edu-year">2020</div>
+        <div class="edu-meta">
+          <span class="edu-badge eg">GPA 87%</span>
+          <span class="edu-badge ec" data-i18n="e2_c">Several Awards For Achievements</span>
+        </div>
+      </div>
+      <div class="edu-card reveal">
+        <div class="edu-icon">⚓</div>
+        <div class="edu-degree" data-i18n="e3_deg">Diploma in Information Technology</div>
+        <div class="edu-school" data-i18n="e3_s">KSA Naval Institute</div>
+        <div class="edu-year">2011</div>
+        <div class="edu-meta">
+          <span class="edu-badge eg">GPA 85%</span>
+          <span class="edu-badge ep" data-i18n="e3_h">1st in Specialization</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ACHIEVEMENTS ═══ -->
+<section id="achievements">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label" data-i18n="s_ach_label">// achievements</p>
+      <h2 class="section-title" data-i18n="s_ach_title">Recognition & Awards</h2>
+      <p class="section-sub" data-i18n="s_ach_sub">International podium finishes and national recognition across technology, robotics, and professional development.</p>
+    </div>
+    <div class="ach-grid">
+      <div class="ach-card reveal"><div class="ach-medal">🥇</div><div class="ach-text"><strong data-i18n="a1">1st Place — Train the Trainers Course</strong><span>2025</span></div></div>
+      <div class="ach-card reveal"><div class="ach-medal">🥉</div><div class="ach-text"><strong data-i18n="a2">3rd Place — Huawei ICT Global Competition</strong><span>2019</span></div></div>
+      <div class="ach-card reveal"><div class="ach-medal">🥈</div><div class="ach-text"><strong data-i18n="a3">2nd Place — Huawei ICT Regional Competition</strong><span>2018</span></div></div>
+      <div class="ach-card reveal"><div class="ach-medal">🥈</div><div class="ach-text"><strong data-i18n="a4">2nd Place — Huawei ICT National Competition</strong><span>2018</span></div></div>
+      <div class="ach-card reveal"><div class="ach-medal">🤖</div><div class="ach-text"><strong data-i18n="a5">Global WRO Robotics Olympiad — Qatar</strong><span>2015</span></div></div>
+      <div class="ach-card reveal"><div class="ach-medal">🥇</div><div class="ach-text"><strong data-i18n="a6">1st Place — WRO Robotics Olympiad, Bahrain</strong><span>2015</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CERTIFICATES ═══ -->
+<section id="certificates">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label" data-i18n="s_certs_label">// certifications</p>
+      <h2 class="section-title" data-i18n="s_certs_title">Licenses & Certificates</h2>
+      <p class="section-sub" data-i18n="s_certs_sub">25+ international certifications spanning AI engineering, digital forensics, cybersecurity, and networking — continuously expanding.</p>
+    </div>
+    <div class="certs-grid">
+      <div class="cert-card reveal"><div class="cert-icon" style="background:rgba(0,212,255,.1)">🤖</div><div><div class="cert-name">USAII CAIE — Certified AI Engineer</div><div class="cert-year">2026</div></div></div>
+      <div class="cert-card reveal"><div class="cert-icon" style="background:rgba(0,255,136,.1)">🔬</div><div><div class="cert-name">Oxygen Forensics Certified Examiner</div><div class="cert-year">2025</div></div></div>
+      <div class="cert-card reveal"><div class="cert-icon" style="background:rgba(139,92,246,.1)">🎓</div><div><div class="cert-name">Professional Lecturer Course</div><div class="cert-year">2025</div></div></div>
+      <div class="cert-card reveal"><div class="cert-icon" style="background:rgba(0,212,255,.1)">₿</div><div><div class="cert-name">Train the Trainers in Crypto</div><div class="cert-year">2024</div></div></div>
+      <div class="cert-card reveal"><div class="cert-icon" style="background:rgba(0,255,136,.1)">🧠</div><div><div class="cert-name">Introduction to AI & Deep Learning</div><div class="cert-year">2024</div></div></div>
+      <div class="cert-card reveal"><div class="cert-icon" style="background:rgba(0,212,255,.1)">📱</div><div><div class="cert-name">Detego MD, MD-Live & MD-Cloud Certified</div><div class="cert-year">2024</div></div></div>
+      <div class="cert-card reveal"><div class="cert-icon" style="background:rgba(255,80,80,.1)">🌐</div><div><div class="cert-name">Advance Threat Defense — INTERPOL</div><div class="cert-year">2024</div></div></div>
+      <div class="cert-card reveal"><div class="cert-icon" style="background:rgba(255,80,80,.1)">🔎</div><div><div class="cert-name">INTERPOL ICSE Database & OSINT</div><div class="cert-year">2024</div></div></div>
+      <div class="cert-card reveal"><div class="cert-icon" style="background:rgba(0,212,255,.1)">₿</div><div><div class="cert-name">Crypto Currency Investigator Course</div><div class="cert-year">2023</div></div></div>
+      <div class="cert-card reveal"><div class="cert-icon" style="background:rgba(0,255,136,.1)">📲</div><div><div class="cert-name">Cellebrite Certified Physical Analyst (CCPA)</div><div class="cert-year">2022</div></div></div>
+      <div class="cert-card reveal"><div class="cert-icon" style="background:rgba(0,255,136,.1)">📱</div><div><div class="cert-name">Cellebrite Certified Operator (CCO)</div><div class="cert-year">2022</div></div></div>
+      <div class="cert-card reveal"><div class="cert-icon" style="background:rgba(255,80,80,.1)">🦠</div><div><div class="cert-name">INTERPOL Malware Analysis Training</div><div class="cert-year">2022</div></div></div>
+      <div class="cert-card reveal"><div class="cert-icon" style="background:rgba(139,92,246,.1)">📊</div><div><div class="cert-name">LogRhythm Platform Administrator (LRPA)</div><div class="cert-year">2020</div></div></div>
+      <div class="cert-card reveal"><div class="cert-icon" style="background:rgba(139,92,246,.1)">🔐</div><div><div class="cert-name">LogRhythm Security Analyst (LRSA)</div><div class="cert-year">2020</div></div></div>
+      <div class="cert-card reveal"><div class="cert-icon" style="background:rgba(255,80,80,.1)">🔴</div><div><div class="cert-name">Huawei HCNA Certified</div><div class="cert-year">2019</div></div></div>
+      <div class="cert-card reveal"><div class="cert-icon" style="background:rgba(0,212,255,.1)">🌐</div><div><div class="cert-name">Cisco CCNA Certified</div><div class="cert-year">2017</div></div></div>
+      <div class="cert-card reveal"><div class="cert-icon" style="background:rgba(0,212,255,.1)">📡</div><div><div class="cert-name">Cisco Wireless Technology & Standards</div><div class="cert-year">2017</div></div></div>
+      <div class="cert-card reveal"><div class="cert-icon" style="background:rgba(0,212,255,.1)">🏠</div><div><div class="cert-name">Cisco Introduction to IoT</div><div class="cert-year">2017</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-wrapper reveal">
+      <p class="section-label" data-i18n="s_contact_label">// contact</p>
+      <h2 class="section-title" data-i18n="s_contact_title">Let's Build Something Exceptional</h2>
+      <p class="section-sub" data-i18n="s_contact_sub">
+        Open to strategic advisory, consulting engagements, speaking opportunities, and collaboration
+        with organizations serious about cybersecurity and digital forensics excellence.
+      </p>
+      <div class="contact-grid">
+
+        <a href="mailto:albusmait.off@gmail.com" class="contact-card">
+          <div class="cc-icon">✉️</div>
+          <div class="cc-label" data-i18n="c_email">Email</div>
+          <div class="cc-value">albusmait.off@gmail.com</div>
+          <div class="cc-qr" id="qr-email"></div>
+          <div class="cc-scan" data-i18n="c_scan">Scan to open</div>
+        </a>
+
+        <a href="https://wa.me/97334499469" target="_blank" rel="noopener" class="contact-card wa">
+          <div class="cc-icon">💬</div>
+          <div class="cc-label" data-i18n="c_wa">WhatsApp</div>
+          <div class="cc-value">+973 3449 9469</div>
+          <div class="cc-qr" id="qr-wa"></div>
+          <div class="cc-scan" data-i18n="c_scan">Scan to open</div>
+        </a>
+
+        <a href="https://www.linkedin.com/in/engalbusmait" target="_blank" rel="noopener" class="contact-card">
+          <div class="cc-icon">🔗</div>
+          <div class="cc-label">LinkedIn</div>
+          <div class="cc-value">in/engalbusmait</div>
+          <div class="cc-qr" id="qr-linkedin"></div>
+          <div class="cc-scan" data-i18n="c_scan">Scan to open</div>
+        </a>
+
+        <a href="https://www.engalbusmait.com" target="_blank" rel="noopener" class="contact-card">
+          <div class="cc-icon">🌐</div>
+          <div class="cc-label" data-i18n="c_website">Website</div>
+          <div class="cc-value">engalbusmait.com</div>
+          <div class="cc-qr" id="qr-website"></div>
+          <div class="cc-scan" data-i18n="c_scan">Scan to open</div>
+        </a>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <p data-i18n="footer">Eng. Waleed Albusmait &nbsp;·&nbsp; <span>engalbusmait.com</span> &nbsp;·&nbsp; 2026</p>
+</footer>
+
+<!-- ═══ SCRIPTS ═══ -->
+<script>
+/* ═══════════════════════════════════════════
+   i18n — Bilingual AR/EN
+═══════════════════════════════════════════ */
+const i18n = {
+  en: {
+    nav_about: 'About', nav_skills: 'Skills', nav_exp: 'Experience', nav_proj: 'Projects',
+    nav_edu: 'Education', nav_certs: 'Certs', nav_ach: 'Achievements', nav_contact: 'Contact',
+    hero_badge: 'Open to Collaboration & Advisory Roles',
+    hero_first: 'Waleed', hero_last: 'Albusmait',
+    hero_r1: 'Cybersecurity Leader', hero_r2: 'Digital Forensics Expert', hero_r3: 'AI Innovator',
+    hero_desc: 'I design and lead AI-powered forensic systems, build enterprise-grade security infrastructure, and drive organizational transformation in cybercrime investigation. Trusted by law enforcement agencies and recognized across international technology competitions.',
+    btn_work: 'View My Work', btn_talk: "Let's Talk",
+    stat1: 'Efficiency gains delivered', stat2: 'Professionals mentored',
+    stat3: 'Workshops led', stat4: 'International certifications',
+    s_about_label: '// about me', s_about_title: 'Strategic Vision Meets Deep Expertise',
+    about_p1: "I'm <strong>Waleed Yusuf Albusmait</strong> — an Informatics Engineer, cybersecurity leader, and digital forensics authority with a master's degree awarded with Distinction and over a decade of high-impact work at the intersection of law, technology, and intelligence.",
+    about_p2: "I don't just implement solutions — I <strong>architect transformative systems</strong> that redefine how organizations operate. My AI forensic reporting platform cut documentation time by 80%. My child protection case management system replaced an entire paper-based infrastructure with a court-compliant, role-gated, air-gapped platform. These are not projects — they are institutional capabilities I created from the ground up.",
+    about_p3: "Beyond building, I lead. I have designed and delivered <strong>national training programs</strong>, mentored 150+ law enforcement professionals, and represented Bahrain on the global technology stage — earning multiple international podium finishes.",
+    info_loc: 'Location', info_loc_v: 'Bahrain', info_email: 'Email', info_web: 'Website',
+    hl_title: '// leadership strengths',
+    hl1_t: 'Strategic AI Integration', hl1_s: 'Architecting on-premises AI solutions for sensitive law enforcement environments',
+    hl2_t: 'Forensic Systems Design', hl2_s: 'End-to-end investigative platforms built to court-admissible standards',
+    hl3_t: 'Cryptocurrency Investigation', hl3_s: 'Blockchain tracing, crypto crime analysis & certified investigator',
+    hl4_t: 'National Knowledge Leadership', hl4_s: 'Designing and delivering training programs at scale for law enforcement',
+    hl5_t: 'Threat Intelligence & OSINT', hl5_s: 'INTERPOL-trained advanced threat defense and open-source intelligence',
+    s_skills_label: '// technical mastery', s_skills_title: 'Capabilities & Tools',
+    s_skills_sub: 'A deep, cross-domain toolkit spanning forensic platforms, software engineering, AI/ML, and security operations.',
+    sk1_t: 'Digital Forensics', sk2_t: 'Software Engineering', sk3_t: 'AI & Machine Learning',
+    sk4_t: 'Cybersecurity', sk5_t: 'Infrastructure & Networking', sk6_t: 'Leadership & Strategy',
+    s_exp_label: '// experience', s_exp_title: "Where I've Led",
+    s_exp_sub: 'Driving measurable impact at the intersection of technology, law enforcement, and national security.',
+    exp1_title: 'Digital Forensics Expert & Cybersecurity Specialist',
+    exp1_org: 'Anti-Cyber Crimes Directorate — Ministry of Interior, Bahrain',
+    exp1_period: 'Current Position',
+    exp1_b1: '<strong>Architected and led</strong> the development of a pioneering AI forensic reporting system — the first on-premises bilingual LLM-powered platform in its domain — reducing case documentation time by <strong>80%</strong>.',
+    exp1_b2: '<strong>Designed and delivered</strong> a national-scale training program, mentoring <strong>150+ professionals</strong> in digital forensics, cryptocurrency investigation, and advanced threat analysis.',
+    exp1_b3: '<strong>Orchestrated 70+ specialized workshops</strong> across law enforcement agencies and academic institutions throughout Bahrain and the wider region — establishing regional thought leadership in cybercrime investigation.',
+    exp1_b4: '<strong>Built and deployed</strong> a comprehensive procedural intelligence database with integrated AI analytics, enabling real-time statistical insights into case workflows and dramatically improving decision-making efficiency.',
+    exp1_b5: 'Holds <strong>Licensed Engineer (Category C)</strong> designation — the professional qualification gateway in engineering.',
+    m1: 'Reduction in forensic report generation time through AI automation',
+    m2: 'Professionals trained under direct mentorship programs',
+    m3: 'Enterprise-grade platforms independently architected and deployed',
+    s_proj_label: '// innovations', s_proj_title: "Platforms I've Designed",
+    s_proj_sub: 'Enterprise-grade systems built for security-critical environments — delivering measurable institutional impact.',
+    p1_t: 'AI Bilingual Forensic Reporting Platform',
+    p1_d: 'Pioneered an on-premises AI reporting platform powered by a locally hosted LLM (Ollama Qwen2 7.7B), eliminating external API dependency entirely. The system auto-generates bilingual Arabic–English court-ready forensic reports with a custom legal terminology engine — guaranteeing accuracy across critical legal terms like chain of custody and cybercrime statutes. Sensitive case data never leaves the secure environment. A first of its kind in the domain.',
+    p1_i: '80% faster documentation · Zero external dependency · Court-admissible output',
+    p2_t: 'Child Protection Intelligence Platform',
+    p2_d: 'Designed and architected a comprehensive offline case intelligence platform for cybercrime cases involving minors. Full Arabic RTL interface, digital evidence chain-of-custody tracking, prosecution workflow management, multi-period statistical intelligence dashboards, and a 4-tier role-based access control model. Immutable audit logs, automated daily backups, and support for 40 concurrent users across an air-gapped local network.',
+    p2_i: 'Replaced full paper infrastructure · 40-user capacity',
+    p3_t: 'HR Operations Intelligence System',
+    p3_d: 'Engineered an internal HR operations platform that automated leave management, shift scheduling, and compensatory entitlement tracking across an entire directorate. Features real-time supervisor dashboards, automated approval workflows, HR reporting modules, and a complete audit trail — eliminating all manual paper processes and delivering operational clarity across the organization.',
+    p3_i: 'Full paper-to-digital transformation · Real-time org-wide visibility',
+    s_edu_label: '// education', s_edu_title: 'Academic Excellence',
+    s_edu_sub: 'Top-of-class graduate with a research dissertation awarded Distinction and three consecutive first-place finishes.',
+    e1_deg: 'MSc in IT & Computer Science', e1_h: 'First Class Honours', e1_dist: 'Graded With Distinction', e1_dis: 'Dissertation',
+    e1_dis_t: 'Integrating Behavior Analysis For Next-Generation Malware Detection Using Machine Learning',
+    e2_deg: 'BSc in Informatics Engineering', e2_c: 'Several Awards For Achievements',
+    e3_deg: 'Diploma in Information Technology', e3_s: 'KSA Naval Institute', e3_h: '1st in Specialization',
+    s_ach_label: '// achievements', s_ach_title: 'Recognition & Awards',
+    s_ach_sub: 'International podium finishes and national recognition across technology, robotics, and professional development.',
+    a1: '1st Place — Train the Trainers Course', a2: '3rd Place — Huawei ICT Global Competition',
+    a3: '2nd Place — Huawei ICT Regional Competition', a4: '2nd Place — Huawei ICT National Competition',
+    a5: 'Global WRO Robotics Olympiad — Qatar', a6: '1st Place — WRO Robotics Olympiad, Bahrain',
+    s_certs_label: '// certifications', s_certs_title: 'Licenses & Certificates',
+    s_certs_sub: '25+ international certifications spanning AI engineering, digital forensics, cybersecurity, and networking — continuously expanding.',
+    s_contact_label: '// contact', s_contact_title: "Let's Build Something Exceptional",
+    s_contact_sub: 'Open to strategic advisory, consulting engagements, speaking opportunities, and collaboration with organizations serious about cybersecurity and digital forensics excellence.',
+    c_email: 'Email', c_wa: 'WhatsApp', c_website: 'Website', c_scan: 'Scan to open',
+    footer: 'Eng. Waleed Albusmait · <span>engalbusmait.com</span> · 2026',
+  },
+  ar: {
+    nav_about: 'عني', nav_skills: 'المهارات', nav_exp: 'الخبرة', nav_proj: 'المشاريع',
+    nav_edu: 'التعليم', nav_certs: 'الشهادات', nav_ach: 'الإنجازات', nav_contact: 'التواصل',
+    hero_badge: 'متاح للتعاون والاستشارات الاستراتيجية',
+    hero_first: 'وليد', hero_last: 'البوسميط',
+    hero_r1: 'مختص في الأمن السيبراني', hero_r2: 'خبير بالفحص الرقمي', hero_r3: 'مهندس ذكاء اصطناعي',
+    hero_desc: 'أصمم وأقود أنظمة رقمية مدعومة بالذكاء الاصطناعي، وأبني بنيات أمنية على مستوى المؤسسات، وأقود التحول المؤسسي في مجال التحقيق في الجرائم الإلكترونية. موثوق به من قِبل أجهزة إنفاذ القانون ومعترف به في المنافسات التكنولوجية الدولية.',
+    btn_work: 'استعرض أعمالي', btn_talk: 'تواصل معي',
+    stat1: 'زيادة في كفاءة العمليات', stat2: 'محترف تم تدريبهم',
+    stat3: 'ورشة عمل متخصصة', stat4: 'شهادة دولية معتمدة',
+    s_about_label: '// عني', s_about_title: 'رؤية استراتيجية تلتقي بخبرة عميقة',
+    about_p1: 'أنا <strong>وليد يوسف البوسميط</strong> — مهندس معلومات ومتخصص في الأمن السيبراني وخبير في الادلة الرقمية، حاصل على درجة الماجستير بامتياز مع أكثر من عقد من العمل عالي التأثير عند تقاطع القانون والتكنولوجيا .',
+    about_p2: 'لا أكتفي بتنفيذ الحلول — بل <strong>أصمم أنظمة تحويلية</strong> تُعيد تعريف طريقة عمل المؤسسات. منصة التقارير المدعومة بالذكاء الاصطناعي خفّضت وقت الانتهاء من العمل بنسبة 80٪. نظام يدير ما يتعلق بحماية الأطفال استبدل بنية ورقية كاملة بمنصة متوافقة مع الجهات الرسمية ومحمية بطبقات وصول، معزولة عن الشبكة الخارجية. هذه ليست مجرد مشاريع — بل قدرات مؤسسية بنيتها من الصفر.',
+    about_p3: 'بعيداً عن البناء، أنا أقود. صممت وقدمت <strong>برامج تدريب وطنية</strong>، وأشرفت على 150+ من المحترفين، ومثّلت البحرين على الساحة التكنولوجية العالمية — محققاً مراكز متقدمة في منافسات دولية متعددة.',
+    info_loc: 'الموقع', info_loc_v: 'البحرين', info_email: 'البريد الإلكتروني', info_web: 'الموقع الإلكتروني',
+    hl_title: '// نقاط القوة القيادية',
+    hl1_t: 'التكامل الاستراتيجي للذكاء الاصطناعي', hl1_s: 'تصميم حلول ذكاء اصطناعي محلية لبيئات إنفاذ القانون الحساسة',
+    hl2_t: 'تصميم أنظمة الفحص الرقمي', hl2_s: 'منصات تحقيق متكاملة مبنية وفق معايير قبول المحاكم',
+    hl3_t: 'التحقيق في العملات المشفرة', hl3_s: 'تتبع البلوكتشين وتحليل جرائم العملات الرقمية والتحقيق المعتمد',
+    hl4_t: 'قيادة المعرفة الوطنية', hl4_s: 'تصميم وتقديم برامج تدريبية على نطاق واسع',
+    hl5_t: 'استخبارات التهديدات والمصادر المفتوحة', hl5_s: 'مدرب من الإنتربول في مجال الدفاع المتقدم ضد التهديدات والاستخبارات المفتوحة',
+    s_skills_label: '// الإتقان التقني', s_skills_title: 'القدرات والأدوات',
+    s_skills_sub: 'مجموعة أدوات متعمقة ومتعددة التخصصات تشمل منصات الفحص الرقمي وهندسة البرمجيات والذكاء الاصطناعي وعمليات الأمن.',
+    sk1_t: 'الفحص الرقمي', sk2_t: 'هندسة البرمجيات', sk3_t: 'الذكاء الاصطناعي والتعلم الآلي',
+    sk4_t: 'الأمن السيبراني', sk5_t: 'البنية التحتية والشبكات', sk6_t: 'القيادة والاستراتيجية',
+    s_exp_label: '// الخبرة المهنية', s_exp_title: 'أين قدتُ التغيير',
+    s_exp_sub: 'تحقيق تأثير قابل للقياس عند تقاطع التكنولوجيا والقانون .',
+    exp1_title: 'خبير الفحص الرقمي وأخصائي الأمن السيبراني',
+    exp1_org: 'مديرية مكافحة الجرائم الإلكترونية — وزارة الداخلية، البحرين',
+    exp1_period: 'المنصب الحالي',
+    exp1_b1: '<strong>صممت وقدت</strong> تطوير نظام تقارير فحص رقمي رائد مدعوم بالذكاء الاصطناعي — أول منصة ثنائية اللغة تعمل بنماذج لغوية كبيرة محلياً في هذا المجال — مما أدى إلى تقليص وقت توثيق القضايا بنسبة <strong>80٪</strong>.',
+    exp1_b2: '<strong>صممت وقدمت</strong> برنامج تدريب وطني الحجم، مع الإشراف على <strong>150+ محترفاً</strong> في مجالات الفحص الرقمي والتحقيق في العملات المشفرة وتحليل التهديدات المتقدمة.',
+    exp1_b3: '<strong>نظّمت وقدمت 70+ ورشة عمل متخصصة</strong> عبر أجهزة المؤسسات الأكاديمية في البحرين والمنطقة — مُرسِّخاً الريادة الفكرية الإقليمية في بالجرائم الإلكترونية.',
+    exp1_b4: 'حاصل على تصنيف <strong>مهندس مرخص (الفئة ج)</strong> — بوابة الاعتراف المهني في الهندسة.',
+    m1: 'تقليص في وقت إنتاج التقارير الجنائية عبر أتمتة الذكاء الاصطناعي',
+    m2: 'محترف تم تدريبهم ضمن برامج إرشاد مباشر',
+    m3: 'منصات على مستوى المؤسسات صُمِّمت ونُشِرت بشكل مستقل',
+    s_proj_label: '// الابتكارات', s_proj_title: 'المنصات التي صممتها',
+    s_proj_sub: 'أنظمة على مستوى المؤسسات مبنية لبيئات حساسة أمنياً — تحقق تأثيراً مؤسسياً قابلاً للقياس.',
+    p1_t: 'منصة التقارير الرقمية الذكية ثنائية اللغة',
+    p1_d: 'أسّست منصة تقارير رقمية محلية مدعومة بنموذج لغوي كبير (Ollama Qwen2 7.7B) تعمل دون أي اعتماد على واجهات برمجة خارجية. تُنتج تقارير نهائية ثنائية اللغة بمحرك مصطلحات قانونية مخصص — يضمن الدقة عبر المصطلحات القانونية الحساسة كسلسلة الحفاظ على الأدلة والتشريعات الجنائية. البيانات الحساسة لا تغادر البيئة الآمنة قط. أول نظام من نوعه في هذا المجال.',
+    p1_i: 'توثيق أسرع بـ80٪ · لا اعتماد خارجي · مخرجات مقبولة قانونياً',
+    p2_t: 'منصة تنظيمية للطفل في الفضاء الالكتروني',
+    p2_d: 'صممت منصة تنظيمية والتي تعمل دون اتصال بالإنترنت. واجهة عربية كاملة من اليمين إلى اليسار، وتتبع سلسلة حفظ الأدلة الرقمية، وإدارة سير العمل، ولوحات معلومات إحصائية متعددة الفترات، ونموذج تحكم بالوصول رباعي المستويات. سجلات تدقيق غير قابلة للتعديل، ونسخ احتياطي يومي تلقائي، ودعم 40 مستخدماً متزامناً على شبكة محلية معزولة.',
+    p2_i: 'استبدل بنية ورقية كاملة · سعة 40 مستخدماً',
+    p3_t: 'نظام ادارة الموارد البشرية',
+    p3_d: 'هندست منصة ادارة موارد بشرية داخلية تُؤتمت إدارة الإجازات وجداول المناوبات وتتبع استحقاقات التعويض عبر نظام متكامل. تشمل لوحات مشرف فورية، وسير عمل موافقة آلي، ووحدات تقارير الموارد البشرية، ومسار تدقيق كامل — مع القضاء على جميع الإجراءات الورقية اليدوية وتحقيق الوضوح التشغيلي على مستوى المنظمة.',
+    p3_i: 'تحول رقمي كامل · رؤية فورية على مستوى المنظمة',
+    s_edu_label: '// التعليم', s_edu_title: 'التفوق الأكاديمي',
+    s_edu_sub: 'متخرج في مقدمة دفعته مع أطروحة بحثية حُكم عليها بالامتياز وثلاثة مراكز أولى متتالية.',
+    e1_deg: 'ماجستير العلوم في تقنية المعلومات وعلوم الحاسوب', e1_h: 'مرتبة الشرف الأولى', e1_dist: 'بتقدير امتياز', e1_dis: 'رسالة الماجستير',
+    e1_dis_t: 'دمج تحليل السلوك للكشف عن البرمجيات الخبيثة من الجيل التالي باستخدام التعلم الآلي',
+    e2_deg: 'بكالوريوس العلوم في هندسة المعلومات', e2_c: 'جوائز عدة للإنجازات',
+    e3_deg: 'دبلوم في تقنية المعلومات', e3_s: 'المعهد البحري السعودي', e3_h: 'الأول على التخصص',
+    s_ach_label: '// الإنجازات', s_ach_title: 'التقدير والجوائز',
+    s_ach_sub: 'مراكز متقدمة دولية واعتراف وطني في مجالات التكنولوجيا والروبوتات والتطوير المهني.',
+    a1: 'المركز الأول — دورة تدريب المدربين', a2: 'المركز الثالث — المنافسة العالمية لتقنية المعلومات هواوي',
+    a3: 'المركز الثاني — المنافسة الإقليمية لتقنية المعلومات هواوي', a4: 'المركز الثاني — المنافسة الوطنية لتقنية المعلومات هواوي',
+    a5: 'أولمبياد WRO العالمي للروبوتات — قطر', a6: 'المركز الأول — أولمبياد WRO للروبوتات، البحرين',
+    s_certs_label: '// الشهادات', s_certs_title: 'التراخيص والشهادات المهنية',
+    s_certs_sub: 'أكثر من 25 شهادة دولية تشمل هندسة الذكاء الاصطناعي والفحص الرقمي والأمن السيبراني والشبكات — في تطور مستمر.',
+    s_contact_label: '// التواصل', s_contact_title: 'لنبني شيئاً استثنائياً معاً',
+    s_contact_sub: 'متاح للاستشارات الاستراتيجية وفرص التحدث والتعاون مع المنظمات الجادة في مجال الأمن السيبراني وتكنلوجيا المعلومات.',
+    c_email: 'البريد الإلكتروني', c_wa: 'واتساب', c_website: 'الموقع الإلكتروني', c_scan: 'امسح للفتح',
+    footer: 'م. وليد البوسميط · <span>engalbusmait.com</span> · 2026',
+  }
+};
+
+let currentLang = 'en';
+
+function applyLang(lang) {
+  const t = i18n[lang];
+  const html = document.documentElement;
+  html.setAttribute('lang', lang);
+  html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  if (lang === 'ar') {
+    document.body.style.fontFamily = "'Cairo', sans-serif";
+  } else {
+    document.body.style.fontFamily = "'Inter', sans-serif";
+  }
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) el.innerHTML = t[key];
+  });
+  const label = lang === 'ar' ? 'English' : 'العربية';
+  document.getElementById('langLabel').textContent = label;
+  document.getElementById('langLabelMobile').textContent = label;
+  currentLang = lang;
+}
+
+function toggleLang() {
+  applyLang(currentLang === 'en' ? 'ar' : 'en');
+}
+document.getElementById('langToggle').addEventListener('click', toggleLang);
+document.getElementById('langToggleMobile').addEventListener('click', toggleLang);
+
+/* ═══════════════════════════════════════════
+   Particle Canvas
+═══════════════════════════════════════════ */
+(function () {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H;
+  const mouse = { x: -9999, y: -9999 };
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+  window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+  window.addEventListener('touchmove', e => { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; }, { passive: true });
+
+  const COUNT = Math.min(70, Math.floor(window.innerWidth / 16));
+  const particles = Array.from({ length: COUNT }, () => ({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    vx: (Math.random() - .5) * .35,
+    vy: (Math.random() - .5) * .35,
+    r: Math.random() * 1.4 + .5,
+    a: Math.random() * .45 + .1,
+  }));
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > W) p.vx *= -1;
+      if (p.y < 0 || p.y > H) p.vy *= -1;
+      const dx = mouse.x - p.x, dy = mouse.y - p.y;
+      const d = Math.sqrt(dx * dx + dy * dy);
+      if (d < 100) { p.x -= dx * .018; p.y -= dy * .018; }
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(0,212,255,${p.a})`;
+      ctx.fill();
+    });
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d < 120) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(0,212,255,${(1 - d / 120) * .1})`;
+          ctx.lineWidth = .5;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ═══════════════════════════════════════════
+   Hamburger
+═══════════════════════════════════════════ */
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+});
+document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => {
+  hamburger.classList.remove('open');
+  mobileMenu.classList.remove('open');
+}));
+
+/* ═══════════════════════════════════════════
+   Scroll Reveal
+═══════════════════════════════════════════ */
+const revealObs = new IntersectionObserver(
+  entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+  { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+);
+document.querySelectorAll('.reveal').forEach((el, i) => {
+  el.style.transitionDelay = `${(i % 5) * 70}ms`;
+  revealObs.observe(el);
+});
+
+/* ═══════════════════════════════════════════
+   Counter animation
+═══════════════════════════════════════════ */
+const statsEl = document.querySelector('.hero-stats');
+const statsObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.querySelectorAll('.stat-num').forEach(el => {
+      const target = +el.dataset.target;
+      const suffix = el.dataset.suffix || '';
+      let current = 0;
+      const step = target / 50;
+      const t = setInterval(() => {
+        current = Math.min(current + step, target);
+        el.textContent = Math.round(current) + suffix;
+        if (current >= target) clearInterval(t);
+      }, 28);
+    });
+    statsObs.unobserve(e.target);
+  });
+}, { threshold: 0.5 });
+if (statsEl) statsObs.observe(statsEl);
+
+/* ═══════════════════════════════════════════
+   Active nav highlight
+═══════════════════════════════════════════ */
+const secs = document.querySelectorAll('section[id]');
+const navA = document.querySelectorAll('.nav-links a');
+new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navA.forEach(a => a.style.color = '');
+      const a = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+      if (a) a.style.color = 'var(--cyan)';
+    }
+  });
+}, { threshold: 0.35 }).observe; // intentionally passive — individual observes below
+secs.forEach(s => {
+  new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      navA.forEach(a => a.style.color = '');
+      const a = document.querySelector(`.nav-links a[href="#${s.id}"]`);
+      if (a) a.style.color = 'var(--cyan)';
+    }
+  }, { threshold: 0.35 }).observe(s);
+});
+
+/* ═══════════════════════════════════════════
+   QR Codes
+═══════════════════════════════════════════ */
+(function generateQRCodes() {
+  const qrOpts = {
+    width: 108,
+    height: 108,
+    colorDark: '#070b14',
+    colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.M,
+  };
+  const items = [
+    { id: 'qr-email',   text: 'mailto:albusmait.off@gmail.com' },
+    { id: 'qr-wa',      text: 'https://wa.me/97334499469' },
+    { id: 'qr-linkedin',text: 'https://www.linkedin.com/in/engalbusmait' },
+    { id: 'qr-website', text: 'https://www.engalbusmait.com' },
+  ];
+  items.forEach(({ id, text }) => {
+    const el = document.getElementById(id);
+    if (el) new QRCode(el, { ...qrOpts, text });
+  });
+})();
+</script>
+</body>
+</html>
