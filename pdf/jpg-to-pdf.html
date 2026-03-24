@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   new Sortable(imgGrid, { animation: 150, ghostClass: 'sortable-ghost' });
 
-  dropzone.addEventListener('click', () => fileInput.click());
+  dropzone.addEventListener('click', (e) => { if (e.target.tagName === 'LABEL') return; fileInput.click(); });
   dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('over'); });
   dropzone.addEventListener('dragleave', () => dropzone.classList.remove('over'));
   dropzone.addEventListener('drop', e => { e.preventDefault(); dropzone.classList.remove('over'); addImages([...e.dataTransfer.files]); });
