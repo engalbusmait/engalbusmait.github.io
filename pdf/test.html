@@ -6,7 +6,7 @@
   <title>Tool Simulator — PDF Toolkit</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
-  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@cantoo/pdf-lib@1.0.6/dist/pdf-lib.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <style>
@@ -450,12 +450,14 @@ const TESTS = [
   },
   {
     key: 'protect', icon: '🔐', name: 'Protect PDF',
-    desc: 'Creates PDF, saves with user password "test123", verifies output bytes differ from original.',
+    desc: 'Creates PDF, encrypts with AES-256 password "test123", verifies bytes changed and header shows encryption.',
     async run() {
       const checks = [];
       const ab = await makePdf(2);
       const pdf = await PDFLib.PDFDocument.load(ab);
       const password = 'test123';
+
+      checks.push(check('EncryptionAlgorithm.AES_256 available', !!PDFLib.EncryptionAlgorithm?.AES_256 || PDFLib.EncryptionAlgorithm?.AES_256 === 0, String(PDFLib.EncryptionAlgorithm?.AES_256)));
 
       const bytes = await pdf.save({
         userPassword: password,
@@ -468,28 +470,30 @@ const TESTS = [
           fillingForms: true,
           contentAccessibility: true,
           documentAssembly: false,
+          encryptionAlgorithm: PDFLib.EncryptionAlgorithm.AES_256,
         },
       });
 
       checks.push(check('Original PDF size', ab.byteLength > 100, fmt(ab.byteLength)));
       checks.push(check('Protected PDF produced', bytes.byteLength > 100, fmt(bytes.byteLength)));
-      checks.push(check('Protected bytes differ from original', !arrEqual(ab, bytes), 'content changed'));
+      checks.push(check('Bytes changed from original', !arrEqual(ab, bytes), 'content changed'));
 
-      // Verify protected PDF loads with password
-      let loadedWithPw = false;
-      try {
-        await PDFLib.PDFDocument.load(bytes, { password });
-        loadedWithPw = true;
-      } catch {}
-      checks.push(check('Opens correctly with password', loadedWithPw, loadedWithPw ? 'OK' : 'failed'));
+      // Check the PDF bytes contain an Encrypt dictionary (real encryption marker)
+      const pdfText = new TextDecoder().decode(bytes.slice(0, 2048));
+      const hasEncrypt = bytes.byteLength > ab.byteLength * 0.8 &&
+        (new TextDecoder().decode(bytes)).includes('/Encrypt');
+      checks.push(check('PDF contains /Encrypt dictionary', hasEncrypt, hasEncrypt ? 'found' : 'not found — encryption may have failed'));
 
-      // Verify it loads differently without password (ignoreEncryption bypass is expected for pdf-lib)
-      let loadedNoPw = false;
-      try {
-        const d = await PDFLib.PDFDocument.load(bytes, { ignoreEncryption: true });
-        loadedNoPw = d.getPageCount() > 0;
-      } catch {}
-      checks.push({ text: 'Note: pdf-lib can bypass via ignoreEncryption (expected)', ok: 'info', val: 'by design' });
+      // Verify opens with correct password
+      let openedWithPw = false;
+      try { await PDFLib.PDFDocument.load(bytes, { password }); openedWithPw = true; } catch {}
+      checks.push(check('Opens with correct password', openedWithPw, openedWithPw ? 'OK' : 'failed'));
+
+      // Verify fails without password (no ignoreEncryption)
+      let rejectedWithoutPw = false;
+      try { await PDFLib.PDFDocument.load(bytes); } catch { rejectedWithoutPw = true; }
+      checks.push(check('Rejected without password', rejectedWithoutPw, rejectedWithoutPw ? 'correctly blocked' : 'WARNING: opened without password'));
+
       return checks;
     }
   },
@@ -502,10 +506,11 @@ const TESTS = [
       const pdf = await PDFLib.PDFDocument.load(ab);
       const password = 'unlock123';
 
-      // Protect first
+      // Protect first (uses @cantoo/pdf-lib AES-256)
       const protectedBytes = await pdf.save({
         userPassword: password,
         ownerPassword: password + '_owner',
+        permissions: { encryptionAlgorithm: PDFLib.EncryptionAlgorithm.AES_256 },
       });
       checks.push(check('Protected PDF created', protectedBytes.byteLength > 100, fmt(protectedBytes.byteLength)));
       checks.push(check('Protected bytes differ from original', !arrEqual(ab, protectedBytes), 'encrypted'));

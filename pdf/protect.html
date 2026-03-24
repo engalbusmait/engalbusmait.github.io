@@ -6,7 +6,7 @@
   <title>Protect PDF — PDF Toolkit</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
-  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@cantoo/pdf-lib@1.0.6/dist/pdf-lib.min.js"></script>
   <script src="/pdf/pdf-utils.js" defer></script>
   <style>
     *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
@@ -122,7 +122,7 @@
         <label class="perm-item"><input type="checkbox" id="perm-annot" checked /> Allow annotations</label>
       </div>
     </div>
-    <div class="info-box"><strong>Note:</strong> pdf-lib implements RC4-based encryption per the PDF specification. The resulting file will be password-protected and require the password to open in any PDF viewer.</div>
+    <div class="info-box"><strong>AES-256 encryption</strong> via @cantoo/pdf-lib. The output PDF will be password-protected and require the password to open in any PDF viewer (Acrobat, Preview, Chrome, etc.).</div>
   </div>
 
   <button class="btn-primary" id="processBtn" disabled>🔐 Protect PDF</button>
@@ -211,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const pdf = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
       const bytes = await pdf.save({
         userPassword: pw,
-        ownerPassword: pw + '_owner_' + Date.now(),
+        ownerPassword: pw + '_owner',
         permissions: {
           printing: document.getElementById('perm-print').checked ? 'highResolution' : 'none',
           copying: document.getElementById('perm-copy').checked,
@@ -220,8 +220,8 @@ document.addEventListener('DOMContentLoaded', () => {
           fillingForms: true,
           contentAccessibility: true,
           documentAssembly: false,
+          encryptionAlgorithm: PDFLib.EncryptionAlgorithm.AES_256,
         },
-        encryptionAlgorithm: PDFLib.EncryptionAlgorithm ? PDFLib.EncryptionAlgorithm.AES_256 : undefined,
       });
       PdfUtils.trackOperation('protect');
       PdfUtils.hideProgress();

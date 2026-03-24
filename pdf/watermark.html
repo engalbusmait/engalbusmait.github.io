@@ -209,7 +209,20 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const ab = await PdfUtils.readFileAsArrayBuffer(currentFile);
       const pdf = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
-      const font = await pdf.embedFont(PDFLib.StandardFonts.HelveticaBold);
+
+      // Use a Unicode font when text contains non-ASCII characters (e.g. Arabic, Chinese, etc.)
+      let font;
+      if (/[^\x00-\x7F]/.test(text)) {
+        PdfUtils.showProgress('Loading Unicode font…');
+        const fontResp = await fetch('https://cdn.jsdelivr.net/npm/amiri-font@0.113.0/fonts/Amiri-Regular.ttf');
+        if (!fontResp.ok) throw new Error('Failed to load Unicode font. Check your internet connection.');
+        const fontBytes = await fontResp.arrayBuffer();
+        font = await pdf.embedFont(fontBytes);
+        PdfUtils.showProgress('Adding watermark…');
+      } else {
+        font = await pdf.embedFont(PDFLib.StandardFonts.HelveticaBold);
+      }
+
       const size = parseInt(document.getElementById('wmSize').value, 10);
       const opacity = parseFloat(document.getElementById('wmOpacity').value);
       const angleDeg = parseInt(document.getElementById('wmAngle').value, 10);
