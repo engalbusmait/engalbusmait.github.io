@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Extract Pages — PDF Toolkit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="/pdf/pdf-utils.js" defer></script>
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root { --bg:#070b14; --surface:rgba(255,255,255,0.04); --surface2:#0d1526; --border:rgba(255,255,255,0.08); --border-c:rgba(0,212,255,0.25); --cyan:#00d4ff; --green:#00ff88; --purple:#8b5cf6; --text:#e2e8f0; --muted:#8892a4; }
+    body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+    body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index:0; background: radial-gradient(ellipse 70% 50% at 15% 30%,rgba(0,212,255,.05) 0%,transparent 65%), radial-gradient(ellipse 60% 50% at 85% 75%,rgba(139,92,246,.05) 0%,transparent 65%); }
+    ::selection { background:rgba(0,212,255,.2); }
+    nav { position:sticky; top:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:0 clamp(1.5rem,5vw,4rem); height:64px; background:rgba(7,11,20,.85); backdrop-filter:blur(24px); border-bottom:1px solid var(--border); }
+    .nav-back { text-decoration:none; color:var(--muted); font-size:.85rem; font-weight:500; transition:color .2s; }
+    .nav-back:hover { color:var(--cyan); }
+    .nav-logo { font-family:'JetBrains Mono',monospace; font-size:1rem; font-weight:700; color:var(--cyan); text-decoration:none; }
+    .nav-logo em { color:var(--green); font-style:normal; }
+    .container { max-width:900px; margin:0 auto; padding:2rem clamp(1.5rem,5vw,3rem) 4rem; position:relative; z-index:1; }
+    .tool-header { text-align:center; margin-bottom:2.5rem; }
+    .tool-icon { font-size:2.8rem; margin-bottom:.75rem; }
+    .tool-header h1 { font-size:2rem; font-weight:800; letter-spacing:-1px; margin-bottom:.5rem; }
+    .tool-header p { color:var(--muted); font-size:.95rem; }
+    .dropzone { border:2px dashed var(--border-c); border-radius:16px; padding:3rem 2rem; text-align:center; cursor:pointer; transition:border-color .2s, background .2s; background:rgba(0,212,255,.02); }
+    .dropzone:hover, .dropzone.over { border-color:var(--cyan); background:rgba(0,212,255,.05); }
+    .dropzone p { color:var(--muted); font-size:.9rem; margin-top:.5rem; }
+    .dropzone .dz-icon { font-size:2.5rem; margin-bottom:.75rem; }
+    .dz-btn { display:inline-block; margin-top:1rem; padding:.5rem 1.4rem; background:rgba(0,212,255,.1); border:1px solid rgba(0,212,255,.3); border-radius:8px; color:var(--cyan); font-size:.85rem; font-weight:600; cursor:pointer; transition:background .2s; }
+    .dz-btn:hover { background:rgba(0,212,255,.18); }
+    #fileInput { display:none; }
+    .toolbar { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.75rem; margin:1.25rem 0 .75rem; }
+    .toolbar-left { display:flex; gap:.5rem; flex-wrap:wrap; }
+    .tb-btn { padding:.35rem .9rem; border:1px solid var(--border); border-radius:8px; background:var(--surface); color:var(--muted); font-size:.82rem; font-weight:500; cursor:pointer; transition:all .2s; font-family:inherit; }
+    .tb-btn:hover { border-color:var(--cyan); color:var(--cyan); }
+    .sel-count { font-size:.82rem; color:var(--muted); }
+    .sel-count strong { color:var(--cyan); }
+    .thumbs-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:1rem; margin-top:.5rem; }
+    .thumb-item { border:2px solid var(--border); border-radius:12px; overflow:hidden; cursor:pointer; transition:border-color .2s, transform .15s; position:relative; background:var(--surface2); }
+    .thumb-item:hover { border-color:rgba(0,212,255,.4); transform:translateY(-2px); }
+    .thumb-item.selected { border-color:var(--cyan); }
+    .thumb-item.selected::after { content:'✓'; position:absolute; top:4px; right:6px; color:var(--cyan); font-weight:700; font-size:1rem; text-shadow:0 0 4px rgba(0,0,0,.8); }
+    .thumb-item canvas { width:100%; display:block; }
+    .thumb-label { text-align:center; font-size:.72rem; color:var(--muted); padding:.35rem .25rem; background:rgba(0,0,0,.3); }
+    .thumb-item.selected .thumb-label { color:var(--cyan); font-weight:600; }
+    .btn-primary { display:inline-flex; align-items:center; gap:.5rem; padding:.7rem 1.8rem; border-radius:10px; border:none; cursor:pointer; background:linear-gradient(135deg,var(--cyan),var(--purple)); color:#fff; font-size:.95rem; font-weight:700; font-family:inherit; transition:opacity .2s, transform .15s; margin-top:1.5rem; width:100%; justify-content:center; }
+    .btn-primary:hover { opacity:.88; transform:translateY(-1px); }
+    .btn-primary:disabled { opacity:.4; cursor:not-allowed; transform:none; }
+    .btn-download { display:none; align-items:center; justify-content:center; gap:.5rem; padding:.7rem 1.8rem; border-radius:10px; border:1px solid var(--green); background:rgba(0,255,136,.08); color:var(--green); font-size:.95rem; font-weight:700; font-family:inherit; cursor:pointer; transition:background .2s, transform .15s; margin-top:.75rem; width:100%; }
+    .btn-download:hover { background:rgba(0,255,136,.15); transform:translateY(-1px); }
+    .btn-download.visible { display:inline-flex; }
+    .privacy-note { text-align:center; font-size:.78rem; color:var(--muted); margin-top:1.5rem; padding-top:1.5rem; border-top:1px solid var(--border); }
+    .privacy-note strong { color:var(--green); }
+
+    .nav-author {
+      position: absolute; left: 50%; transform: translateX(-50%);
+      font-size: .78rem; font-weight: 600; color: var(--muted);
+      text-decoration: none; white-space: nowrap;
+      letter-spacing: .02em; transition: color .2s;
+    }
+    .nav-author:hover { color: var(--cyan); }
+    .nav-author span { color: var(--cyan); }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/pdf/" class="nav-back">← PDF Tools</a>
+  <a href="/" class="nav-author" rel="noopener">by <span>Waleed Albusmait</span></a>
+  <a href="/pdf/" class="nav-logo">pdf<em>.tools</em></a>
+</nav>
+<div class="container">
+  <div class="tool-header">
+    <div class="tool-icon">📤</div>
+    <h1>Extract Pages</h1>
+    <p>Select the pages you want to keep and save them as a new PDF.</p>
+  </div>
+
+  <div class="dropzone" id="dropzone">
+    <div class="dz-icon">📄</div>
+    <strong>Drag &amp; drop a PDF file here</strong>
+    <p>or click to browse</p>
+    <label for="fileInput" class="dz-btn">Choose File</label>
+  </div>
+  <input type="file" id="fileInput" accept=".pdf,application/pdf" />
+
+  <div id="editorSection" style="display:none">
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <button class="tb-btn" id="selectAll">Select All</button>
+        <button class="tb-btn" id="selectNone">Deselect All</button>
+        <button class="tb-btn" id="clearFile">✕ Change File</button>
+      </div>
+      <div class="sel-count" id="selCount">0 pages selected</div>
+    </div>
+    <div class="thumbs-grid" id="thumbsGrid"></div>
+  </div>
+
+  <button class="btn-primary" id="processBtn" disabled>📤 Extract Selected Pages</button>
+  <button class="btn-download" id="downloadBtn">⬇ Download Extracted PDF</button>
+
+  <div class="privacy-note"><strong>🔒 Private by design:</strong> All processing happens in your browser. Files are never uploaded to any server.</div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof pdfjsLib !== 'undefined') pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+  const dropzone = document.getElementById('dropzone');
+  const fileInput = document.getElementById('fileInput');
+  const editorSection = document.getElementById('editorSection');
+  const thumbsGrid = document.getElementById('thumbsGrid');
+  const processBtn = document.getElementById('processBtn');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const selCount = document.getElementById('selCount');
+
+  let srcArrayBuffer = null, pageCount = 0;
+  const selectedPages = new Set();
+
+  dropzone.addEventListener('click', () => fileInput.click());
+  dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('over'); });
+  dropzone.addEventListener('dragleave', () => dropzone.classList.remove('over'));
+  dropzone.addEventListener('drop', e => { e.preventDefault(); dropzone.classList.remove('over'); if (e.dataTransfer.files[0]) setFile(e.dataTransfer.files[0]); });
+  fileInput.addEventListener('change', () => { if (fileInput.files[0]) { setFile(fileInput.files[0]); fileInput.value = ''; } });
+
+  document.getElementById('selectAll').onclick = () => { for (let i=0;i<pageCount;i++) selectedPages.add(i); updateUI(); };
+  document.getElementById('selectNone').onclick = () => { selectedPages.clear(); updateUI(); };
+  document.getElementById('clearFile').onclick = reset;
+
+  async function setFile(f) {
+    const err = PdfUtils.validatePdf(f);
+    if (err) { PdfUtils.showError(err); return; }
+    selectedPages.clear();
+    thumbsGrid.innerHTML = '<div style="color:var(--muted);padding:2rem;text-align:center">Rendering thumbnails…</div>';
+    editorSection.style.display = 'block';
+    processBtn.disabled = true;
+    downloadBtn.classList.remove('visible');
+    try {
+      srcArrayBuffer = await PdfUtils.readFileAsArrayBuffer(f);
+      pageCount = await PdfUtils.getPdfPageCount(srcArrayBuffer);
+      await renderThumbs();
+    } catch (err) {
+      PdfUtils.showError('Failed to load PDF: ' + err.message); reset(); return;
+    }
+    updateUI();
+  }
+
+  async function renderThumbs() {
+    thumbsGrid.innerHTML = '';
+    if (typeof pdfjsLib === 'undefined') {
+      for (let i = 0; i < pageCount; i++) {
+        const div = createThumbItem(i);
+        div.innerHTML += `<div style="height:90px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:var(--muted);">📄</div>`;
+        thumbsGrid.appendChild(div);
+      }
+      return;
+    }
+    const pdfDoc = await pdfjsLib.getDocument({ data: srcArrayBuffer.slice(0) }).promise;
+    for (let i = 1; i <= pdfDoc.numPages; i++) {
+      const page = await pdfDoc.getPage(i);
+      const viewport = page.getViewport({ scale: 0.4 });
+      const canvas = document.createElement('canvas');
+      canvas.width = viewport.width; canvas.height = viewport.height;
+      await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
+      const div = document.createElement('div');
+      div.className = 'thumb-item'; div.dataset.page = i - 1;
+      div.appendChild(canvas);
+      const label = document.createElement('div'); label.className = 'thumb-label'; label.textContent = 'Page ' + i;
+      div.appendChild(label);
+      div.addEventListener('click', () => togglePage(i - 1, div));
+      thumbsGrid.appendChild(div);
+    }
+  }
+
+  function togglePage(idx, el) {
+    if (selectedPages.has(idx)) { selectedPages.delete(idx); el.classList.remove('selected'); }
+    else { selectedPages.add(idx); el.classList.add('selected'); }
+    updateSelCount();
+  }
+
+  function updateUI() {
+    thumbsGrid.querySelectorAll('.thumb-item').forEach(item => {
+      const idx = parseInt(item.dataset.page, 10);
+      item.classList.toggle('selected', selectedPages.has(idx));
+    });
+    updateSelCount();
+  }
+
+  function updateSelCount() {
+    const n = selectedPages.size;
+    selCount.innerHTML = `<strong>${n}</strong> page${n!==1?'s':''} selected`;
+    processBtn.disabled = n === 0;
+  }
+
+  processBtn.addEventListener('click', async () => {
+    PdfUtils.clearError();
+    PdfUtils.showProgress('Extracting pages…');
+    processBtn.disabled = true;
+    downloadBtn.classList.remove('visible');
+    try {
+      const src = await PDFLib.PDFDocument.load(srcArrayBuffer, { ignoreEncryption: true });
+      const indices = [...selectedPages].sort((a,b) => a - b);
+      const out = await PDFLib.PDFDocument.create();
+      const pages = await out.copyPages(src, indices);
+      pages.forEach(p => out.addPage(p));
+      const bytes = await out.save();
+      PdfUtils.trackOperation('extract_pages');
+      PdfUtils.hideProgress();
+      downloadBtn.classList.add('visible');
+      downloadBtn.onclick = () => PdfUtils.downloadFile(bytes, 'extracted_pages.pdf');
+    } catch (err) {
+      PdfUtils.hideProgress();
+      PdfUtils.showError('Extraction failed: ' + err.message);
+    } finally { processBtn.disabled = false; }
+  });
+
+  function reset() {
+    srcArrayBuffer = null; pageCount = 0; selectedPages.clear();
+    thumbsGrid.innerHTML = ''; editorSection.style.display = 'none';
+    processBtn.disabled = true; downloadBtn.classList.remove('visible');
+  }
+});
+</script>
+</body>
+</html>

@@ -281,6 +281,21 @@
     .proj-impact { display: flex; align-items: center; gap: .5rem; margin-top: .75rem; font-size: .78rem; color: var(--green); font-family: 'JetBrains Mono', monospace; }
     .proj-impact::before { content: ''; width: 5px; height: 5px; background: var(--green); border-radius: 50%; flex-shrink: 0; }
 
+    /* ─── TOOLS ─── */
+    #tools { padding: 7rem 0; }
+    .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px,1fr)); gap: 1.5rem; }
+    .tool-card .proj-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
+    .tool-launch-btn {
+      display: inline-flex; align-items: center; gap: .4rem;
+      padding: .5rem 1.1rem;
+      background: linear-gradient(135deg, var(--cyan), var(--cyan2));
+      color: #070b14; font-weight: 700; font-size: .82rem;
+      border-radius: 8px; text-decoration: none;
+      transition: transform .2s, box-shadow .2s;
+      white-space: nowrap;
+    }
+    .tool-launch-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,212,255,.35); }
+
     /* Leadership metrics bar */
     .leader-metrics { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-top: 3.5rem; }
     .metric-card {
@@ -426,6 +441,7 @@
       <li><a href="#projects" data-i18n="nav_proj">Projects</a></li>
       <li><a href="#education" data-i18n="nav_edu">Education</a></li>
       <li><a href="#certificates" data-i18n="nav_certs">Certs</a></li>
+      <li><a href="#tools" data-i18n="nav_tools">Tools</a></li>
       <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
     </ul>
     <button class="lang-btn" id="langToggle" aria-label="Switch language">
@@ -444,6 +460,7 @@
   <a href="#education" class="mobile-link" data-i18n="nav_edu">Education</a>
   <a href="#certificates" class="mobile-link" data-i18n="nav_certs">Certificates</a>
   <a href="#achievements" class="mobile-link" data-i18n="nav_ach">Achievements</a>
+  <a href="#tools" class="mobile-link" data-i18n="nav_tools">Tools</a>
   <a href="#contact" class="mobile-link" data-i18n="nav_contact">Contact</a>
   <button class="lang-btn mobile-lang-btn" id="langToggleMobile">🌐 <span id="langLabelMobile">العربية</span></button>
 </div>
@@ -826,6 +843,55 @@
   </div>
 </section>
 
+<!-- ═══ TOOLS ═══ -->
+<section id="tools">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label" data-i18n="s_tools_label">// tools</p>
+      <h2 class="section-title" data-i18n="s_tools_title">Public Tools</h2>
+      <p class="section-sub" data-i18n="s_tools_sub">Utilities built for quick access — available to anyone.</p>
+    </div>
+    <div class="tools-grid">
+
+      <div class="proj-card tool-card reveal">
+        <div class="proj-num">01 / TOOL</div>
+        <div class="proj-icon" style="background:rgba(0,212,255,.12)">🔗</div>
+        <div class="proj-title" data-i18n="t1_title">Quick Link Redirector</div>
+        <div class="proj-desc" data-i18n="t1_desc">
+          Enter a short number to be redirected instantly to a curated destination.
+          No sign-up, no tracking — just type a number and go.
+        </div>
+        <div class="proj-footer">
+          <div class="tags">
+            <span class="tag tc">Fast Redirect</span>
+            <span class="tag tg">Public Access</span>
+          </div>
+          <a href="/links/" target="_blank" rel="noopener noreferrer" class="tool-launch-btn" data-i18n="t1_btn">
+            Use Tool →
+          </a>
+        </div>
+      </div>
+
+      <div class="proj-card tool-card reveal">
+        <div class="proj-num">02 / TOOL</div>
+        <div class="proj-icon" style="background:rgba(139,92,246,.12)">📄</div>
+        <div class="proj-title" data-i18n="t2_title">PDF Toolkit</div>
+        <div class="proj-desc" data-i18n="t2_desc">
+          12 free browser-based PDF tools: merge, split, compress, rotate, convert images, add watermarks, protect with passwords, and more. Files never leave your device.
+        </div>
+        <div class="proj-footer">
+          <div class="tags">
+            <span class="tag tc">12 Tools</span>
+            <span class="tag tp">Browser-based</span>
+          </div>
+          <a href="/pdf/" target="_blank" rel="noopener noreferrer" class="tool-launch-btn" data-i18n="t2_btn">Open Toolkit →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- ═══ EDUCATION ═══ -->
 <section id="education">
   <div class="container">
@@ -986,7 +1052,7 @@
 const i18n = {
   en: {
     nav_about: 'About', nav_skills: 'Skills', nav_exp: 'Experience', nav_proj: 'Projects',
-    nav_edu: 'Education', nav_certs: 'Certs', nav_ach: 'Achievements', nav_contact: 'Contact',
+    nav_edu: 'Education', nav_certs: 'Certs', nav_ach: 'Achievements', nav_tools: 'Tools', nav_contact: 'Contact',
     hero_badge: 'Open to Collaboration & Advisory Roles',
     hero_first: 'Waleed', hero_last: 'Albusmait',
     hero_r1: 'Cybersecurity Leader', hero_r2: 'Digital Forensics Expert', hero_r3: 'AI Innovator',
@@ -1033,6 +1099,14 @@ const i18n = {
     p3_t: 'HR Operations Intelligence System',
     p3_d: 'Engineered an internal HR operations platform that automated leave management, shift scheduling, and compensatory entitlement tracking across an entire directorate. Features real-time supervisor dashboards, automated approval workflows, HR reporting modules, and a complete audit trail — eliminating all manual paper processes and delivering operational clarity across the organization.',
     p3_i: 'Full paper-to-digital transformation · Real-time org-wide visibility',
+    s_tools_label: '// tools', s_tools_title: 'Public Tools',
+    s_tools_sub: 'Utilities built for quick access — available to anyone.',
+    t1_title: 'Quick Link Redirector',
+    t1_desc: 'Enter a short number to be redirected instantly to a curated destination. No sign-up, no tracking — just type a number and go.',
+    t1_btn: 'Use Tool →',
+    t2_title: 'PDF Toolkit',
+    t2_desc: '12 free browser-based PDF tools: merge, split, compress, rotate, convert images, add watermarks, protect with passwords, and more. Files never leave your device.',
+    t2_btn: 'Open Toolkit →',
     s_edu_label: '// education', s_edu_title: 'Academic Excellence',
     s_edu_sub: 'Top-of-class graduate with a research dissertation awarded Distinction and three consecutive first-place finishes.',
     e1_deg: 'MSc in IT & Computer Science', e1_h: 'First Class Honours', e1_dist: 'Graded With Distinction', e1_dis: 'Dissertation',
@@ -1053,7 +1127,7 @@ const i18n = {
   },
   ar: {
     nav_about: 'عني', nav_skills: 'المهارات', nav_exp: 'الخبرة', nav_proj: 'المشاريع',
-    nav_edu: 'التعليم', nav_certs: 'الشهادات', nav_ach: 'الإنجازات', nav_contact: 'التواصل',
+    nav_edu: 'التعليم', nav_certs: 'الشهادات', nav_ach: 'الإنجازات', nav_tools: 'الأدوات', nav_contact: 'التواصل',
     hero_badge: 'متاح للتعاون والاستشارات الاستراتيجية',
     hero_first: 'وليد', hero_last: 'البوسميط',
     hero_r1: 'مختص في الأمن السيبراني', hero_r2: 'خبير بالفحص الرقمي', hero_r3: 'مهندس ذكاء اصطناعي',
@@ -1099,6 +1173,14 @@ const i18n = {
     p3_t: 'نظام ادارة الموارد البشرية',
     p3_d: 'هندست منصة ادارة موارد بشرية داخلية تُؤتمت إدارة الإجازات وجداول المناوبات وتتبع استحقاقات التعويض عبر نظام متكامل. تشمل لوحات مشرف فورية، وسير عمل موافقة آلي، ووحدات تقارير الموارد البشرية، ومسار تدقيق كامل — مع القضاء على جميع الإجراءات الورقية اليدوية وتحقيق الوضوح التشغيلي على مستوى المنظمة.',
     p3_i: 'تحول رقمي كامل · رؤية فورية على مستوى المنظمة',
+    s_tools_label: '// الأدوات', s_tools_title: 'الأدوات العامة',
+    s_tools_sub: 'أدوات مصممة للوصول السريع — متاحة للجميع.',
+    t1_title: 'محول الروابط السريعة',
+    t1_desc: 'أدخل رقماً قصيراً ليتم توجيهك فوراً إلى الوجهة المحددة. بدون تسجيل أو تتبع — فقط أدخل الرقم وانطلق.',
+    t1_btn: 'استخدام الأداة →',
+    t2_title: 'مجموعة أدوات PDF',
+    t2_desc: '12 أداة مجانية للتعامل مع PDF مباشرة في المتصفح: دمج، تقسيم، ضغط، تدوير، تحويل الصور، إضافة علامات مائية، حماية بكلمة مرور، والمزيد. ملفاتك لا تغادر جهازك أبداً.',
+    t2_btn: 'فتح مجموعة الأدوات →',
     s_edu_label: '// التعليم', s_edu_title: 'التفوق الأكاديمي',
     s_edu_sub: 'متخرج في مقدمة دفعته مع أطروحة بحثية حُكم عليها بالامتياز وثلاثة مراكز أولى متتالية.',
     e1_deg: 'ماجستير العلوم في تقنية المعلومات وعلوم الحاسوب', e1_h: 'مرتبة الشرف الأولى', e1_dist: 'بتقدير امتياز', e1_dis: 'رسالة الماجستير',

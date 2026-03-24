@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protect PDF — PDF Toolkit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="/pdf/pdf-utils.js" defer></script>
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root { --bg:#070b14; --surface:rgba(255,255,255,0.04); --surface2:#0d1526; --border:rgba(255,255,255,0.08); --border-c:rgba(0,255,136,0.25); --cyan:#00d4ff; --green:#00ff88; --purple:#8b5cf6; --text:#e2e8f0; --muted:#8892a4; }
+    body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+    body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index:0; background: radial-gradient(ellipse 70% 50% at 15% 30%,rgba(0,255,136,.04) 0%,transparent 65%), radial-gradient(ellipse 60% 50% at 85% 75%,rgba(0,212,255,.04) 0%,transparent 65%); }
+    nav { position:sticky; top:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:0 clamp(1.5rem,5vw,4rem); height:64px; background:rgba(7,11,20,.85); backdrop-filter:blur(24px); border-bottom:1px solid var(--border); }
+    .nav-back { text-decoration:none; color:var(--muted); font-size:.85rem; font-weight:500; transition:color .2s; }
+    .nav-back:hover { color:var(--cyan); }
+    .nav-logo { font-family:'JetBrains Mono',monospace; font-size:1rem; font-weight:700; color:var(--cyan); text-decoration:none; }
+    .nav-logo em { color:var(--green); font-style:normal; }
+    .container { max-width:820px; margin:0 auto; padding:2rem clamp(1.5rem,5vw,3rem) 4rem; position:relative; z-index:1; }
+    .tool-header { text-align:center; margin-bottom:2.5rem; }
+    .tool-icon { font-size:2.8rem; margin-bottom:.75rem; }
+    .tool-header h1 { font-size:2rem; font-weight:800; letter-spacing:-1px; margin-bottom:.5rem; }
+    .tool-header p { color:var(--muted); font-size:.95rem; }
+    .dropzone { border:2px dashed var(--border-c); border-radius:16px; padding:3rem 2rem; text-align:center; cursor:pointer; transition:border-color .2s, background .2s; background:rgba(0,255,136,.02); }
+    .dropzone:hover, .dropzone.over { border-color:var(--green); background:rgba(0,255,136,.05); }
+    .dropzone p { color:var(--muted); font-size:.9rem; margin-top:.5rem; }
+    .dropzone .dz-icon { font-size:2.5rem; margin-bottom:.75rem; }
+    .dz-btn { display:inline-block; margin-top:1rem; padding:.5rem 1.4rem; background:rgba(0,255,136,.08); border:1px solid rgba(0,255,136,.3); border-radius:8px; color:var(--green); font-size:.85rem; font-weight:600; cursor:pointer; transition:background .2s; }
+    .dz-btn:hover { background:rgba(0,255,136,.16); }
+    #fileInput { display:none; }
+    .file-info { display:flex; align-items:center; gap:.75rem; background:var(--surface2); border:1px solid var(--border); border-radius:12px; padding:.9rem 1.1rem; margin-top:1rem; }
+    .fi-icon { font-size:1.4rem; }
+    .fi-details { flex:1; min-width:0; }
+    .fi-name { font-size:.9rem; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .fi-meta { font-size:.78rem; color:var(--muted); margin-top:.15rem; }
+    .fi-clear { background:none; border:none; color:var(--muted); cursor:pointer; font-size:1rem; padding:.2rem .4rem; border-radius:6px; transition:color .2s; }
+    .fi-clear:hover { color:#ff4757; }
+    .options-panel { background:var(--surface2); border:1px solid var(--border); border-radius:16px; padding:1.5rem; margin-top:1.5rem; }
+    .options-panel h3 { font-size:.85rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; margin-bottom:1.1rem; }
+    .opt-field { display:flex; flex-direction:column; gap:.35rem; margin-bottom:1rem; }
+    .opt-field:last-child { margin-bottom:0; }
+    .opt-field label { font-size:.88rem; color:var(--text); font-weight:500; }
+    .pw-wrap { display:flex; align-items:center; gap:.5rem; }
+    .pw-wrap input { flex:1; background:var(--bg); border:1px solid var(--border); border-radius:8px; color:var(--text); font-family:inherit; font-size:.95rem; padding:.5rem .9rem; outline:none; transition:border-color .2s; }
+    .pw-wrap input:focus { border-color:var(--green); }
+    .pw-toggle { background:none; border:1px solid var(--border); border-radius:8px; color:var(--muted); padding:.45rem .7rem; cursor:pointer; transition:color .2s,border-color .2s; }
+    .pw-toggle:hover { color:var(--text); border-color:rgba(255,255,255,.2); }
+    .strength-bar { height:4px; border-radius:2px; margin-top:.4rem; transition:width .3s, background .3s; background:var(--border); }
+    .strength-label { font-size:.75rem; color:var(--muted); margin-top:.25rem; }
+    .perms-grid { display:grid; grid-template-columns:1fr 1fr; gap:.5rem; margin-top:.5rem; }
+    @media(max-width:500px) { .perms-grid { grid-template-columns:1fr; } }
+    .perm-item { display:flex; align-items:center; gap:.5rem; font-size:.85rem; color:var(--text); cursor:pointer; }
+    .perm-item input[type="checkbox"] { accent-color:var(--green); width:15px; height:15px; }
+    .info-box { background:rgba(0,255,136,.04); border:1px solid rgba(0,255,136,.12); border-radius:10px; padding:.85rem 1.1rem; margin-top:1.1rem; font-size:.8rem; color:var(--muted); line-height:1.6; }
+    .info-box strong { color:var(--green); }
+    .btn-primary { display:inline-flex; align-items:center; gap:.5rem; padding:.7rem 1.8rem; border-radius:10px; border:none; cursor:pointer; background:linear-gradient(135deg,var(--green),var(--cyan)); color:#070b14; font-size:.95rem; font-weight:700; font-family:inherit; transition:opacity .2s, transform .15s; margin-top:1.5rem; width:100%; justify-content:center; }
+    .btn-primary:hover { opacity:.88; transform:translateY(-1px); }
+    .btn-primary:disabled { opacity:.4; cursor:not-allowed; transform:none; }
+    .btn-download { display:none; align-items:center; justify-content:center; gap:.5rem; padding:.7rem 1.8rem; border-radius:10px; border:1px solid var(--green); background:rgba(0,255,136,.08); color:var(--green); font-size:.95rem; font-weight:700; font-family:inherit; cursor:pointer; transition:background .2s; margin-top:.75rem; width:100%; }
+    .btn-download:hover { background:rgba(0,255,136,.15); }
+    .btn-download.visible { display:inline-flex; }
+    .privacy-note { text-align:center; font-size:.78rem; color:var(--muted); margin-top:1.5rem; padding-top:1.5rem; border-top:1px solid var(--border); }
+    .privacy-note strong { color:var(--green); }
+
+    .nav-author {
+      position: absolute; left: 50%; transform: translateX(-50%);
+      font-size: .78rem; font-weight: 600; color: var(--muted);
+      text-decoration: none; white-space: nowrap;
+      letter-spacing: .02em; transition: color .2s;
+    }
+    .nav-author:hover { color: var(--cyan); }
+    .nav-author span { color: var(--cyan); }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/pdf/" class="nav-back">← PDF Tools</a>
+  <a href="/" class="nav-author" rel="noopener">by <span>Waleed Albusmait</span></a>
+  <a href="/pdf/" class="nav-logo">pdf<em>.tools</em></a>
+</nav>
+<div class="container">
+  <div class="tool-header">
+    <div class="tool-icon">🔐</div>
+    <h1>Protect PDF</h1>
+    <p>Password-protect your PDF with AES-256 encryption.</p>
+  </div>
+
+  <div class="dropzone" id="dropzone">
+    <div class="dz-icon">📄</div>
+    <strong>Drag &amp; drop a PDF file here</strong>
+    <p>or click to browse</p>
+    <label for="fileInput" class="dz-btn">Choose File</label>
+  </div>
+  <input type="file" id="fileInput" accept=".pdf,application/pdf" />
+  <div id="fileInfoBox" style="display:none"></div>
+
+  <div class="options-panel" id="optionsPanel" style="display:none">
+    <h3>Protection Settings</h3>
+    <div class="opt-field">
+      <label for="password">Password</label>
+      <div class="pw-wrap">
+        <input type="password" id="password" placeholder="Enter a strong password" autocomplete="new-password" />
+        <button class="pw-toggle" id="pwToggle" type="button" title="Show/hide password">👁</button>
+      </div>
+      <div class="strength-bar" id="strengthBar" style="width:0%"></div>
+      <div class="strength-label" id="strengthLabel"></div>
+    </div>
+    <div class="opt-field">
+      <label for="confirmPw">Confirm password</label>
+      <div class="pw-wrap">
+        <input type="password" id="confirmPw" placeholder="Re-enter password" autocomplete="new-password" />
+      </div>
+    </div>
+    <div class="opt-field">
+      <label>Permissions</label>
+      <div class="perms-grid">
+        <label class="perm-item"><input type="checkbox" id="perm-print" checked /> Allow printing</label>
+        <label class="perm-item"><input type="checkbox" id="perm-copy" /> Allow copying text</label>
+        <label class="perm-item"><input type="checkbox" id="perm-modify" /> Allow modifications</label>
+        <label class="perm-item"><input type="checkbox" id="perm-annot" checked /> Allow annotations</label>
+      </div>
+    </div>
+    <div class="info-box"><strong>Note:</strong> pdf-lib implements RC4-based encryption per the PDF specification. The resulting file will be password-protected and require the password to open in any PDF viewer.</div>
+  </div>
+
+  <button class="btn-primary" id="processBtn" disabled>🔐 Protect PDF</button>
+  <button class="btn-download" id="downloadBtn">⬇ Download Protected PDF</button>
+
+  <div class="privacy-note"><strong>🔒 Private by design:</strong> Passwords are never stored or transmitted. All processing happens in your browser.</div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const dropzone = document.getElementById('dropzone');
+  const fileInput = document.getElementById('fileInput');
+  const fileInfoBox = document.getElementById('fileInfoBox');
+  const optPanel = document.getElementById('optionsPanel');
+  const processBtn = document.getElementById('processBtn');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const pwInput = document.getElementById('password');
+  const confirmPw = document.getElementById('confirmPw');
+
+  let currentFile = null;
+
+  // Password toggle
+  document.getElementById('pwToggle').onclick = () => {
+    const isPass = pwInput.type === 'password';
+    pwInput.type = isPass ? 'text' : 'password';
+    confirmPw.type = isPass ? 'text' : 'password';
+  };
+
+  // Strength meter
+  pwInput.addEventListener('input', () => {
+    const pw = pwInput.value;
+    let strength = 0;
+    if (pw.length >= 8) strength++;
+    if (pw.length >= 12) strength++;
+    if (/[A-Z]/.test(pw)) strength++;
+    if (/[0-9]/.test(pw)) strength++;
+    if (/[^A-Za-z0-9]/.test(pw)) strength++;
+    const bar = document.getElementById('strengthBar');
+    const label = document.getElementById('strengthLabel');
+    const levels = [
+      { w:'0%', c:'transparent', l:'' },
+      { w:'20%', c:'#ff4757', l:'Very weak' },
+      { w:'40%', c:'#ff6b35', l:'Weak' },
+      { w:'60%', c:'#f59e0b', l:'Fair' },
+      { w:'80%', c:'#00d4ff', l:'Strong' },
+      { w:'100%', c:'#00ff88', l:'Very strong' },
+    ];
+    const lv = levels[Math.min(strength, 5)];
+    bar.style.width = lv.w; bar.style.background = lv.c;
+    label.textContent = pw.length > 0 ? lv.l : '';
+    label.style.color = lv.c;
+  });
+
+  dropzone.addEventListener('click', () => fileInput.click());
+  dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('over'); });
+  dropzone.addEventListener('dragleave', () => dropzone.classList.remove('over'));
+  dropzone.addEventListener('drop', e => { e.preventDefault(); dropzone.classList.remove('over'); if (e.dataTransfer.files[0]) setFile(e.dataTransfer.files[0]); });
+  fileInput.addEventListener('change', () => { if (fileInput.files[0]) { setFile(fileInput.files[0]); fileInput.value=''; } });
+
+  async function setFile(f) {
+    const err = PdfUtils.validatePdf(f);
+    if (err) { PdfUtils.showError(err); return; }
+    currentFile = f;
+    let pages = '?';
+    try { const ab = await PdfUtils.readFileAsArrayBuffer(f); pages = await PdfUtils.getPdfPageCount(ab); } catch {}
+    fileInfoBox.style.display = 'flex'; fileInfoBox.className = 'file-info';
+    fileInfoBox.innerHTML = `<span class="fi-icon">📄</span><div class="fi-details"><div class="fi-name">${escHtml(f.name)}</div><div class="fi-meta">${PdfUtils.formatSize(f.size)} · ${pages} pages</div></div><button class="fi-clear" id="clearFile">✕</button>`;
+    document.getElementById('clearFile').onclick = reset;
+    optPanel.style.display = 'block';
+    processBtn.disabled = false;
+    downloadBtn.classList.remove('visible');
+  }
+
+  processBtn.addEventListener('click', async () => {
+    const pw = pwInput.value;
+    const cpw = confirmPw.value;
+    if (!pw) { PdfUtils.showError('Please enter a password.'); return; }
+    if (pw !== cpw) { PdfUtils.showError('Passwords do not match.'); return; }
+    if (pw.length < 4) { PdfUtils.showError('Password must be at least 4 characters.'); return; }
+    PdfUtils.clearError();
+    PdfUtils.showProgress('Encrypting PDF…');
+    processBtn.disabled = true;
+    downloadBtn.classList.remove('visible');
+    try {
+      const ab = await PdfUtils.readFileAsArrayBuffer(currentFile);
+      const pdf = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
+      const bytes = await pdf.save({
+        userPassword: pw,
+        ownerPassword: pw + '_owner_' + Date.now(),
+        permissions: {
+          printing: document.getElementById('perm-print').checked ? 'highResolution' : 'none',
+          copying: document.getElementById('perm-copy').checked,
+          modifying: document.getElementById('perm-modify').checked,
+          annotating: document.getElementById('perm-annot').checked,
+          fillingForms: true,
+          contentAccessibility: true,
+          documentAssembly: false,
+        },
+        encryptionAlgorithm: PDFLib.EncryptionAlgorithm ? PDFLib.EncryptionAlgorithm.AES_256 : undefined,
+      });
+      PdfUtils.trackOperation('protect');
+      PdfUtils.hideProgress();
+      downloadBtn.classList.add('visible');
+      downloadBtn.onclick = () => PdfUtils.downloadFile(bytes, 'protected.pdf');
+    } catch (err) {
+      PdfUtils.hideProgress();
+      PdfUtils.showError('Encryption failed: ' + err.message);
+    } finally { processBtn.disabled = false; }
+  });
+
+  function reset() {
+    currentFile = null;
+    fileInfoBox.style.display = 'none'; optPanel.style.display = 'none';
+    processBtn.disabled = true; downloadBtn.classList.remove('visible');
+    pwInput.value = ''; confirmPw.value = '';
+  }
+  function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+});
+</script>
+</body>
+</html>

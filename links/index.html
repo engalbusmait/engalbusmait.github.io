@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <title>Quick Links</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #070b14;
+      --surface: #0d1526;
+      --border:  rgba(0, 212, 255, 0.15);
+      --cyan:    #00d4ff;
+      --green:   #00ff88;
+      --red:     #ff4757;
+      --text:    #e2e8f0;
+      --muted:   #64748b;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    /* ── Subtle animated background ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 40%, rgba(0,212,255,0.04) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 80% 70%, rgba(139,92,246,0.04) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3rem 2.5rem 2.5rem;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      box-shadow: 0 0 60px rgba(0, 212, 255, 0.06), 0 20px 60px rgba(0,0,0,0.4);
+    }
+
+    .icon {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, rgba(0,212,255,0.15), rgba(139,92,246,0.15));
+      border: 1px solid rgba(0,212,255,0.2);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem;
+      font-size: 1.5rem;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-bottom: 2rem;
+      line-height: 1.5;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 0.625rem;
+      margin-bottom: 1rem;
+    }
+
+    input {
+      flex: 1;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.15rem;
+      font-weight: 500;
+      padding: 0.8rem 1rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      /* Remove number spinners */
+      -moz-appearance: textfield;
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button { -webkit-appearance: none; }
+    input::placeholder { color: var(--muted); font-size: 1rem; }
+    input:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px rgba(0,212,255,0.1);
+    }
+
+    button {
+      background: linear-gradient(135deg, var(--cyan), #0099cc);
+      border: none;
+      border-radius: 12px;
+      color: #070b14;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 0.8rem 1.5rem;
+      transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+      white-space: nowrap;
+    }
+    button:hover:not(:disabled) {
+      opacity: 0.9;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(0,212,255,0.3);
+    }
+    button:active:not(:disabled) { transform: translateY(0); }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .message {
+      min-height: 1.4em;
+      font-size: 0.875rem;
+      border-radius: 8px;
+      padding: 0.35rem 0;
+      transition: color 0.2s;
+    }
+    .message.error   { color: var(--red); }
+    .message.success { color: var(--green); }
+
+    .back-link {
+      position: relative;
+      z-index: 1;
+      display: inline-block;
+      margin-top: 2rem;
+      color: var(--muted);
+      font-size: 0.83rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--cyan); }
+
+    @media (max-width: 460px) {
+      .card { padding: 2rem 1.25rem; }
+      .input-row { flex-direction: column; }
+      button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="icon">🔗</div>
+  <h1>Quick Links</h1>
+  <p class="subtitle">Enter a link number to be redirected instantly.</p>
+
+  <div class="input-row">
+    <input
+      type="number"
+      id="link-input"
+      placeholder="e.g.  42"
+      min="1"
+      autocomplete="off"
+      autofocus
+      aria-label="Link number"
+    >
+    <button id="go-btn">Go →</button>
+  </div>
+
+  <div class="message" id="message" role="alert" aria-live="polite"></div>
+</div>
+
+<a href="/" class="back-link">← Back to main site</a>
+
+<script type="module">
+  import { initializeApp }      from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+  import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+  import { firebaseConfig }     from './firebase-config.js';
+
+  const app = initializeApp(firebaseConfig);
+  const db  = getFirestore(app);
+
+  const inputEl  = document.getElementById('link-input');
+  const btnEl    = document.getElementById('go-btn');
+  const msgEl    = document.getElementById('message');
+
+  // ── Rate limiting: max 1 lookup per second ──
+  let lastRequestTime = 0;
+  let attemptCount    = 0;   // consecutive attempts
+  let blockedUntil    = 0;   // temporary block after too many attempts
+
+  btnEl.addEventListener('click', handleRedirect);
+  inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') handleRedirect(); });
+
+  async function handleRedirect() {
+    const now = Date.now();
+
+    // Block if too many rapid attempts (5+ attempts → 10 sec cooldown)
+    if (now < blockedUntil) {
+      const secs = Math.ceil((blockedUntil - now) / 1000);
+      showMsg(`Too many attempts. Please wait ${secs}s.`, 'error');
+      return;
+    }
+    if (now - lastRequestTime < 1000) return;
+    lastRequestTime = now;
+
+    // ── Validate input ──
+    const raw = inputEl.value.trim();
+    if (!raw || !/^\d+$/.test(raw) || parseInt(raw, 10) < 1) {
+      showMsg('Please enter a valid positive number.', 'error');
+      return;
+    }
+
+    attemptCount++;
+    if (attemptCount >= 5) {
+      blockedUntil = now + 10_000;
+      attemptCount = 0;
+      showMsg('Too many attempts. Please wait 10s.', 'error');
+      return;
+    }
+
+    btnEl.disabled    = true;
+    btnEl.textContent = '…';
+    clearMsg();
+
+    try {
+      const snap = await getDoc(doc(db, 'links', raw));
+
+      if (snap.exists()) {
+        const { url } = snap.data();
+        attemptCount = 0; // reset on success
+
+        // Validate the stored URL before redirecting (defense in depth)
+        let parsed;
+        try { parsed = new URL(url); } catch { throw new Error('Malformed URL in database.'); }
+        if (!['http:', 'https:'].includes(parsed.protocol)) throw new Error('Invalid URL protocol.');
+
+        showMsg('Redirecting…', 'success');
+        // Safe open: use anchor to guarantee noopener
+        const a = document.createElement('a');
+        a.href   = parsed.href;
+        a.target = '_blank';
+        a.rel    = 'noopener noreferrer';
+        a.click();
+      } else {
+        showMsg('No link found for that number.', 'error');
+      }
+    } catch (err) {
+      console.error(err);
+      showMsg('Something went wrong. Please try again.', 'error');
+    } finally {
+      btnEl.disabled    = false;
+      btnEl.textContent = 'Go →';
+    }
+  }
+
+  function showMsg(text, type) {
+    msgEl.textContent = text;
+    msgEl.className   = 'message ' + type;
+  }
+  function clearMsg() {
+    msgEl.textContent = '';
+    msgEl.className   = 'message';
+  }
+</script>
+
+</body>
+</html>

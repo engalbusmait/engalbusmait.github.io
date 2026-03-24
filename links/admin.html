@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <title>Admin — Quick Links</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #070b14;
+      --surface: #0d1526;
+      --surface2: #111827;
+      --border:  rgba(0, 212, 255, 0.13);
+      --border2: rgba(255,255,255,0.06);
+      --cyan:    #00d4ff;
+      --green:   #00ff88;
+      --red:     #ff4757;
+      --orange:  #ffa502;
+      --purple:  #8b5cf6;
+      --text:    #e2e8f0;
+      --muted:   #64748b;
+      --muted2:  #94a3b8;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 20%, rgba(0,212,255,0.03) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 80% 80%, rgba(139,92,246,0.03) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ══════════════════════════════════════
+       LOGIN SCREEN
+    ══════════════════════════════════════ */
+    #login-screen {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .login-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3rem 2.5rem;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 0 60px rgba(0,212,255,0.06), 0 20px 60px rgba(0,0,0,0.4);
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .login-header .badge {
+      display: inline-block;
+      background: rgba(139,92,246,0.12);
+      border: 1px solid rgba(139,92,246,0.3);
+      color: var(--purple);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 0.3rem 0.75rem;
+      border-radius: 20px;
+      margin-bottom: 1rem;
+    }
+    .login-header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .login-header p {
+      color: var(--muted);
+      font-size: 0.875rem;
+      margin-top: 0.4rem;
+    }
+
+    /* ── Form controls ── */
+    .field { margin-bottom: 1.1rem; }
+    .field label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--muted2);
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .field input {
+      width: 100%;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      padding: 0.8rem 1rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .field input:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px rgba(0,212,255,0.1);
+    }
+    .field input::placeholder { color: var(--muted); }
+
+    .btn-primary {
+      width: 100%;
+      background: linear-gradient(135deg, var(--cyan), #0099cc);
+      border: none;
+      border-radius: 10px;
+      color: #070b14;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 0.85rem;
+      transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+      margin-top: 0.5rem;
+    }
+    .btn-primary:hover:not(:disabled) {
+      opacity: 0.9;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(0,212,255,0.3);
+    }
+    .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .login-error {
+      background: rgba(255,71,87,0.1);
+      border: 1px solid rgba(255,71,87,0.3);
+      border-radius: 8px;
+      color: var(--red);
+      font-size: 0.85rem;
+      padding: 0.7rem 1rem;
+      margin-bottom: 1rem;
+      display: none;
+    }
+    .login-error.show { display: block; }
+
+    /* ══════════════════════════════════════
+       DASHBOARD SCREEN
+    ══════════════════════════════════════ */
+    #dashboard-screen {
+      display: none;
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+    #dashboard-screen.active { display: block; }
+
+    /* ── Top navbar ── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 0.75rem; }
+    .topbar-left .dot {
+      width: 8px; height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      box-shadow: 0 0 6px var(--green);
+    }
+    .topbar-left span { font-weight: 600; font-size: 0.95rem; }
+    .topbar-right { display: flex; align-items: center; gap: 1rem; }
+    .admin-tag {
+      background: rgba(0,212,255,0.1);
+      border: 1px solid rgba(0,212,255,0.2);
+      border-radius: 20px;
+      color: var(--cyan);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.25rem 0.7rem;
+    }
+    .btn-logout {
+      background: rgba(255,71,87,0.1);
+      border: 1px solid rgba(255,71,87,0.25);
+      border-radius: 8px;
+      color: var(--red);
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.4rem 0.85rem;
+      transition: background 0.2s;
+    }
+    .btn-logout:hover { background: rgba(255,71,87,0.18); }
+
+    /* ── Stats strip ── */
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.1rem 1.25rem;
+    }
+    .stat-label {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.4rem;
+    }
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--cyan);
+    }
+
+    /* ── Add link card ── */
+    .add-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .section-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+    .add-form {
+      display: grid;
+      grid-template-columns: 100px 1fr 1fr auto;
+      gap: 0.75rem;
+      align-items: end;
+    }
+    .form-field { display: flex; flex-direction: column; gap: 0.35rem; }
+    .form-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--muted2);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .form-input {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      padding: 0.65rem 0.85rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      width: 100%;
+    }
+    .form-input:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px rgba(0,212,255,0.1);
+    }
+    .form-input::placeholder { color: var(--muted); }
+    .form-input.mono { font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; }
+    .form-input.error-border { border-color: var(--red); }
+
+    .btn-add {
+      background: linear-gradient(135deg, var(--green), #00cc6a);
+      border: none;
+      border-radius: 9px;
+      color: #070b14;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      padding: 0.65rem 1.2rem;
+      transition: opacity 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+    .btn-add:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
+    .btn-add:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .add-message {
+      margin-top: 0.6rem;
+      font-size: 0.83rem;
+      min-height: 1.2em;
+    }
+    .add-message.error   { color: var(--red); }
+    .add-message.success { color: var(--green); }
+
+    /* ── Links table ── */
+    .table-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .table-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .search-input {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      padding: 0.5rem 0.85rem;
+      outline: none;
+      width: 200px;
+      transition: border-color 0.2s;
+    }
+    .search-input:focus { border-color: var(--cyan); }
+    .search-input::placeholder { color: var(--muted); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    thead { background: rgba(0,0,0,0.2); }
+    th {
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-align: left;
+      text-transform: uppercase;
+      padding: 0.75rem 1.25rem;
+      border-bottom: 1px solid var(--border2);
+    }
+    tbody tr {
+      border-bottom: 1px solid var(--border2);
+      transition: background 0.15s;
+    }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: rgba(0,212,255,0.025); }
+
+    td {
+      padding: 0.85rem 1.25rem;
+      vertical-align: middle;
+      font-size: 0.875rem;
+    }
+    .td-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: var(--cyan);
+      font-size: 1rem;
+      width: 80px;
+    }
+    .td-label { color: var(--muted2); max-width: 160px; }
+    .td-url {
+      max-width: 300px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .td-url a {
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.15s;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+    }
+    .td-url a:hover { color: var(--cyan); }
+    .td-actions { width: 150px; text-align: right; }
+    .td-actions { display: flex; gap: 0.5rem; justify-content: flex-end; align-items: center; }
+
+    .btn-edit {
+      background: rgba(0,212,255,0.1);
+      border: 1px solid rgba(0,212,255,0.2);
+      border-radius: 7px;
+      color: var(--cyan);
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.35rem 0.7rem;
+      transition: background 0.15s;
+    }
+    .btn-edit:hover { background: rgba(0,212,255,0.18); }
+
+    .btn-del {
+      background: rgba(255,71,87,0.1);
+      border: 1px solid rgba(255,71,87,0.2);
+      border-radius: 7px;
+      color: var(--red);
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.35rem 0.7rem;
+      transition: background 0.15s;
+    }
+    .btn-del:hover { background: rgba(255,71,87,0.18); }
+
+    /* Inline edit row */
+    .edit-input {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid var(--cyan);
+      border-radius: 7px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      padding: 0.35rem 0.6rem;
+      outline: none;
+      width: 100%;
+    }
+    .btn-save {
+      background: rgba(0,255,136,0.12);
+      border: 1px solid rgba(0,255,136,0.25);
+      border-radius: 7px;
+      color: var(--green);
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.35rem 0.7rem;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+    .btn-save:hover { background: rgba(0,255,136,0.2); }
+    .btn-cancel {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border2);
+      border-radius: 7px;
+      color: var(--muted);
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.35rem 0.7rem;
+      transition: background 0.15s;
+    }
+    .btn-cancel:hover { background: rgba(255,255,255,0.08); }
+
+    /* ── States ── */
+    .empty-state {
+      padding: 3rem;
+      text-align: center;
+      color: var(--muted);
+      display: none;
+    }
+    .empty-state .empty-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    .loading-state {
+      padding: 3rem;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    /* ── Confirm overlay ── */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 1.5rem;
+    }
+    .overlay.show { display: flex; }
+    .confirm-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 360px;
+      width: 100%;
+      text-align: center;
+    }
+    .confirm-box h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+    .confirm-box p { color: var(--muted); font-size: 0.875rem; margin-bottom: 1.5rem; }
+    .confirm-actions { display: flex; gap: 0.75rem; justify-content: center; }
+    .btn-confirm-del {
+      background: var(--red);
+      border: none;
+      border-radius: 9px;
+      color: #fff;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      padding: 0.65rem 1.25rem;
+      transition: opacity 0.2s;
+    }
+    .btn-confirm-del:hover { opacity: 0.85; }
+    .btn-confirm-cancel {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border2);
+      border-radius: 9px;
+      color: var(--text);
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 0.65rem 1.25rem;
+      transition: background 0.2s;
+    }
+    .btn-confirm-cancel:hover { background: rgba(255,255,255,0.1); }
+
+    /* ── Toast notification ── */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.85rem 1.25rem;
+      font-size: 0.875rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      z-index: 200;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: transform 0.25s, opacity 0.25s;
+      pointer-events: none;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { border-color: rgba(0,255,136,0.3); color: var(--green); }
+    .toast.error   { border-color: rgba(255,71,87,0.3);  color: var(--red); }
+
+    @media (max-width: 768px) {
+      #dashboard-screen { padding: 1rem; }
+      .add-form { grid-template-columns: 1fr 1fr; }
+      .add-form .btn-add { grid-column: span 2; }
+      th:nth-child(3), td:nth-child(3) { display: none; }
+    }
+    @media (max-width: 520px) {
+      .add-form { grid-template-columns: 1fr; }
+      .add-form .btn-add { grid-column: 1; }
+      .topbar { flex-direction: column; gap: 0.75rem; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════
+     LOGIN SCREEN
+══════════════════════════════════ -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="badge">Admin Access</div>
+      <h1>Quick Links</h1>
+      <p>Sign in to manage your links</p>
+    </div>
+
+    <div class="login-error" id="login-error"></div>
+
+    <div class="field">
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="admin@example.com" autocomplete="username">
+    </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <button class="btn-primary" id="login-btn">Sign In</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     DASHBOARD SCREEN
+══════════════════════════════════ -->
+<div id="dashboard-screen">
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="dot"></div>
+      <span>Quick Links Admin</span>
+    </div>
+    <div class="topbar-right">
+      <span class="admin-tag" id="admin-email-tag">admin</span>
+      <button class="btn-logout" id="logout-btn">Sign Out</button>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-strip">
+    <div class="stat-card">
+      <div class="stat-label">Total Links</div>
+      <div class="stat-value" id="stat-total">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Highest #</div>
+      <div class="stat-value" id="stat-max">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Last Added</div>
+      <div class="stat-value" id="stat-last" style="font-size:1rem;padding-top:0.35rem;color:var(--muted2)">—</div>
+    </div>
+  </div>
+
+  <!-- Add link -->
+  <div class="add-card">
+    <div class="section-title">Add New Link</div>
+    <div class="add-form">
+      <div class="form-field">
+        <span class="form-label">Number</span>
+        <input class="form-input mono" type="number" id="new-num" placeholder="42" min="1">
+      </div>
+      <div class="form-field">
+        <span class="form-label">Destination URL</span>
+        <input class="form-input" type="url" id="new-url" placeholder="https://example.com">
+      </div>
+      <div class="form-field">
+        <span class="form-label">Label (optional)</span>
+        <input class="form-input" type="text" id="new-label" placeholder="My link description" maxlength="80">
+      </div>
+      <button class="btn-add" id="add-btn">+ Add</button>
+    </div>
+    <div class="add-message" id="add-message"></div>
+  </div>
+
+  <!-- Links table -->
+  <div class="table-card">
+    <div class="table-header">
+      <div class="section-title" style="margin:0">All Links</div>
+      <input class="search-input" type="text" id="search-input" placeholder="Search…">
+    </div>
+
+    <div class="loading-state" id="loading-state">Loading links…</div>
+    <div class="empty-state" id="empty-state">
+      <div class="empty-icon">🔗</div>
+      <div>No links yet. Add your first one above.</div>
+    </div>
+
+    <table id="links-table" style="display:none">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Label</th>
+          <th>URL</th>
+          <th>Added</th>
+          <th style="text-align:right">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="links-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     DELETE CONFIRM OVERLAY
+══════════════════════════════════ -->
+<div class="overlay" id="confirm-overlay">
+  <div class="confirm-box">
+    <h3>Delete link?</h3>
+    <p id="confirm-text">This action cannot be undone.</p>
+    <div class="confirm-actions">
+      <button class="btn-confirm-del" id="confirm-del-btn">Delete</button>
+      <button class="btn-confirm-cancel" id="confirm-cancel-btn">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script type="module">
+  import { initializeApp }    from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+  import {
+    getAuth,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
+  } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+  import {
+    getFirestore,
+    collection,
+    doc,
+    getDocs,
+    setDoc,
+    updateDoc,
+    deleteDoc,
+    serverTimestamp,
+    query,
+    orderBy
+  } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+  import { firebaseConfig } from './firebase-config.js';
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getFirestore(app);
+
+  // ──────────────────────────────────────
+  // Utility
+  // ──────────────────────────────────────
+  function sanitizeUrl(raw) {
+    const trimmed = raw.trim();
+    try {
+      const u = new URL(trimmed);
+      if (!['http:', 'https:'].includes(u.protocol)) return null;
+      return u.href;
+    } catch { return null; }
+  }
+
+  let toastTimer;
+  function showToast(msg, type = 'success') {
+    const el = document.getElementById('toast');
+    el.textContent  = msg;
+    el.className    = 'toast show ' + type;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { el.className = 'toast'; }, 3000);
+  }
+
+  // ──────────────────────────────────────
+  // Auth state
+  // ──────────────────────────────────────
+  onAuthStateChanged(auth, user => {
+    if (user) {
+      document.getElementById('login-screen').style.display    = 'none';
+      document.getElementById('dashboard-screen').classList.add('active');
+      document.getElementById('admin-email-tag').textContent   = user.email || 'admin';
+      loadLinks();
+    } else {
+      document.getElementById('login-screen').style.display    = '';
+      document.getElementById('dashboard-screen').classList.remove('active');
+    }
+  });
+
+  // ──────────────────────────────────────
+  // Login
+  // ──────────────────────────────────────
+  let loginAttempts = 0;
+  let loginLockedUntil = 0;
+
+  const loginBtn  = document.getElementById('login-btn');
+  const emailEl   = document.getElementById('email');
+  const passEl    = document.getElementById('password');
+  const loginErrEl = document.getElementById('login-error');
+
+  function showLoginError(msg) {
+    loginErrEl.textContent = msg;
+    loginErrEl.classList.add('show');
+  }
+  function clearLoginError() { loginErrEl.classList.remove('show'); }
+
+  loginBtn.addEventListener('click', doLogin);
+  [emailEl, passEl].forEach(el => el.addEventListener('keydown', e => {
+    if (e.key === 'Enter') doLogin();
+  }));
+
+  async function doLogin() {
+    const now = Date.now();
+    if (now < loginLockedUntil) {
+      const secs = Math.ceil((loginLockedUntil - now) / 1000);
+      showLoginError(`Too many attempts. Wait ${secs}s.`);
+      return;
+    }
+
+    const email = emailEl.value.trim();
+    const pass  = passEl.value;
+
+    if (!email || !pass) { showLoginError('Please enter email and password.'); return; }
+
+    loginBtn.disabled    = true;
+    loginBtn.textContent = 'Signing in…';
+    clearLoginError();
+
+    try {
+      await signInWithEmailAndPassword(auth, email, pass);
+      loginAttempts = 0;
+    } catch (err) {
+      loginAttempts++;
+      if (loginAttempts >= 5) {
+        loginLockedUntil = Date.now() + 30_000; // 30s lockout
+        loginAttempts    = 0;
+        showLoginError('Too many failed attempts. Locked for 30 seconds.');
+      } else {
+        // Generic message — do not reveal whether email or password is wrong
+        showLoginError('Invalid credentials. Please try again.');
+      }
+    } finally {
+      loginBtn.disabled    = false;
+      loginBtn.textContent = 'Sign In';
+    }
+  }
+
+  // ──────────────────────────────────────
+  // Logout
+  // ──────────────────────────────────────
+  document.getElementById('logout-btn').addEventListener('click', async () => {
+    await signOut(auth);
+  });
+
+  // ──────────────────────────────────────
+  // Load links
+  // ──────────────────────────────────────
+  let allLinks = []; // cache for search
+
+  async function loadLinks() {
+    document.getElementById('loading-state').style.display = 'block';
+    document.getElementById('links-table').style.display   = 'none';
+    document.getElementById('empty-state').style.display   = 'none';
+
+    try {
+      const snap = await getDocs(collection(db, 'links'));
+      allLinks   = [];
+
+      snap.forEach(d => {
+        allLinks.push({ id: d.id, ...d.data() });
+      });
+
+      // Sort numerically by ID
+      allLinks.sort((a, b) => parseInt(a.id, 10) - parseInt(b.id, 10));
+
+      updateStats(allLinks);
+      renderTable(allLinks);
+    } catch (err) {
+      console.error(err);
+      showToast('Failed to load links.', 'error');
+    } finally {
+      document.getElementById('loading-state').style.display = 'none';
+    }
+  }
+
+  function updateStats(links) {
+    document.getElementById('stat-total').textContent = links.length;
+    if (links.length === 0) {
+      document.getElementById('stat-max').textContent  = '—';
+      document.getElementById('stat-last').textContent = '—';
+      return;
+    }
+    const nums = links.map(l => parseInt(l.id, 10));
+    document.getElementById('stat-max').textContent = Math.max(...nums);
+
+    // Most recently added
+    const withDates = links.filter(l => l.createdAt);
+    if (withDates.length) {
+      const latest = withDates.reduce((a, b) =>
+        a.createdAt.seconds > b.createdAt.seconds ? a : b
+      );
+      const d = new Date(latest.createdAt.seconds * 1000);
+      document.getElementById('stat-last').textContent =
+        d.toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+    } else {
+      document.getElementById('stat-last').textContent = '—';
+    }
+  }
+
+  // ──────────────────────────────────────
+  // Render table
+  // ──────────────────────────────────────
+  function renderTable(links) {
+    const tbody = document.getElementById('links-tbody');
+    tbody.innerHTML = '';
+
+    if (links.length === 0) {
+      document.getElementById('empty-state').style.display   = 'block';
+      document.getElementById('links-table').style.display   = 'none';
+      return;
+    }
+    document.getElementById('empty-state').style.display   = 'none';
+    document.getElementById('links-table').style.display   = '';
+
+    links.forEach(link => tbody.appendChild(buildRow(link)));
+  }
+
+  function buildRow(link) {
+    const tr = document.createElement('tr');
+    tr.dataset.id = link.id;
+
+    // Number cell
+    const tdNum = document.createElement('td');
+    tdNum.className = 'td-num';
+    tdNum.textContent = link.id;
+
+    // Label cell
+    const tdLabel = document.createElement('td');
+    tdLabel.className = 'td-label';
+    tdLabel.textContent = link.label || '—';
+
+    // URL cell
+    const tdUrl = document.createElement('td');
+    tdUrl.className = 'td-url';
+    const a = document.createElement('a');
+    a.href   = link.url;
+    a.target = '_blank';
+    a.rel    = 'noopener noreferrer';
+    a.textContent = link.url;
+    tdUrl.appendChild(a);
+
+    // Date cell
+    const tdDate = document.createElement('td');
+    tdDate.style.color     = 'var(--muted)';
+    tdDate.style.fontSize  = '0.8rem';
+    tdDate.style.whiteSpace = 'nowrap';
+    if (link.createdAt) {
+      const d = new Date(link.createdAt.seconds * 1000);
+      tdDate.textContent = d.toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+    } else {
+      tdDate.textContent = '—';
+    }
+
+    // Actions cell
+    const tdAct = document.createElement('td');
+    tdAct.className = 'td-actions';
+
+    const editBtn = document.createElement('button');
+    editBtn.className   = 'btn-edit';
+    editBtn.textContent = 'Edit';
+    editBtn.addEventListener('click', () => enterEditMode(tr, link));
+
+    const delBtn = document.createElement('button');
+    delBtn.className   = 'btn-del';
+    delBtn.textContent = 'Delete';
+    delBtn.addEventListener('click', () => confirmDelete(link));
+
+    tdAct.appendChild(editBtn);
+    tdAct.appendChild(delBtn);
+
+    tr.append(tdNum, tdLabel, tdUrl, tdDate, tdAct);
+    return tr;
+  }
+
+  // ──────────────────────────────────────
+  // Inline edit mode
+  // ──────────────────────────────────────
+  function enterEditMode(tr, link) {
+    const cells = tr.querySelectorAll('td');
+
+    // Label → input
+    const labelInput = document.createElement('input');
+    labelInput.className   = 'edit-input';
+    labelInput.value       = link.label || '';
+    labelInput.maxLength   = 80;
+    cells[1].innerHTML     = '';
+    cells[1].appendChild(labelInput);
+
+    // URL → input
+    const urlInput = document.createElement('input');
+    urlInput.className = 'edit-input';
+    urlInput.type      = 'url';
+    urlInput.value     = link.url;
+    cells[2].innerHTML = '';
+    cells[2].appendChild(urlInput);
+
+    // Actions → save/cancel
+    const saveBtn = document.createElement('button');
+    saveBtn.className   = 'btn-save';
+    saveBtn.textContent = 'Save';
+
+    const cancelBtn = document.createElement('button');
+    cancelBtn.className   = 'btn-cancel';
+    cancelBtn.textContent = 'Cancel';
+
+    cells[4].innerHTML = '';
+    cells[4].appendChild(saveBtn);
+    cells[4].appendChild(cancelBtn);
+
+    labelInput.focus();
+
+    saveBtn.addEventListener('click', async () => {
+      const newUrl   = sanitizeUrl(urlInput.value);
+      const newLabel = labelInput.value.trim();
+
+      if (!newUrl) {
+        urlInput.style.borderColor = 'var(--red)';
+        showToast('Invalid URL. Must start with http:// or https://', 'error');
+        return;
+      }
+      urlInput.style.borderColor = '';
+
+      saveBtn.disabled    = true;
+      saveBtn.textContent = '…';
+
+      try {
+        await updateDoc(doc(db, 'links', link.id), { url: newUrl, label: newLabel });
+        link.url   = newUrl;
+        link.label = newLabel;
+        // Update cache
+        const idx = allLinks.findIndex(l => l.id === link.id);
+        if (idx >= 0) allLinks[idx] = { ...allLinks[idx], url: newUrl, label: newLabel };
+        // Replace row
+        const newRow = buildRow(link);
+        tr.replaceWith(newRow);
+        showToast(`Link #${link.id} updated.`);
+      } catch (err) {
+        console.error(err);
+        showToast('Failed to update. Try again.', 'error');
+        saveBtn.disabled    = false;
+        saveBtn.textContent = 'Save';
+      }
+    });
+
+    cancelBtn.addEventListener('click', () => {
+      const newRow = buildRow(link);
+      tr.replaceWith(newRow);
+    });
+  }
+
+  // ──────────────────────────────────────
+  // Delete with confirm overlay
+  // ──────────────────────────────────────
+  let pendingDeleteId = null;
+
+  const overlay         = document.getElementById('confirm-overlay');
+  const confirmDelBtn   = document.getElementById('confirm-del-btn');
+  const confirmCancelBtn = document.getElementById('confirm-cancel-btn');
+
+  function confirmDelete(link) {
+    pendingDeleteId = link.id;
+    document.getElementById('confirm-text').textContent =
+      `Delete link #${link.id} → ${link.url}? This cannot be undone.`;
+    overlay.classList.add('show');
+  }
+
+  confirmCancelBtn.addEventListener('click', () => {
+    overlay.classList.remove('show');
+    pendingDeleteId = null;
+  });
+
+  confirmDelBtn.addEventListener('click', async () => {
+    if (!pendingDeleteId) return;
+    const id = pendingDeleteId;
+    overlay.classList.remove('show');
+    pendingDeleteId = null;
+
+    try {
+      await deleteDoc(doc(db, 'links', id));
+      allLinks = allLinks.filter(l => l.id !== id);
+      const row = document.querySelector(`tr[data-id="${id}"]`);
+      if (row) row.remove();
+      updateStats(allLinks);
+      if (allLinks.length === 0) {
+        document.getElementById('empty-state').style.display = 'block';
+        document.getElementById('links-table').style.display = 'none';
+      }
+      showToast(`Link #${id} deleted.`);
+    } catch (err) {
+      console.error(err);
+      showToast('Failed to delete. Try again.', 'error');
+    }
+  });
+
+  // Close overlay on backdrop click
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) {
+      overlay.classList.remove('show');
+      pendingDeleteId = null;
+    }
+  });
+
+  // ──────────────────────────────────────
+  // Add link
+  // ──────────────────────────────────────
+  const addBtn    = document.getElementById('add-btn');
+  const newNumEl  = document.getElementById('new-num');
+  const newUrlEl  = document.getElementById('new-url');
+  const newLabelEl = document.getElementById('new-label');
+  const addMsgEl  = document.getElementById('add-message');
+
+  function setAddMsg(text, type) {
+    addMsgEl.textContent = text;
+    addMsgEl.className   = 'add-message ' + type;
+  }
+  function clearAddMsg() { addMsgEl.textContent = ''; addMsgEl.className = 'add-message'; }
+
+  addBtn.addEventListener('click', doAdd);
+  [newNumEl, newUrlEl, newLabelEl].forEach(el =>
+    el.addEventListener('keydown', e => { if (e.key === 'Enter') doAdd(); })
+  );
+
+  async function doAdd() {
+    const numRaw   = newNumEl.value.trim();
+    const urlRaw   = newUrlEl.value.trim();
+    const labelRaw = newLabelEl.value.trim();
+
+    // Validate number
+    if (!numRaw || !/^\d+$/.test(numRaw) || parseInt(numRaw, 10) < 1) {
+      newNumEl.classList.add('error-border');
+      setAddMsg('Please enter a valid positive number.', 'error');
+      newNumEl.focus();
+      return;
+    }
+    newNumEl.classList.remove('error-border');
+
+    // Check duplicate
+    if (allLinks.some(l => l.id === numRaw)) {
+      newNumEl.classList.add('error-border');
+      setAddMsg(`Link #${numRaw} already exists. Delete it first or use a different number.`, 'error');
+      return;
+    }
+    newNumEl.classList.remove('error-border');
+
+    // Validate URL
+    const cleanUrl = sanitizeUrl(urlRaw);
+    if (!cleanUrl) {
+      newUrlEl.classList.add('error-border');
+      setAddMsg('Invalid URL. Must start with http:// or https://', 'error');
+      newUrlEl.focus();
+      return;
+    }
+    newUrlEl.classList.remove('error-border');
+
+    addBtn.disabled    = true;
+    addBtn.textContent = '…';
+    clearAddMsg();
+
+    try {
+      const newLink = {
+        url:       cleanUrl,
+        label:     labelRaw,
+        createdAt: serverTimestamp()
+      };
+      await setDoc(doc(db, 'links', numRaw), newLink);
+
+      // Update local cache (no timestamp yet, use Date.now as approximation)
+      const cached = { id: numRaw, ...newLink, createdAt: { seconds: Date.now() / 1000 } };
+      allLinks.push(cached);
+      allLinks.sort((a, b) => parseInt(a.id, 10) - parseInt(b.id, 10));
+
+      updateStats(allLinks);
+
+      // Append row to table
+      document.getElementById('empty-state').style.display = 'none';
+      document.getElementById('links-table').style.display = '';
+      const tbody = document.getElementById('links-tbody');
+      // Insert at correct sorted position
+      const rows  = [...tbody.querySelectorAll('tr')];
+      const newRow = buildRow(cached);
+      const after  = rows.find(r => parseInt(r.dataset.id, 10) > parseInt(numRaw, 10));
+      after ? tbody.insertBefore(newRow, after) : tbody.appendChild(newRow);
+
+      // Clear form
+      newNumEl.value   = '';
+      newUrlEl.value   = '';
+      newLabelEl.value = '';
+      newNumEl.focus();
+      setAddMsg(`Link #${numRaw} added successfully.`, 'success');
+      setTimeout(clearAddMsg, 3000);
+      showToast(`Link #${numRaw} added.`);
+    } catch (err) {
+      console.error(err);
+      setAddMsg('Failed to add link. Try again.', 'error');
+    } finally {
+      addBtn.disabled    = false;
+      addBtn.textContent = '+ Add';
+    }
+  }
+
+  // ──────────────────────────────────────
+  // Search / filter
+  // ──────────────────────────────────────
+  document.getElementById('search-input').addEventListener('input', e => {
+    const q = e.target.value.trim().toLowerCase();
+    if (!q) { renderTable(allLinks); return; }
+    const filtered = allLinks.filter(l =>
+      l.id.includes(q) ||
+      l.url.toLowerCase().includes(q) ||
+      (l.label && l.label.toLowerCase().includes(q))
+    );
+    renderTable(filtered);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDF Toolkit — Free Browser-Based PDF Tools</title>
+  <meta name="description" content="Free, private, browser-based PDF tools. Merge, split, compress, convert, protect and more. Your files never leave your browser." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:      #070b14;
+      --bg2:     #0d1220;
+      --surface: rgba(255,255,255,0.04);
+      --border:  rgba(255,255,255,0.08);
+      --cyan:    #00d4ff;
+      --green:   #00ff88;
+      --purple:  #8b5cf6;
+      --gold:    #f59e0b;
+      --red:     #ff4757;
+      --text:    #e2e8f0;
+      --muted:   #8892a4;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    ::selection { background: rgba(0,212,255,.2); }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-thumb { background: #00a8cc; border-radius: 3px; }
+
+    /* Background gradient */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% 20%, rgba(0,212,255,0.05) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 80%, rgba(139,92,246,0.05) 0%, transparent 60%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 clamp(1.5rem, 5vw, 4rem); height: 64px;
+      background: rgba(7,11,20,.85);
+      backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-back {
+      display: flex; align-items: center; gap: .5rem;
+      text-decoration: none; color: var(--muted);
+      font-size: .85rem; font-weight: 500;
+      transition: color .2s;
+    }
+    .nav-back:hover { color: var(--cyan); }
+    .nav-logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1rem; font-weight: 700;
+      color: var(--cyan); text-decoration: none;
+    }
+    .nav-logo em { color: var(--green); font-style: normal; }
+
+    /* ── CONTAINER ── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 4rem); position: relative; z-index: 1; }
+
+    /* ── HERO BYLINE ── */
+    .hero-byline {
+      display: inline-flex; align-items: center; gap: .65rem;
+      padding: .45rem 1rem .45rem .55rem;
+      border: 1px solid rgba(0,212,255,.18);
+      border-radius: 50px; background: rgba(0,212,255,.05);
+      text-decoration: none; color: var(--text);
+      font-size: .82rem; margin-bottom: 1.75rem;
+      transition: border-color .2s, background .2s;
+    }
+    .hero-byline:hover { border-color: rgba(0,212,255,.45); background: rgba(0,212,255,.09); }
+    .hb-avatar {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      display: flex; align-items: center; justify-content: center;
+      font-size: .65rem; font-weight: 800; color: #070b14; flex-shrink: 0;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .hb-text { color: var(--muted); }
+    .hb-text strong { color: var(--cyan); }
+    .hb-arrow { color: var(--cyan); font-size: .75rem; }
+
+    /* ── HERO ── */
+    .hero { text-align: center; padding: 5rem 0 4rem; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .35rem 1rem;
+      border: 1px solid rgba(0,212,255,.2);
+      border-radius: 50px; background: rgba(0,212,255,.05);
+      font-size: .78rem; font-weight: 600; color: var(--cyan);
+      letter-spacing: .05em; text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 800; letter-spacing: -1.5px; line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+    .hero h1 span { color: var(--cyan); }
+    .hero p {
+      font-size: 1.1rem; color: var(--muted);
+      max-width: 520px; margin: 0 auto 2rem; line-height: 1.7;
+    }
+    .privacy-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .5rem 1.2rem;
+      border: 1px solid rgba(0,255,136,.2);
+      border-radius: 50px; background: rgba(0,255,136,.05);
+      font-size: .82rem; font-weight: 600; color: var(--green);
+    }
+
+    /* ── FILTER TABS ── */
+    .filter-row {
+      display: flex; align-items: center; justify-content: center;
+      gap: .5rem; flex-wrap: wrap;
+      margin: 3rem 0 2rem;
+    }
+    .filter-btn {
+      padding: .45rem 1.1rem;
+      border: 1px solid var(--border);
+      border-radius: 50px; background: var(--surface);
+      color: var(--muted); font-size: .82rem; font-weight: 500;
+      cursor: pointer; transition: all .2s; font-family: inherit;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      border-color: var(--cyan); color: var(--cyan);
+      background: rgba(0,212,255,.08);
+    }
+
+    /* ── TOOL GRID ── */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 4rem;
+    }
+    @media (max-width: 1100px) { .tools-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 780px)  { .tools-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px)  { .tools-grid { grid-template-columns: 1fr; } }
+
+    .tool-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex; flex-direction: column; gap: .75rem;
+      transition: border-color .25s, transform .25s, box-shadow .25s;
+      cursor: pointer; text-decoration: none; color: inherit;
+      position: relative; overflow: hidden;
+    }
+    .tool-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,212,255,0.04), transparent);
+      opacity: 0; transition: opacity .25s;
+    }
+    .tool-card:hover { border-color: rgba(0,212,255,.35); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,212,255,.08); }
+    .tool-card:hover::before { opacity: 1; }
+    .tool-card[data-hidden="true"] { display: none; }
+
+    .card-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+    }
+    .card-name {
+      font-size: .95rem; font-weight: 700; color: var(--text);
+      line-height: 1.3;
+    }
+    .card-desc {
+      font-size: .8rem; color: var(--muted); line-height: 1.5;
+      flex: 1;
+    }
+    .card-arrow {
+      font-size: .78rem; font-weight: 600; color: var(--cyan);
+      opacity: 0; transition: opacity .2s;
+      align-self: flex-end;
+    }
+    .tool-card:hover .card-arrow { opacity: 1; }
+    .card-tag {
+      display: inline-block; padding: .2rem .5rem;
+      border-radius: 4px; font-size: .7rem; font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .tag-org { background: rgba(0,212,255,.1); color: var(--cyan); }
+    .tag-conv { background: rgba(139,92,246,.1); color: var(--purple); }
+    .tag-sec { background: rgba(0,255,136,.1); color: var(--green); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: .82rem;
+      position: relative; z-index: 1;
+    }
+    footer .privacy-line {
+      display: flex; align-items: center; justify-content: center; gap: .5rem;
+      margin-bottom: .75rem; font-weight: 600; color: var(--green); font-size: .88rem;
+    }
+    footer a { color: var(--cyan); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem; font-weight: 500; color: var(--cyan);
+      letter-spacing: .12em; text-transform: uppercase;
+      margin-bottom: .5rem;
+    }
+
+    .nav-author {
+      position: absolute; left: 50%; transform: translateX(-50%);
+      font-size: .78rem; font-weight: 600; color: var(--muted);
+      text-decoration: none; white-space: nowrap;
+      letter-spacing: .02em; transition: color .2s;
+    }
+    .nav-author:hover { color: var(--cyan); }
+    .nav-author span { color: var(--cyan); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-back" rel="noopener">← Back to Portfolio</a>
+  <a href="/" class="nav-author" rel="noopener">by <span>Waleed Albusmait</span></a>
+  <a href="/pdf/" class="nav-logo">pdf<em>.tools</em></a>
+</nav>
+
+<div class="container">
+
+  <!-- Hero -->
+  <div class="hero">
+    <a href="/" class="hero-byline" rel="noopener">
+      <span class="hb-avatar">WA</span>
+      <span class="hb-text">Built by <strong>Waleed Albusmait</strong> · Cybersecurity &amp; Digital Forensics Expert</span>
+      <span class="hb-arrow">↗</span>
+    </a>
+    <h1>PDF <span>Toolkit</span></h1>
+    <p>All tools run entirely in your browser. No file uploads, no servers, no accounts. Your documents stay on your device.</p>
+    <div class="privacy-badge">✓ Files never leave your browser</div>
+  </div>
+
+  <!-- Filter tabs -->
+  <div class="filter-row">
+    <button class="filter-btn active" data-filter="all">All Tools</button>
+    <button class="filter-btn" data-filter="organize">Organize</button>
+    <button class="filter-btn" data-filter="convert">Convert</button>
+    <button class="filter-btn" data-filter="security">Security</button>
+  </div>
+
+  <!-- Tool grid -->
+  <div class="tools-grid" id="toolsGrid">
+
+    <a class="tool-card" href="/pdf/merge.html" data-category="organize">
+      <div class="card-icon" style="background:rgba(0,212,255,.1)">🔀</div>
+      <span class="card-tag tag-org">Organize</span>
+      <div class="card-name">Merge PDF</div>
+      <div class="card-desc">Combine multiple PDF files into one. Drag to reorder pages.</div>
+      <span class="card-arrow">Open Tool →</span>
+    </a>
+
+    <a class="tool-card" href="/pdf/split.html" data-category="organize">
+      <div class="card-icon" style="background:rgba(0,212,255,.1)">✂️</div>
+      <span class="card-tag tag-org">Organize</span>
+      <div class="card-name">Split PDF</div>
+      <div class="card-desc">Split a PDF into multiple files by page ranges (e.g. 1-3, 5, 7-9).</div>
+      <span class="card-arrow">Open Tool →</span>
+    </a>
+
+    <a class="tool-card" href="/pdf/remove-pages.html" data-category="organize">
+      <div class="card-icon" style="background:rgba(0,212,255,.1)">🗑️</div>
+      <span class="card-tag tag-org">Organize</span>
+      <div class="card-name">Remove Pages</div>
+      <div class="card-desc">Delete specific pages from a PDF with visual thumbnail selection.</div>
+      <span class="card-arrow">Open Tool →</span>
+    </a>
+
+    <a class="tool-card" href="/pdf/extract-pages.html" data-category="organize">
+      <div class="card-icon" style="background:rgba(0,212,255,.1)">📤</div>
+      <span class="card-tag tag-org">Organize</span>
+      <div class="card-name">Extract Pages</div>
+      <div class="card-desc">Save selected pages as a new PDF file.</div>
+      <span class="card-arrow">Open Tool →</span>
+    </a>
+
+    <a class="tool-card" href="/pdf/rotate.html" data-category="organize">
+      <div class="card-icon" style="background:rgba(0,212,255,.1)">🔄</div>
+      <span class="card-tag tag-org">Organize</span>
+      <div class="card-name">Rotate PDF</div>
+      <div class="card-desc">Rotate all pages or individual pages by 90°, 180°, or 270°.</div>
+      <span class="card-arrow">Open Tool →</span>
+    </a>
+
+    <a class="tool-card" href="/pdf/compress.html" data-category="organize">
+      <div class="card-icon" style="background:rgba(0,212,255,.1)">📦</div>
+      <span class="card-tag tag-org">Organize</span>
+      <div class="card-name">Compress PDF</div>
+      <div class="card-desc">Reduce PDF file size by removing metadata and optimizing streams.</div>
+      <span class="card-arrow">Open Tool →</span>
+    </a>
+
+    <a class="tool-card" href="/pdf/jpg-to-pdf.html" data-category="convert">
+      <div class="card-icon" style="background:rgba(139,92,246,.1)">🖼️</div>
+      <span class="card-tag tag-conv">Convert</span>
+      <div class="card-name">JPG → PDF</div>
+      <div class="card-desc">Convert JPG/PNG images to PDF. Set orientation, size, and margins.</div>
+      <span class="card-arrow">Open Tool →</span>
+    </a>
+
+    <a class="tool-card" href="/pdf/pdf-to-jpg.html" data-category="convert">
+      <div class="card-icon" style="background:rgba(139,92,246,.1)">📸</div>
+      <span class="card-tag tag-conv">Convert</span>
+      <div class="card-name">PDF → JPG</div>
+      <div class="card-desc">Convert each PDF page to a JPG image. Download all as ZIP.</div>
+      <span class="card-arrow">Open Tool →</span>
+    </a>
+
+    <a class="tool-card" href="/pdf/watermark.html" data-category="organize">
+      <div class="card-icon" style="background:rgba(0,212,255,.1)">💧</div>
+      <span class="card-tag tag-org">Organize</span>
+      <div class="card-name">Add Watermark</div>
+      <div class="card-desc">Stamp text watermarks on every page. Control opacity, size, and angle.</div>
+      <span class="card-arrow">Open Tool →</span>
+    </a>
+
+    <a class="tool-card" href="/pdf/page-numbers.html" data-category="organize">
+      <div class="card-icon" style="background:rgba(0,212,255,.1)">🔢</div>
+      <span class="card-tag tag-org">Organize</span>
+      <div class="card-name">Add Page Numbers</div>
+      <div class="card-desc">Insert page numbers at any position. Choose font size and starting number.</div>
+      <span class="card-arrow">Open Tool →</span>
+    </a>
+
+    <a class="tool-card" href="/pdf/protect.html" data-category="security">
+      <div class="card-icon" style="background:rgba(0,255,136,.1)">🔐</div>
+      <span class="card-tag tag-sec">Security</span>
+      <div class="card-name">Protect PDF</div>
+      <div class="card-desc">Password-protect a PDF with AES-256 encryption. Restrict copying and printing.</div>
+      <span class="card-arrow">Open Tool →</span>
+    </a>
+
+    <a class="tool-card" href="/pdf/unlock.html" data-category="security">
+      <div class="card-icon" style="background:rgba(0,255,136,.1)">🔓</div>
+      <span class="card-tag tag-sec">Security</span>
+      <div class="card-name">Unlock PDF</div>
+      <div class="card-desc">Remove password protection from a PDF. Requires the current password.</div>
+      <span class="card-arrow">Open Tool →</span>
+    </a>
+
+  </div><!-- /tools-grid -->
+
+</div><!-- /container -->
+
+<footer>
+  <div class="container">
+    <div class="privacy-line">🔒 Your files are processed locally and never uploaded to any server.</div>
+    <div>Built by <a href="/" rel="noopener">Waleed Albusmait</a> · Browser-based tools · No tracking, no cookies · <a href="/pdf/stats.html">📊 My Statistics</a></div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('.tool-card').forEach(card => {
+        if (filter === 'all' || card.dataset.category === filter) {
+          card.removeAttribute('data-hidden');
+        } else {
+          card.setAttribute('data-hidden', 'true');
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>
