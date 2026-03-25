@@ -213,6 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const bytes = await pdf.save({
         userPassword: pw,
         ownerPassword: pw + '_owner',
+        encryptionAlgorithm: encAlgo,
         permissions: {
           printing: document.getElementById('perm-print').checked ? 'highResolution' : 'none',
           copying: document.getElementById('perm-copy').checked,
@@ -221,7 +222,6 @@ document.addEventListener('DOMContentLoaded', () => {
           fillingForms: true,
           contentAccessibility: true,
           documentAssembly: false,
-          encryptionAlgorithm: encAlgo,
         },
       });
 
