@@ -6,7 +6,7 @@
   <title>Protect PDF — PDF Toolkit</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/@cantoo/pdf-lib@1.0.6/dist/pdf-lib.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@cantoo/pdf-lib@2.6.5/dist/pdf-lib.min.js"></script>
   <script src="/pdf/pdf-utils.js" defer></script>
   <style>
     *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
@@ -209,6 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const ab = await PdfUtils.readFileAsArrayBuffer(currentFile);
       const pdf = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
+      const encAlgo = (PDFLib.EncryptionAlgorithm && PDFLib.EncryptionAlgorithm.AES_256) || 'AES_256';
       const bytes = await pdf.save({
         userPassword: pw,
         ownerPassword: pw + '_owner',
@@ -220,9 +221,16 @@ document.addEventListener('DOMContentLoaded', () => {
           fillingForms: true,
           contentAccessibility: true,
           documentAssembly: false,
-          encryptionAlgorithm: PDFLib.EncryptionAlgorithm.AES_256,
+          encryptionAlgorithm: encAlgo,
         },
       });
+
+      // Verify encryption was actually applied
+      const sample = new TextDecoder('latin1').decode(bytes.slice(0, 4096));
+      if (!sample.includes('/Encrypt')) {
+        throw new Error('Encryption was not applied — the PDF library on your browser did not encrypt the file. Try a different browser.');
+      }
+
       PdfUtils.trackOperation('protect');
       PdfUtils.hideProgress();
       downloadBtn.classList.add('visible');

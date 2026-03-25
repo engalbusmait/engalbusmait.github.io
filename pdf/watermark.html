@@ -214,9 +214,20 @@ document.addEventListener('DOMContentLoaded', () => {
       let font;
       if (/[^\x00-\x7F]/.test(text)) {
         PdfUtils.showProgress('Loading Unicode font…');
-        const fontResp = await fetch('https://cdn.jsdelivr.net/npm/amiri-font@0.113.0/fonts/Amiri-Regular.ttf');
-        if (!fontResp.ok) throw new Error('Failed to load Unicode font. Check your internet connection.');
-        const fontBytes = await fontResp.arrayBuffer();
+        const FONT_URLS = [
+          'https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-arabic@5.1.1/files/noto-sans-arabic-arabic-400-normal.woff2',
+          'https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-arabic/files/noto-sans-arabic-arabic-400-normal.woff2',
+          'https://cdn.jsdelivr.net/npm/@fontsource/amiri/files/amiri-arabic-400-normal.woff2',
+          'https://fonts.gstatic.com/s/notosansarabic/v18/nwpxtLGrOAZMl5nJ_wfgRg3DrWFZWSnVdkLHpbfOcAY.woff2',
+        ];
+        let fontBytes = null;
+        for (const url of FONT_URLS) {
+          try {
+            const resp = await fetch(url);
+            if (resp.ok) { fontBytes = await resp.arrayBuffer(); break; }
+          } catch {}
+        }
+        if (!fontBytes) throw new Error('Could not load a Unicode font. Check your internet connection.');
         font = await pdf.embedFont(fontBytes);
         PdfUtils.showProgress('Adding watermark…');
       } else {

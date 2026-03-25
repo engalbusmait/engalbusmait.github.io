@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       for (let i = 1; i <= total; i++) {
         progressLabel.textContent = `Rendering page ${i} of ${total}…`;
-        progressFill.style.width = ((i - 1) / total * 100) + '%';
+        progressFill.style.width = (i / total * 90) + '%';
 
         const page = await pdfDoc.getPage(i);
         const viewport = page.getViewport({ scale });

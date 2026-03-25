@@ -278,8 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       fileList.appendChild(div);
     });
-    // Re-bind sortable indices after re-render
-    new Sortable(fileList, { animation: 150, ghostClass: 'sortable-ghost', chosenClass: 'sortable-chosen' });
+    // Note: Sortable is initialized once on the container; it continues working after innerHTML updates
   }
 
   processBtn.addEventListener('click', async () => {

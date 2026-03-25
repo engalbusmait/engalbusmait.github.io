@@ -157,20 +157,21 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         pdf = await PDFLib.PDFDocument.load(ab, { password: pw });
       } catch (e) {
-        PdfUtils.hideProgress();
         if (e.message && (e.message.includes('password') || e.message.includes('encrypt') || e.message.includes('decrypt'))) {
+          PdfUtils.hideProgress();
           PdfUtils.showError('Incorrect password. Please try again.');
-        } else {
-          // Try without password (file might not be encrypted)
-          try {
-            pdf = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
-          } catch {
-            PdfUtils.showError('Failed to open PDF: ' + e.message);
-            processBtn.disabled = false;
-            return;
-          }
+          processBtn.disabled = false;
+          return;
         }
-        if (!pdf) { processBtn.disabled = false; return; }
+        // Not a password error — try loading ignoring encryption (e.g. already unlocked or corrupted header)
+        try {
+          pdf = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
+        } catch {
+          PdfUtils.hideProgress();
+          PdfUtils.showError('Failed to open PDF: ' + e.message);
+          processBtn.disabled = false;
+          return;
+        }
       }
       // Re-save without password
       const bytes = await pdf.save();
