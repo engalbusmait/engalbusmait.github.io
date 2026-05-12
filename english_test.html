@@ -3,294 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>English Proficiency Exam — PhD Preparation</title>
+    <title>General English Proficiency Test</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #0a0e1a;
-            --surface: #111827;
-            --surface2: #1a2236;
-            --border: #1e2d45;
-            --accent: #00d4ff;
-            --accent2: #7c3aed;
-            --green: #10b981;
-            --red: #ef4444;
-            --yellow: #f59e0b;
-            --text: #e2e8f0;
-            --muted: #94a3b8;
-            --card: #131c2e;
+            --bg:#0a0e1a; --surface:#111827; --surface2:#1a2236; --border:#1e2d45;
+            --accent:#00d4ff; --accent2:#7c3aed; --green:#10b981; --red:#ef4444;
+            --yellow:#f59e0b; --text:#e2e8f0; --muted:#94a3b8; --card:#131c2e;
         }
-        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-        html,body { height:100%; background:var(--bg); color:var(--text); font-family:'Sora',sans-serif; overflow-x:hidden; }
-        body::before {
-            content:''; position:fixed; inset:0;
-            background-image: linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
-            background-size:40px 40px; pointer-events:none; z-index:0;
-        }
-        .screen { display:none; position:relative; z-index:1; min-height:100vh; }
-        .screen.active { display:flex; flex-direction:column; }
+        *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+        html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Sora',sans-serif;overflow-x:hidden}
+        body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+        .screen{display:none;position:relative;z-index:1;min-height:100vh}
+        .screen.active{display:flex;flex-direction:column}
 
-        /* ══ START ══ */
-        #startScreen { align-items:center; justify-content:center; padding:32px 24px; text-align:center; }
-        .logo-ring {
-            width:90px; height:90px; border-radius:50%;
-            background:linear-gradient(135deg,rgba(0,212,255,0.15),rgba(124,58,237,0.15));
-            border:2px solid rgba(0,212,255,0.3);
-            display:flex; align-items:center; justify-content:center; font-size:36px;
-            margin:0 auto 24px; animation:pulse 3s ease-in-out infinite;
-        }
-        @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(0,212,255,0.2)} 50%{box-shadow:0 0 0 16px rgba(0,212,255,0)} }
-        .badge {
-            display:inline-block;
-            background:linear-gradient(135deg,rgba(0,212,255,0.15),rgba(124,58,237,0.15));
-            border:1px solid rgba(0,212,255,0.3); color:var(--accent);
-            font-family:'Space Mono',monospace; font-size:10px; letter-spacing:2px;
-            text-transform:uppercase; padding:5px 14px; border-radius:20px; margin-bottom:14px;
-        }
-        h1 {
-            font-size:clamp(24px,6vw,36px); font-weight:800;
-            background:linear-gradient(135deg,#fff 30%,var(--accent));
-            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-            background-clip:text; line-height:1.2; margin-bottom:10px;
-        }
-        .start-sub { color:var(--muted); font-size:13px; margin-bottom:36px; line-height:1.6; }
-        .info-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; width:100%; max-width:380px; margin:0 auto 36px; }
-        .info-box { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:16px 8px; text-align:center; }
-        .info-val { font-family:'Space Mono',monospace; font-size:20px; font-weight:700; color:var(--accent); margin-bottom:4px; }
-        .info-lbl { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
+        /* START */
+        #startScreen{align-items:center;justify-content:center;padding:32px 24px;text-align:center}
+        .logo-ring{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,rgba(0,212,255,.15),rgba(124,58,237,.15));border:2px solid rgba(0,212,255,.3);display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 24px;animation:pulse 3s ease-in-out infinite}
+        @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,212,255,.2)}50%{box-shadow:0 0 0 16px rgba(0,212,255,0)}}
+        .badge{display:inline-block;background:linear-gradient(135deg,rgba(0,212,255,.15),rgba(124,58,237,.15));border:1px solid rgba(0,212,255,.3);color:var(--accent);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:14px}
+        h1{font-size:clamp(24px,6vw,36px);font-weight:800;background:linear-gradient(135deg,#fff 30%,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2;margin-bottom:10px}
+        .start-sub{color:var(--muted);font-size:13px;margin-bottom:28px;line-height:1.6}
+        .info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:380px;margin:0 auto 24px}
+        .info-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 8px;text-align:center}
+        .info-val{font-family:'Space Mono',monospace;font-size:20px;font-weight:700;color:var(--accent);margin-bottom:4px}
+        .info-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+        .cat-legend{width:100%;max-width:380px;margin:0 auto 28px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px 20px}
+        .cat-legend-title{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+        .cat-tags{display:flex;flex-wrap:wrap;gap:8px}
+        .cat-tag{padding:4px 12px;border-radius:99px;font-size:11px;font-weight:600;border:1px solid}
+        .btn-start{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;padding:16px 52px;border-radius:14px;font-family:'Sora',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all .3s;box-shadow:0 0 30px rgba(0,212,255,.25);letter-spacing:.5px}
+        .btn-start:active{transform:scale(.97)}
 
-        .category-legend {
-            width:100%; max-width:380px; margin:0 auto 28px;
-            background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px 20px;
-        }
-        .cat-legend-title { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; }
-        .cat-tags { display:flex; flex-wrap:wrap; gap:8px; }
-        .cat-tag {
-            padding:4px 12px; border-radius:99px; font-size:11px; font-weight:600;
-            border:1px solid; display:inline-block;
-        }
+        /* EXAM */
+        #examScreen{padding:0}
+        .exam-header{padding:16px 20px 12px;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}
+        .header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+        .q-indicator{font-family:'Space Mono',monospace;font-size:12px;color:var(--accent)}
+        .timer-pill{background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-family:'Space Mono',monospace;font-size:12px;color:var(--muted)}
+        .score-pill{background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.3);border-radius:20px;padding:4px 12px;font-family:'Space Mono',monospace;font-size:12px;color:var(--green)}
+        .progress-bar{height:4px;background:var(--border);border-radius:99px;overflow:hidden}
+        .progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:99px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+        .q-category-bar{margin-top:8px;font-size:11px;color:var(--muted);display:flex;align-items:center;gap:8px}
+        .q-cat-badge{padding:2px 10px;border-radius:99px;font-size:10px;font-weight:700;border:1px solid}
 
-        .btn-start {
-            background:linear-gradient(135deg,var(--accent),var(--accent2));
-            color:#fff; border:none; padding:16px 52px; border-radius:14px;
-            font-family:'Sora',sans-serif; font-size:16px; font-weight:700; cursor:pointer;
-            transition:all 0.3s; box-shadow:0 0 30px rgba(0,212,255,0.25); letter-spacing:0.5px;
-        }
-        .btn-start:active { transform:scale(0.97); }
+        .q-body{flex:1;padding:24px 20px;overflow-y:auto}
+        .q-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px 20px 18px;margin-bottom:20px;position:relative;overflow:hidden;animation:slideIn .35s cubic-bezier(.4,0,.2,1) both}
+        .q-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+        @keyframes slideIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes slideOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(-30px)}}
+        .q-num-tag{display:inline-block;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;padding:3px 10px;border-radius:6px;margin-bottom:12px}
+        .passage-box{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:14px;font-size:13px;line-height:1.8;color:#cbd5e1;font-style:italic}
+        .q-text{font-size:15px;font-weight:600;line-height:1.65;color:#f1f5f9}
 
-        /* ══ EXAM ══ */
-        #examScreen { padding:0; }
-        .exam-header {
-            padding:16px 20px 12px; background:var(--surface); border-bottom:1px solid var(--border);
-            position:sticky; top:0; z-index:10;
-        }
-        .header-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
-        .q-indicator { font-family:'Space Mono',monospace; font-size:12px; color:var(--accent); }
-        .timer-pill {
-            background:var(--surface2); border:1px solid var(--border); border-radius:20px;
-            padding:4px 12px; font-family:'Space Mono',monospace; font-size:12px; color:var(--muted);
-        }
-        .score-pill {
-            background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.3);
-            border-radius:20px; padding:4px 12px;
-            font-family:'Space Mono',monospace; font-size:12px; color:var(--green);
-        }
-        .progress-bar { height:4px; background:var(--border); border-radius:99px; overflow:hidden; }
-        .progress-fill {
-            height:100%; background:linear-gradient(90deg,var(--accent),var(--accent2));
-            border-radius:99px; transition:width 0.5s cubic-bezier(0.4,0,0.2,1);
-        }
-        .q-category-bar {
-            margin-top:8px; font-size:11px; color:var(--muted);
-            display:flex; align-items:center; gap:8px;
-        }
-        .q-cat-badge {
-            padding:2px 10px; border-radius:99px; font-size:10px; font-weight:700;
-            border:1px solid; display:inline-block;
-        }
+        .options-list{display:flex;flex-direction:column;gap:10px;margin-bottom:8px}
+        .option{display:flex;align-items:center;gap:12px;padding:13px 16px;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;cursor:pointer;transition:border-color .2s,background .2s,transform .15s;-webkit-user-select:none;user-select:none}
+        .option:active:not(.disabled){transform:scale(.98)}
+        .option:not(.disabled):not(.correct):not(.wrong):hover{border-color:rgba(0,212,255,.5);background:var(--surface2)}
+        .option.selected{border-color:var(--accent);background:rgba(0,212,255,.08)}
+        .option.correct{border-color:var(--green)!important;background:rgba(16,185,129,.1)!important}
+        .option.wrong{border-color:var(--red)!important;background:rgba(239,68,68,.1)!important}
+        .option.disabled{cursor:default}
+        .opt-letter{width:30px;height:30px;border-radius:8px;background:var(--border);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;flex-shrink:0;transition:all .2s;color:var(--muted)}
+        .option.selected .opt-letter{background:var(--accent);color:#fff}
+        .option.correct .opt-letter{background:var(--green);color:#fff}
+        .option.wrong .opt-letter{background:var(--red);color:#fff}
+        .opt-text{font-size:14px;line-height:1.5;color:var(--text)}
 
-        .q-body { flex:1; padding:24px 20px; overflow-y:auto; }
-        .q-card {
-            background:var(--card); border:1px solid var(--border); border-radius:16px;
-            padding:22px 20px 18px; margin-bottom:20px; position:relative; overflow:hidden;
-            animation:slideIn 0.35s cubic-bezier(0.4,0,0.2,1) both;
-        }
-        .q-card::before {
-            content:''; position:absolute; top:0; left:0; right:0; height:3px;
-            background:linear-gradient(90deg,var(--accent),var(--accent2));
-        }
-        @keyframes slideIn { from{opacity:0;transform:translateX(30px)} to{opacity:1;transform:translateX(0)} }
-        @keyframes slideOut { from{opacity:1;transform:translateX(0)} to{opacity:0;transform:translateX(-30px)} }
+        .feedback-banner{border-radius:12px;padding:14px 16px;margin-bottom:16px;margin-top:10px;display:none;align-items:flex-start;gap:12px;animation:popIn .3s cubic-bezier(.4,0,.2,1) both}
+        @keyframes popIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+        .feedback-banner.show{display:flex}
+        .feedback-banner.correct-fb{background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.3)}
+        .feedback-banner.wrong-fb{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3)}
+        .fb-icon{font-size:22px;flex-shrink:0}
+        .fb-content{flex:1}
+        .fb-title{font-size:14px;font-weight:700;margin-bottom:2px}
+        .fb-title.correct-text{color:var(--green)}
+        .fb-title.wrong-text{color:var(--red)}
+        .fb-sub{font-size:12px;color:var(--muted);line-height:1.5}
+        .fb-sub span{color:var(--green);font-weight:600}
+        .fb-note{margin-top:10px;padding-top:10px;border-top:1px dashed rgba(255,255,255,.15);font-size:12px;color:#cbd5e1;line-height:1.5}
+        .fb-note strong{color:var(--accent);font-weight:700;margin-right:4px}
 
-        .q-num-tag {
-            display:inline-block; background:linear-gradient(135deg,var(--accent),var(--accent2));
-            color:#fff; font-family:'Space Mono',monospace; font-size:10px; font-weight:700;
-            padding:3px 10px; border-radius:6px; margin-bottom:12px;
-        }
-        .passage-box {
-            background:var(--surface2); border:1px solid var(--border); border-radius:10px;
-            padding:14px 16px; margin-bottom:14px; font-size:13px; line-height:1.8; color:#cbd5e1;
-            font-style:italic;
-        }
-        .q-text { font-size:15px; font-weight:600; line-height:1.65; color:#f1f5f9; }
+        .exam-footer{padding:16px 20px;background:var(--surface);border-top:1px solid var(--border);display:flex;gap:12px;position:sticky;bottom:0}
+        .btn-next{flex:1;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;padding:15px;border-radius:12px;font-family:'Sora',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;opacity:.4;pointer-events:none}
+        .btn-next.active{opacity:1;pointer-events:all}
+        .btn-next:active{transform:scale(.97)}
+        .btn-skip{background:transparent;border:1.5px solid var(--border);color:var(--muted);padding:15px 20px;border-radius:12px;font-family:'Sora',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s}
+        .btn-skip:active{transform:scale(.97)}
 
-        .options-list { display:flex; flex-direction:column; gap:10px; margin-bottom:8px; }
-        .option {
-            display:flex; align-items:center; gap:12px; padding:13px 16px;
-            background:var(--surface); border:1.5px solid var(--border); border-radius:12px;
-            cursor:pointer; transition:border-color 0.2s,background 0.2s,transform 0.15s;
-            -webkit-user-select:none; user-select:none;
-        }
-        .option:active:not(.disabled) { transform:scale(0.98); }
-        .option:not(.disabled):not(.correct):not(.wrong):hover { border-color:rgba(0,212,255,0.5); background:var(--surface2); }
-        .option.selected { border-color:var(--accent); background:rgba(0,212,255,0.08); }
-        .option.correct { border-color:var(--green)!important; background:rgba(16,185,129,0.1)!important; }
-        .option.wrong { border-color:var(--red)!important; background:rgba(239,68,68,0.1)!important; }
-        .option.disabled { cursor:default; }
-        .opt-letter {
-            width:30px; height:30px; border-radius:8px; background:var(--border);
-            display:flex; align-items:center; justify-content:center;
-            font-family:'Space Mono',monospace; font-size:11px; font-weight:700;
-            flex-shrink:0; transition:all 0.2s; color:var(--muted);
-        }
-        .option.selected .opt-letter { background:var(--accent); color:#fff; }
-        .option.correct .opt-letter { background:var(--green); color:#fff; }
-        .option.wrong .opt-letter { background:var(--red); color:#fff; }
-        .opt-text { font-size:14px; line-height:1.5; color:var(--text); }
-
-        .feedback-banner {
-            border-radius:12px; padding:14px 16px; margin-bottom:16px; margin-top:10px;
-            display:none; align-items:flex-start; gap:12px;
-            animation:popIn 0.3s cubic-bezier(0.4,0,0.2,1) both;
-        }
-        @keyframes popIn { from{opacity:0;transform:scale(0.95)} to{opacity:1;transform:scale(1)} }
-        .feedback-banner.show { display:flex; }
-        .feedback-banner.correct-fb { background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.3); }
-        .feedback-banner.wrong-fb { background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); }
-        .fb-icon { font-size:22px; flex-shrink:0; }
-        .fb-content { flex:1; }
-        .fb-title { font-size:14px; font-weight:700; margin-bottom:2px; }
-        .fb-title.correct-text { color:var(--green); }
-        .fb-title.wrong-text { color:var(--red); }
-        .fb-sub { font-size:12px; color:var(--muted); line-height:1.5; }
-        .fb-sub span { color:var(--green); font-weight:600; }
-        .fb-note { margin-top:10px; padding-top:10px; border-top:1px dashed rgba(255,255,255,0.15); font-size:12px; color:#cbd5e1; line-height:1.5; }
-        .fb-note strong { color:var(--accent); font-weight:700; margin-right:4px; }
-
-        .exam-footer {
-            padding:16px 20px; background:var(--surface); border-top:1px solid var(--border);
-            display:flex; gap:12px; position:sticky; bottom:0;
-        }
-        .btn-next {
-            flex:1; background:linear-gradient(135deg,var(--accent),var(--accent2));
-            color:#fff; border:none; padding:15px; border-radius:12px;
-            font-family:'Sora',sans-serif; font-size:15px; font-weight:700; cursor:pointer;
-            transition:all 0.2s; opacity:0.4; pointer-events:none;
-        }
-        .btn-next.active { opacity:1; pointer-events:all; }
-        .btn-next:active { transform:scale(0.97); }
-        .btn-skip {
-            background:transparent; border:1.5px solid var(--border); color:var(--muted);
-            padding:15px 20px; border-radius:12px; font-family:'Sora',sans-serif;
-            font-size:14px; font-weight:600; cursor:pointer; transition:all 0.2s;
-        }
-        .btn-skip:active { transform:scale(0.97); }
-
-        /* ══ RESULTS ══ */
-        #resultScreen { align-items:center; justify-content:flex-start; padding:32px 24px; }
-        .result-card {
-            background:var(--card); border:1px solid var(--border); border-radius:20px;
-            padding:36px 28px; width:100%; max-width:520px; margin:0 auto; position:relative; overflow:hidden;
-        }
-        .result-card::before {
-            content:''; position:absolute; inset:0;
-            background:radial-gradient(ellipse at top, rgba(0,212,255,0.07) 0%, transparent 65%);
-            pointer-events:none;
-        }
-        .score-ring { width:130px; height:130px; margin:0 auto 20px; position:relative; }
-        .score-ring svg { width:100%; height:100%; transform:rotate(-90deg); }
-        .score-ring circle { fill:none; stroke-width:8; stroke-linecap:round; }
-        .ring-bg { stroke:var(--border); }
-        .ring-fill { stroke:url(#ringGrad2); transition:stroke-dashoffset 1.4s cubic-bezier(0.4,0,0.2,1); }
-        .ring-text { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; }
-        .ring-pct { font-family:'Space Mono',monospace; font-size:26px; font-weight:700; color:var(--accent); line-height:1; }
-        .ring-lbl { font-size:9px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
-        .res-title { font-size:22px; font-weight:800; margin-bottom:6px; background:linear-gradient(135deg,#fff,var(--accent)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; text-align:center; }
-        .res-msg { color:var(--muted); font-size:13px; margin-bottom:24px; text-align:center; }
-        .stats-row { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:20px; }
-        .stat-box { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:14px 10px; text-align:center; }
-        .stat-val { font-family:'Space Mono',monospace; font-size:20px; font-weight:700; margin-bottom:3px; }
-        .stat-lbl { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
-        .grade-pill {
-            display:inline-block; padding:7px 22px; border-radius:99px;
-            font-family:'Space Mono',monospace; font-size:12px; font-weight:700; letter-spacing:1px;
-            margin-bottom:24px; display:block; text-align:center;
-        }
-
-        /* Category breakdown */
-        .section-title { font-size:13px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; }
-        .cat-breakdown { display:flex; flex-direction:column; gap:10px; margin-bottom:24px; }
-        .cat-row { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:12px 16px; }
-        .cat-row-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
-        .cat-name { font-size:13px; font-weight:600; }
-        .cat-score { font-family:'Space Mono',monospace; font-size:12px; }
-        .cat-bar-bg { height:6px; background:var(--border); border-radius:99px; overflow:hidden; }
-        .cat-bar-fill { height:100%; border-radius:99px; transition:width 1s cubic-bezier(0.4,0,0.2,1); }
-
-        /* Study recommendations */
-        .rec-section { margin-bottom:24px; }
-        .rec-card {
-            background:var(--surface); border:1px solid var(--border); border-radius:12px;
-            padding:14px 16px; margin-bottom:10px;
-        }
-        .rec-priority { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; }
-        .rec-title { font-size:14px; font-weight:700; color:var(--text); margin-bottom:6px; }
-        .rec-body { font-size:12px; color:var(--muted); line-height:1.6; }
-        .rec-body ul { margin-left:16px; margin-top:4px; }
-        .rec-body li { margin-bottom:3px; }
-
-        .btn-retry {
-            width:100%; background:transparent; border:1.5px solid var(--accent); color:var(--accent);
-            padding:14px; border-radius:12px; font-family:'Sora',sans-serif; font-size:15px;
-            font-weight:700; cursor:pointer; transition:all 0.2s; margin-bottom:10px;
-        }
-        .btn-retry:active { transform:scale(0.97); }
-        .btn-restart {
-            width:100%; background:var(--surface); border:1.5px solid var(--border); color:var(--muted);
-            padding:12px; border-radius:12px; font-family:'Sora',sans-serif; font-size:14px;
-            font-weight:600; cursor:pointer; transition:all 0.2s;
-        }
+        /* RESULTS */
+        #resultScreen{align-items:center;justify-content:flex-start;padding:32px 24px}
+        .result-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:36px 28px;width:100%;max-width:540px;margin:0 auto;position:relative;overflow:hidden}
+        .result-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at top,rgba(0,212,255,.07) 0%,transparent 65%);pointer-events:none}
+        .score-ring{width:130px;height:130px;margin:0 auto 20px;position:relative}
+        .score-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+        .score-ring circle{fill:none;stroke-width:8;stroke-linecap:round}
+        .ring-bg{stroke:var(--border)}
+        .ring-fill{stroke:url(#ringGrad2);transition:stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1)}
+        .ring-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+        .ring-pct{font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:var(--accent);line-height:1}
+        .ring-lbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+        .res-title{font-size:22px;font-weight:800;margin-bottom:6px;background:linear-gradient(135deg,#fff,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-align:center}
+        .res-msg{color:var(--muted);font-size:13px;margin-bottom:24px;text-align:center}
+        .stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
+        .stat-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 10px;text-align:center}
+        .stat-val{font-family:'Space Mono',monospace;font-size:20px;font-weight:700;margin-bottom:3px}
+        .stat-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+        .grade-pill{padding:7px 22px;border-radius:99px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;letter-spacing:1px;margin-bottom:24px;display:block;text-align:center}
+        .section-title{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+        .cat-breakdown{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
+        .cat-row{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 16px}
+        .cat-row-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+        .cat-name{font-size:13px;font-weight:600}
+        .cat-score{font-family:'Space Mono',monospace;font-size:12px}
+        .cat-bar-bg{height:6px;background:var(--border);border-radius:99px;overflow:hidden}
+        .cat-bar-fill{height:100%;border-radius:99px;transition:width 1s cubic-bezier(.4,0,.2,1)}
+        .rec-section{margin-bottom:24px}
+        .rec-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px}
+        .rec-priority{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+        .rec-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px}
+        .rec-body{font-size:12px;color:var(--muted);line-height:1.6}
+        .rec-body ul{margin-left:16px;margin-top:4px}
+        .rec-body li{margin-bottom:3px}
+        .btn-retry{width:100%;background:transparent;border:1.5px solid var(--accent);color:var(--accent);padding:14px;border-radius:12px;font-family:'Sora',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;margin-bottom:10px}
+        .btn-retry:active{transform:scale(.97)}
+        .btn-restart{width:100%;background:var(--surface);border:1.5px solid var(--border);color:var(--muted);padding:12px;border-radius:12px;font-family:'Sora',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s}
     </style>
 </head>
 <body>
 
 <div id="startScreen" class="screen active">
     <div class="logo-ring">📝</div>
-    <div class="badge">PhD English Proficiency</div>
-    <h1>Academic English<br>Placement Test</h1>
-    <p class="start-sub">Covers all IELTS-relevant skills.<br>Answer each question, then get a personalized study plan.</p>
+    <div class="badge">General English · Level Test</div>
+    <h1>English Proficiency<br>Exam</h1>
+    <p class="start-sub">80 questions · All key English skills<br>Get instant feedback + a study plan at the end.</p>
     <div class="info-grid">
-        <div class="info-box"><div class="info-val">45</div><div class="info-lbl">Questions</div></div>
+        <div class="info-box"><div class="info-val">80</div><div class="info-lbl">Questions</div></div>
         <div class="info-box"><div class="info-val">MCQ</div><div class="info-lbl">Format</div></div>
-        <div class="info-box"><div class="info-val">~25m</div><div class="info-lbl">Est. Time</div></div>
+        <div class="info-box"><div class="info-val">~45m</div><div class="info-lbl">Est. Time</div></div>
     </div>
-    <div class="category-legend">
+    <div class="cat-legend">
         <div class="cat-legend-title">Skills Tested</div>
         <div class="cat-tags">
-            <span class="cat-tag" style="color:#00d4ff;border-color:rgba(0,212,255,0.4)">Vocabulary</span>
-            <span class="cat-tag" style="color:#7c3aed;border-color:rgba(124,58,237,0.4)">Grammar</span>
-            <span class="cat-tag" style="color:#10b981;border-color:rgba(16,185,129,0.4)">Reading</span>
-            <span class="cat-tag" style="color:#f59e0b;border-color:rgba(245,158,11,0.4)">Writing</span>
-            <span class="cat-tag" style="color:#ec4899;border-color:rgba(236,72,153,0.4)">Sentence Structure</span>
+            <span class="cat-tag" style="color:#00d4ff;border-color:rgba(0,212,255,.4)">Vocabulary</span>
+            <span class="cat-tag" style="color:#7c3aed;border-color:rgba(124,58,237,.4)">Grammar</span>
+            <span class="cat-tag" style="color:#10b981;border-color:rgba(16,185,129,.4)">Reading</span>
+            <span class="cat-tag" style="color:#f59e0b;border-color:rgba(245,158,11,.4)">Idioms &amp; Phrases</span>
+            <span class="cat-tag" style="color:#ec4899;border-color:rgba(236,72,153,.4)">Sentence Structure</span>
+            <span class="cat-tag" style="color:#a78bfa;border-color:rgba(167,139,250,.4)">Spelling &amp; Word Form</span>
         </div>
     </div>
-    <button class="btn-start" onclick="startExam()">Start Test →</button>
+    <button class="btn-start" onclick="startExam()">Start Exam →</button>
 </div>
 
 <div id="examScreen" class="screen">
     <div class="exam-header">
         <div class="header-top">
-            <span class="q-indicator" id="qIndicator">Q 1 / 45</span>
+            <span class="q-indicator" id="qIndicator">Q 1 / 80</span>
             <span class="score-pill" id="scorePill">✓ 0</span>
             <span class="timer-pill" id="timerPill">00:00</span>
         </div>
@@ -321,23 +191,13 @@
 
 <div id="resultScreen" class="screen">
     <div class="result-card">
-        <svg width="0" height="0">
-            <defs>
-                <linearGradient id="ringGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style="stop-color:#00d4ff"/>
-                    <stop offset="100%" style="stop-color:#7c3aed"/>
-                </linearGradient>
-            </defs>
-        </svg>
+        <svg width="0" height="0"><defs><linearGradient id="ringGrad2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#00d4ff"/><stop offset="100%" style="stop-color:#7c3aed"/></linearGradient></defs></svg>
         <div class="score-ring">
             <svg viewBox="0 0 120 120">
                 <circle class="ring-bg" cx="60" cy="60" r="52"/>
                 <circle class="ring-fill" cx="60" cy="60" r="52" id="ringArc" stroke-dasharray="326.7" stroke-dashoffset="326.7"/>
             </svg>
-            <div class="ring-text">
-                <div class="ring-pct" id="ringPct">0%</div>
-                <div class="ring-lbl">Score</div>
-            </div>
+            <div class="ring-text"><div class="ring-pct" id="ringPct">0%</div><div class="ring-lbl">Score</div></div>
         </div>
         <div class="res-title" id="resTitle"></div>
         <div class="res-msg" id="resMsg"></div>
@@ -348,1020 +208,776 @@
             <div class="stat-box"><div class="stat-val" style="color:var(--accent)" id="sTime">-</div><div class="stat-lbl">Time</div></div>
         </div>
         <div class="grade-pill" id="gradePill"></div>
-
         <div class="section-title">Performance by Skill</div>
         <div class="cat-breakdown" id="catBreakdown"></div>
-
         <div class="rec-section">
-            <div class="section-title">Personalized Study Plan</div>
+            <div class="section-title">Your Personalized Study Plan</div>
             <div id="recommendations"></div>
         </div>
-
-        <button class="btn-retry" onclick="retryExam()">↺  Retry Test</button>
+        <button class="btn-retry" onclick="retryExam()">↺  Retry Exam</button>
         <button class="btn-restart" onclick="goHome()">⌂  Back to Start</button>
     </div>
 </div>
 
 <script>
-// ─── CAT COLORS ───
 const CAT_STYLE = {
-    'Vocabulary':        { color:'#00d4ff', border:'rgba(0,212,255,0.4)',  bg:'rgba(0,212,255,0.08)'  },
-    'Grammar':           { color:'#7c3aed', border:'rgba(124,58,237,0.4)', bg:'rgba(124,58,237,0.08)' },
-    'Reading':           { color:'#10b981', border:'rgba(16,185,129,0.4)', bg:'rgba(16,185,129,0.08)' },
-    'Writing':           { color:'#f59e0b', border:'rgba(245,158,11,0.4)', bg:'rgba(245,158,11,0.08)' },
-    'Sentence Structure':{ color:'#ec4899', border:'rgba(236,72,153,0.4)', bg:'rgba(236,72,153,0.08)' },
+    'Vocabulary':           {color:'#00d4ff', border:'rgba(0,212,255,.4)',  bg:'rgba(0,212,255,.08)'},
+    'Grammar':              {color:'#7c3aed', border:'rgba(124,58,237,.4)', bg:'rgba(124,58,237,.08)'},
+    'Reading':              {color:'#10b981', border:'rgba(16,185,129,.4)', bg:'rgba(16,185,129,.08)'},
+    'Idioms & Phrases':     {color:'#f59e0b', border:'rgba(245,158,11,.4)', bg:'rgba(245,158,11,.08)'},
+    'Sentence Structure':   {color:'#ec4899', border:'rgba(236,72,153,.4)', bg:'rgba(236,72,153,.08)'},
+    'Spelling & Word Form': {color:'#a78bfa', border:'rgba(167,139,250,.4)',bg:'rgba(167,139,250,.08)'},
 };
 
-// ─── QUESTION BANK ───
 const questions = [
-    // ── VOCABULARY (10 questions) ──
-    {
-        cat:'Vocabulary',
-        q:'Choose the word closest in meaning to "AMBIGUOUS".',
-        opts:['Clear','Uncertain','Definite','Obvious','Simple'],
-        ans:1,
-        note:'Ambiguous = open to more than one interpretation; unclear. Opposite of definite or clear.'
-    },
-    {
-        cat:'Vocabulary',
-        q:'Which word best completes the sentence? "The researcher presented a _____ argument that convinced even the skeptics."',
-        opts:['ambiguous','feeble','compelling','trivial','redundant'],
-        ans:2,
-        note:'Compelling = evoking interest, attention, or admiration in a powerfully irresistible way. Perfect for a convincing argument.'
-    },
-    {
-        cat:'Vocabulary',
-        q:'Choose the correct meaning of the word "PROLIFERATE" in an academic context.',
-        opts:['To decrease rapidly','To remain unchanged','To increase rapidly in number','To combine two elements','To prove a hypothesis'],
-        ans:2,
-        note:'Proliferate = increase rapidly in numbers; commonly used in academic writing (e.g., "research in this area has proliferated").'
-    },
-    {
-        cat:'Vocabulary',
-        q:'Select the antonym (opposite) of "MITIGATE".',
-        opts:['Reduce','Alleviate','Lessen','Aggravate','Soften'],
-        ans:3,
-        note:'Mitigate means to make less severe; its antonym is aggravate — to make worse.'
-    },
-    {
-        cat:'Vocabulary',
-        q:'Which option correctly uses the word "METHODOLOGY"?',
-        opts:[
-            'The methodology was very interesting to read.',
-            'The study\'s methodology included surveys, interviews, and statistical analysis.',
-            'Methodology is a kind of machine used in labs.',
-            'He showed great methodology by arriving on time.',
-            'The methodology of the weather was unpredictable.'
-        ],
-        ans:1,
-        note:'Methodology refers to a system of methods used in a particular area of study or activity.'
-    },
-    {
-        cat:'Vocabulary',
-        q:'The word "EMPIRICAL" in "empirical evidence" means evidence based on:',
-        opts:['Theory alone','Observation and experiment','Assumptions','Secondary sources','Historical records only'],
-        ans:1,
-        note:'Empirical evidence = evidence obtained through direct observation or experiment, not just theory.'
-    },
-    {
-        cat:'Vocabulary',
-        q:'"The committee reached a CONSENSUS on the new policy." What does "consensus" mean?',
-        opts:['A disagreement','A debate','General agreement','A written document','A vote by majority'],
-        ans:2,
-        note:'Consensus = general agreement, especially in the opinion of a group or body of people.'
-    },
-    {
-        cat:'Vocabulary',
-        q:'Which word fits best? "The findings were _____, requiring further investigation before conclusions could be drawn."',
-        opts:['conclusive','definitive','preliminary','exhaustive','authoritative'],
-        ans:2,
-        note:'Preliminary = preceding or done in preparation for something more important; initial findings are often described this way.'
-    },
-    {
-        cat:'Vocabulary',
-        q:'Choose the correct definition of "PARADIGM" as used in academic writing.',
-        opts:[
-            'A grammatical error in writing',
-            'A typical example or pattern of something; a model',
-            'An experiment conducted in a controlled environment',
-            'A conclusion drawn at the end of a paper',
-            'A method of collecting qualitative data'
-        ],
-        ans:1,
-        note:'Paradigm (from Thomas Kuhn) = a typical example or pattern; a framework within which theories are constructed.'
-    },
-    {
-        cat:'Vocabulary',
-        q:'The word "SUBSTANTIATE" is closest in meaning to:',
-        opts:['Disprove','Ignore','Support with evidence','Summarize briefly','Translate'],
-        ans:2,
-        note:'Substantiate = provide evidence to support or prove the truth of something.'
-    },
 
-    // ── GRAMMAR (12 questions) ──
-    {
-        cat:'Grammar',
-        q:'Choose the grammatically correct sentence.',
-        opts:[
-            'Neither the students nor the teacher were present.',
-            'Neither the students nor the teacher was present.',
-            'Neither the students nor the teacher is present.',
-            'Neither the students nor the teacher are present.',
-            'Neither the students nor the teacher have been present.'
-        ],
-        ans:1,
-        note:'With "neither...nor", the verb agrees with the subject closest to it. "teacher" is singular, so use "was".'
-    },
-    {
-        cat:'Grammar',
-        q:'Which sentence uses the Present Perfect tense correctly?',
-        opts:[
-            'She has went to Paris last year.',
-            'She went to Paris last year.',
-            'She has gone to Paris recently.',
-            'She is going to Paris last year.',
-            'She had go to Paris.'
-        ],
-        ans:2,
-        note:'Present Perfect (has/have + past participle) connects past actions to the present; "recently" is correct. "last year" requires Simple Past.'
-    },
-    {
-        cat:'Grammar',
-        q:'Select the correct form: "The data _____ analyzed by three independent researchers."',
-        opts:['was','were','has','are being','is being'],
-        ans:1,
-        note:'"Data" is the plural of "datum" and in academic writing takes a plural verb: "the data were analyzed."'
-    },
-    {
-        cat:'Grammar',
-        q:'Which sentence contains a DANGLING MODIFIER error?',
-        opts:[
-            'Walking to the lab, the researcher dropped her notes.',
-            'Having reviewed the literature, the study was designed carefully.',
-            'After finishing the experiment, the team recorded the results.',
-            'While analyzing data, the researcher noticed an anomaly.',
-            'Before writing the report, she organized all findings.'
-        ],
-        ans:1,
-        note:'Dangling modifier: "Having reviewed the literature" implies the study reviewed the literature, not the researchers. Should be: "Having reviewed the literature, the researchers designed the study carefully."'
-    },
-    {
-        cat:'Grammar',
-        q:'Choose the sentence with the correct use of articles.',
-        opts:[
-            'She is an university student studying the physics.',
-            'She is a university student studying physics.',
-            'She is an university student studying physics.',
-            'She is a university student studying the physics.',
-            'She is the university student studying physics.'
-        ],
-        ans:1,
-        note:'"University" starts with a "y" sound (consonant), so use "a". "Physics" as a field of study does not take "the".'
-    },
-    {
-        cat:'Grammar',
-        q:'Identify the correct passive voice: "The committee approved the proposal."',
-        opts:[
-            'The proposal has approved by the committee.',
-            'The proposal was approved by the committee.',
-            'The proposal is being approved by the committee yesterday.',
-            'The proposal approved by the committee.',
-            'The proposal have been approved by committee.'
-        ],
-        ans:1,
-        note:'Passive voice: subject + "was/were" + past participle + "by" + agent. Past simple passive = "was approved".'
-    },
-    {
-        cat:'Grammar',
-        q:'Which word correctly completes the conditional sentence? "If the experiment _____ repeated, the results might differ."',
-        opts:['is','was','were','would be','had been'],
-        ans:2,
-        note:'Second conditional (hypothetical present/future): "If + were, ... would/might". "Were" is correct for all subjects in formal English.'
-    },
-    {
-        cat:'Grammar',
-        q:'Choose the sentence that uses the apostrophe correctly.',
-        opts:[
-            'The researchers findings were published last month.',
-            'The researcher\'s findings were published last month.',
-            'The researchers\' finding were published last month.',
-            'The researchers findings\' were published last month.',
-            'The researcher\'s finding\'s were published last month.'
-        ],
-        ans:1,
-        note:'Singular possessive: researcher\'s (one researcher). If plural: researchers\' findings.'
-    },
-    {
-        cat:'Grammar',
-        q:'Which option correctly uses a relative clause?',
-        opts:[
-            'The paper, which it was published in 2020, is widely cited.',
-            'The paper which published in 2020, is widely cited.',
-            'The paper, which was published in 2020, is widely cited.',
-            'The paper, that was published in 2020, is widely cited.',
-            'The paper which it published in 2020, is widely cited.'
-        ],
-        ans:2,
-        note:'Non-restrictive relative clause (adds extra info) uses "which" with commas. No pronoun repetition ("which it") is needed.'
-    },
-    {
-        cat:'Grammar',
-        q:'Choose the sentence with correct subject-verb agreement.',
-        opts:[
-            'A number of studies has shown this effect.',
-            'A number of studies have shown this effect.',
-            'The number of studies have shown this effect.',
-            'A number of studies shows this effect.',
-            'A number of study have shown this effect.'
-        ],
-        ans:1,
-        note:'"A number of" takes a plural verb. "The number of" takes a singular verb. Rule: "A number of studies HAVE shown..."'
-    },
-    {
-        cat:'Grammar',
-        q:'Select the correct conjunction to complete: "The sample size was small; _____, the results were statistically significant."',
-        opts:['therefore','however','moreover','furthermore','consequently'],
-        ans:1,
-        note:'"However" signals contrast — the small size would normally weaken results, but they were significant anyway. "Therefore" and "consequently" signal result, not contrast.'
-    },
-    {
-        cat:'Grammar',
-        q:'Which sentence uses a GERUND correctly?',
-        opts:[
-            'To collect data is essential for the research.',
-            'Collecting data is essential for the research.',
-            'Collect data is essential for the research.',
-            'The collect of data is essential for research.',
-            'Data collection-ing is essential for the research.'
-        ],
-        ans:1,
-        note:'A gerund (verb + -ing used as a noun) can act as the subject. "Collecting data" is the gerund phrase as subject.'
-    },
+// ════════════════════════════════════════
+// VOCABULARY  (18 questions)
+// ════════════════════════════════════════
+{cat:'Vocabulary',q:'What does the word "BENEVOLENT" mean?',
+ opts:['Hostile and cruel','Kind and generous','Extremely intelligent','Careful and precise','Overly talkative'],
+ ans:1, note:'"Benevolent" comes from Latin bene (good) + volens (wishing) — meaning well-wishing, kind, generous.'},
 
-    // ── READING COMPREHENSION (10 questions) ──
-    {
-        cat:'Reading',
-        passage:'The concept of "deep reading" refers to the slow, immersive, rich in sensory detail reading that is associated with sustained engagement with a long-form text. Researchers argue that digital media, with its encouragement of rapid, multi-tasking information consumption, may be eroding this capacity, particularly in younger generations who have grown up with smartphones and social media.',
-        q:'According to the passage, what is "deep reading"?',
-        opts:[
-            'Reading using digital devices and apps',
-            'Fast, efficient reading of multiple texts at once',
-            'Slow, immersive, sustained engagement with long-form text',
-            'Reading texts that contain sensory descriptions only',
-            'Reading strategies taught in university courses'
-        ],
-        ans:2,
-        note:'The passage directly defines deep reading as "slow, immersive, rich in sensory detail reading...associated with sustained engagement with a long-form text."'
-    },
-    {
-        cat:'Reading',
-        passage:'The concept of "deep reading" refers to the slow, immersive, rich in sensory detail reading that is associated with sustained engagement with a long-form text. Researchers argue that digital media, with its encouragement of rapid, multi-tasking information consumption, may be eroding this capacity, particularly in younger generations who have grown up with smartphones and social media.',
-        q:'What does the author suggest about digital media?',
-        opts:[
-            'It improves deep reading skills in young people.',
-            'It has no impact on reading habits.',
-            'It encourages the kind of reading needed for academic work.',
-            'It may be reducing people\'s ability to read deeply.',
-            'It should replace traditional books in education.'
-        ],
-        ans:3,
-        note:'The passage states digital media "may be eroding this capacity" — i.e., reducing the ability for deep reading.'
-    },
-    {
-        cat:'Reading',
-        passage:'Correlation does not imply causation. This is one of the most important principles in scientific research. When two variables appear to move together — for example, ice cream sales and drowning rates both rise in summer — it does not mean one causes the other. A third variable (hot weather) causes both. Researchers must design studies carefully to establish true causal relationships.',
-        q:'What is the main point of the passage?',
-        opts:[
-            'Ice cream causes drowning in summer months.',
-            'Hot weather is dangerous for swimmers.',
-            'Finding that two things are correlated proves one causes the other.',
-            'Researchers should be cautious about assuming correlation means causation.',
-            'Scientific studies are always unreliable.'
-        ],
-        ans:3,
-        note:'The passage\'s central argument is that correlation does not mean causation, and researchers must design studies carefully to establish real causal links.'
-    },
-    {
-        cat:'Reading',
-        passage:'Correlation does not imply causation. This is one of the most important principles in scientific research. When two variables appear to move together — for example, ice cream sales and drowning rates both rise in summer — it does not mean one causes the other. A third variable (hot weather) causes both. Researchers must design studies carefully to establish true causal relationships.',
-        q:'In the ice cream and drowning example, what is the "third variable"?',
-        opts:['Summer vacations','Beach proximity','Hot weather','Ice cream consumption','Increased population'],
-        ans:2,
-        note:'The passage explicitly states "A third variable (hot weather) causes both."'
-    },
-    {
-        cat:'Reading',
-        passage:'Academic integrity is the foundation of scholarly work. It encompasses honesty, trust, fairness, respect, and responsibility in all academic activities. Plagiarism — presenting someone else\'s work as your own — is one of the most serious violations. Most universities have adopted sophisticated plagiarism-detection software, yet the emphasis in education should be on cultivating intrinsic motivation to produce original work.',
-        q:'What does the author believe should be prioritized in education?',
-        opts:[
-            'Installing advanced plagiarism detection tools',
-            'Punishing students who plagiarize severely',
-            'Building students\' internal desire to do original work',
-            'Removing written assessments from courses',
-            'Teaching students how plagiarism software works'
-        ],
-        ans:2,
-        note:'The author says "the emphasis in education should be on cultivating intrinsic motivation to produce original work" — internal, not external, motivation.'
-    },
-    {
-        cat:'Reading',
-        passage:'Academic integrity is the foundation of scholarly work. It encompasses honesty, trust, fairness, respect, and responsibility in all academic activities. Plagiarism — presenting someone else\'s work as your own — is one of the most serious violations. Most universities have adopted sophisticated plagiarism-detection software, yet the emphasis in education should be on cultivating intrinsic motivation to produce original work.',
-        q:'What is the definition of plagiarism given in the passage?',
-        opts:[
-            'Using sources without understanding them',
-            'Writing an essay without a plan',
-            'Presenting someone else\'s work as your own',
-            'Failing to submit work on time',
-            'Using too many quotations in a paper'
-        ],
-        ans:2,
-        note:'Directly stated: "Plagiarism — presenting someone else\'s work as your own."'
-    },
-    {
-        cat:'Reading',
-        passage:'The peer-review process is the cornerstone of scientific publishing. Before a paper is accepted by a journal, it is evaluated by independent experts in the field — the "peers" — who assess its methodology, originality, and contribution to knowledge. While imperfect and sometimes criticized for slowing publication, peer review remains the most reliable mechanism for quality control in science.',
-        q:'Which of the following is NOT mentioned as something peer reviewers assess?',
-        opts:['Methodology','Originality','Contribution to knowledge','Writing style','Reliability of the process'],
-        ans:3,
-        note:'The passage lists methodology, originality, and contribution to knowledge. Writing style is not mentioned as an assessment criterion.'
-    },
-    {
-        cat:'Reading',
-        passage:'The peer-review process is the cornerstone of scientific publishing. Before a paper is accepted by a journal, it is evaluated by independent experts in the field — the "peers" — who assess its methodology, originality, and contribution to knowledge. While imperfect and sometimes criticized for slowing publication, peer review remains the most reliable mechanism for quality control in science.',
-        q:'The author\'s overall attitude toward peer review is best described as:',
-        opts:[
-            'Completely negative — it should be abolished',
-            'Neutral — no opinion is given',
-            'Positive overall, while acknowledging its limitations',
-            'Strongly critical of its effect on science',
-            'Enthusiastic with no reservations'
-        ],
-        ans:2,
-        note:'The author calls it "imperfect and sometimes criticized" (acknowledgment of limits) but also "the most reliable mechanism" (positive overall).'
-    },
-    {
-        cat:'Reading',
-        passage:'Climate change represents one of the most complex challenges of our time, requiring interdisciplinary collaboration. Natural scientists study atmospheric chemistry and temperature changes; social scientists examine human behavior and policy responses; engineers develop renewable energy technologies; economists model the costs and benefits of action versus inaction. No single discipline can solve the problem alone.',
-        q:'What is the central argument of this passage?',
-        opts:[
-            'Climate change is primarily a problem for engineers to solve.',
-            'Economics is the most important discipline for understanding climate change.',
-            'Climate change is too complex for social scientists to study.',
-            'Addressing climate change requires collaboration across multiple fields.',
-            'Natural scientists are the only ones who understand climate change.'
-        ],
-        ans:3,
-        note:'The passage concludes: "No single discipline can solve the problem alone" — the central point is that interdisciplinary collaboration is needed.'
-    },
-    {
-        cat:'Reading',
-        passage:'Open-access publishing has grown rapidly in recent decades, driven by the argument that publicly funded research should be freely available to all. Proponents argue it accelerates scientific progress by removing paywalls. Critics, however, raise concerns about "predatory journals" — publications that charge authors fees without providing rigorous peer review, potentially flooding the literature with low-quality work.',
-        q:'What concern do critics raise about open-access publishing?',
-        opts:[
-            'It makes research too expensive for universities.',
-            'It reduces the number of articles published each year.',
-            'It slows down the peer-review process significantly.',
-            'Some journals take fees but lack proper quality control.',
-            'It restricts access to research for developing countries.'
-        ],
-        ans:3,
-        note:'Critics point to "predatory journals" that "charge authors fees without providing rigorous peer review" — low-quality work gets published.'
-    },
+{cat:'Vocabulary',q:'Choose the word that means the OPPOSITE of "EXPAND".',
+ opts:['Enlarge','Widen','Extend','Contract','Grow'],
+ ans:3, note:'"Contract" means to become smaller or shorter — the direct antonym of "expand".'},
 
-    // ── WRITING (7 questions) ──
-    {
-        cat:'Writing',
-        q:'Which of the following is the best thesis statement for an academic essay?',
-        opts:[
-            'Climate change is a big problem today.',
-            'In this essay, I will talk about climate change.',
-            'Climate change, driven primarily by fossil fuel combustion, poses existential threats to biodiversity, requiring immediate coordinated international policy action.',
-            'Many people think climate change is bad.',
-            'Climate change has many causes and effects that I will discuss.'
-        ],
-        ans:2,
-        note:'A strong thesis: (1) states a clear position, (2) identifies the scope, (3) gives a preview of the argument. Options A, D are too vague; B, E are mechanical and uninformative.'
-    },
-    {
-        cat:'Writing',
-        q:'Which sentence best paraphrases: "The study found a significant positive correlation between sleep duration and academic performance."',
-        opts:[
-            'The study found that sleep and academic performance are the same thing.',
-            'Research indicates that students who sleep more tend to perform better academically.',
-            'The study proved that sleeping is the most important factor in education.',
-            'Students who sleep less always perform better academically.',
-            'Academic performance has nothing to do with sleep, according to the study.'
-        ],
-        ans:1,
-        note:'Paraphrasing requires maintaining meaning while changing wording and structure. Option B accurately restates the correlation without distorting it.'
-    },
-    {
-        cat:'Writing',
-        q:'Which transition word or phrase best introduces a contrasting point in academic writing?',
-        opts:['Furthermore','In addition','Moreover','Nevertheless','Similarly'],
-        ans:3,
-        note:'"Nevertheless" (= despite what has just been said) signals contrast. Furthermore, Moreover, In addition, and Similarly all signal addition or similarity.'
-    },
-    {
-        cat:'Writing',
-        q:'Choose the most appropriate academic register (style) for a PhD research paper introduction.',
-        opts:[
-            '"This topic is super interesting and I\'m going to tell you all about it."',
-            '"Lots of researchers have looked at this and got some pretty cool results."',
-            '"The present study investigates the relationship between X and Y, contributing to the existing body of literature on Z."',
-            '"Everyone knows that X causes Y, so this paper talks about that."',
-            '"I think X is really important, so I chose to write about it for my PhD."'
-        ],
-        ans:2,
-        note:'Academic writing is formal, impersonal, precise, and hedged. Options A, B, D, E are too informal or use first-person inappropriately for a formal paper.'
-    },
-    {
-        cat:'Writing',
-        q:'What is the purpose of a topic sentence in a body paragraph?',
-        opts:[
-            'To summarize the entire essay in one sentence',
-            'To provide a detailed example supporting the main argument',
-            'To introduce the main idea of the paragraph and link it to the thesis',
-            'To cite the most important source used in the paragraph',
-            'To end the paragraph with a strong conclusion'
-        ],
-        ans:2,
-        note:'A topic sentence: (1) states the paragraph\'s main idea, (2) connects it to the thesis, and (3) guides what the rest of the paragraph will discuss.'
-    },
-    {
-        cat:'Writing',
-        q:'Which sentence is written in an appropriately hedged academic style?',
-        opts:[
-            'This proves that social media causes depression.',
-            'Social media is definitely the main cause of depression.',
-            'The data suggest that social media use may be associated with increased rates of depression.',
-            'Obviously, social media destroys people\'s mental health.',
-            'Nobody can deny that social media makes everyone depressed.'
-        ],
-        ans:2,
-        note:'Academic hedging uses language like "suggest," "may," "associated with" to acknowledge uncertainty. Absolute claims ("proves," "definitely," "obviously") are inappropriate in research writing.'
-    },
-    {
-        cat:'Writing',
-        q:'In an IELTS-style essay, what should a conclusion paragraph do?',
-        opts:[
-            'Introduce new arguments and evidence not mentioned before',
-            'Repeat the introduction word for word',
-            'Restate the thesis and summarize key points without adding new information',
-            'Only state your personal opinion for the first time',
-            'List all the references used in the essay'
-        ],
-        ans:2,
-        note:'A conclusion should: (1) restate the thesis in different words, (2) summarize main points, and (3) NOT introduce new arguments or evidence.'
-    },
+{cat:'Vocabulary',q:'Which word best completes the sentence? "The movie was so _____ that many audience members fell asleep."',
+ opts:['thrilling','captivating','tedious','remarkable','suspenseful'],
+ ans:2, note:'"Tedious" means too long, slow, or dull. It logically explains why people fell asleep.'},
 
-    // ── SENTENCE STRUCTURE (6 questions) ──
-    {
-        cat:'Sentence Structure',
-        q:'Identify the sentence type: "Although the sample size was small, the results were statistically significant and have implications for future research."',
-        opts:[
-            'Simple sentence',
-            'Compound sentence',
-            'Complex sentence',
-            'Compound-complex sentence',
-            'Declarative simple sentence'
-        ],
-        ans:3,
-        note:'Compound-complex = at least two independent clauses AND at least one dependent clause. Here: dependent clause ("Although the sample size was small") + two independent clauses joined by "and".'
-    },
-    {
-        cat:'Sentence Structure',
-        q:'Which sentence is a RUN-ON sentence that needs correction?',
-        opts:[
-            'The experiment failed; consequently, the team redesigned it.',
-            'The experiment failed, consequently the team redesigned it.',
-            'The experiment failed. Consequently, the team redesigned it.',
-            'Because the experiment failed, the team redesigned it.',
-            'The failed experiment led the team to redesign their approach.'
-        ],
-        ans:1,
-        note:'A run-on sentence joins two independent clauses with only a comma — a "comma splice." You need a semicolon, a conjunction, or a period to join independent clauses.'
-    },
-    {
-        cat:'Sentence Structure',
-        q:'Choose the option that best combines these two sentences: "The researcher collected data. The data were analyzed using SPSS."',
-        opts:[
-            'The researcher collected data also the data were analyzed using SPSS.',
-            'The researcher collected data, and it was analyzed using SPSS.',
-            'Data was collected and the researcher analyzed it using SPSS.',
-            'The researcher collected data, but analyzed it using SPSS.',
-            'After collecting data, the researcher analyzed it but used SPSS.'
-        ],
-        ans:1,
-        note:'Using "it" as a pronoun reference and "and" as a coordinating conjunction creates a fluent compound sentence while maintaining clarity about the subject.'
-    },
-    {
-        cat:'Sentence Structure',
-        q:'Which sentence uses PARALLEL STRUCTURE correctly?',
-        opts:[
-            'The study aims to identify, analyzing, and make recommendations.',
-            'The study aims to identify patterns, to analyze trends, and to make recommendations.',
-            'The study aims to identify patterns, analyzing trends, and for making recommendations.',
-            'The study aims to identifying patterns, analyze trends, and make recommendations.',
-            'The study aims to identify patterns, trend analysis, and making recommendations.'
-        ],
-        ans:1,
-        note:'Parallel structure requires the same grammatical form for items in a series. "to identify, to analyze, to make" are all infinitive phrases — consistently parallel.'
-    },
-    {
-        cat:'Sentence Structure',
-        q:'Which sentence has a MISPLACED MODIFIER?',
-        opts:[
-            'The professor explained the theory clearly.',
-            'Running quickly, the student reached the library before closing.',
-            'The student nearly failed every exam this semester.',
-            'Nearly the student failed every exam this semester.',
-            'The student failed nearly every exam this semester.'
-        ],
-        ans:3,
-        note:'"Nearly the student" is a misplaced modifier — "nearly" should modify "every exam", not "the student". Correct: "The student failed nearly every exam."'
-    },
-    {
-        cat:'Sentence Structure',
-        q:'Choose the sentence with the most effective use of a subordinate clause for academic writing.',
-        opts:[
-            'The results were unexpected. This means the hypothesis was wrong.',
-            'The results were unexpected, so the hypothesis was wrong.',
-            'Because the results contradicted the initial hypothesis, the researchers revised their theoretical framework.',
-            'The results were unexpected and the hypothesis was wrong and they revised the framework.',
-            'The researchers revised their framework, the results were unexpected.'
-        ],
-        ans:2,
-        note:'Subordinate clauses (starting with "because," "although," "since") create logical relationships between ideas — a hallmark of sophisticated academic writing.'
-    }
-];
+{cat:'Vocabulary',q:'What does "TRANSPARENT" mean in everyday use?',
+ opts:['Completely dark','Easy to see through; open and honest','Extremely heavy','Colourful and decorative','Difficult to understand'],
+ ans:1, note:'"Transparent" literally means see-through; figuratively it means open, honest, with nothing hidden.'},
 
-// ─── STATE ───
-const L = ['A','B','C','D','E'];
-let idx = 0, selected = null, checked = false;
-let correct = 0, wrong = 0, skipped = 0;
-let startTime = null, timerInterval = null;
-let catResults = {}; // { cat: { correct, total } }
+{cat:'Vocabulary',q:'Choose the correct meaning of "OBSTACLE".',
+ opts:['A type of vehicle','A helpful suggestion','Something that blocks progress','A kind of sport','A scientific experiment'],
+ ans:2, note:'An obstacle is a thing that blocks or hinders progress — a barrier or difficulty.'},
 
-Object.keys(CAT_STYLE).forEach(c => catResults[c] = { correct:0, total:0, wrong:0 });
+{cat:'Vocabulary',q:'The word "FREQUENTLY" is closest in meaning to:',
+ opts:['Rarely','Occasionally','Often','Sometimes','Never'],
+ ans:2, note:'"Frequently" means many times; at short intervals — synonymous with "often".'},
 
-function shuffle(arr) {
-    const a = [...arr];
-    for (let i = a.length-1; i > 0; i--) {
-        const j = Math.floor(Math.random()*(i+1));
-        [a[i],a[j]] = [a[j],a[i]];
-    }
+{cat:'Vocabulary',q:'What does "DELIBERATE" mean when used as an adjective? "It was a deliberate decision."',
+ opts:['Accidental','Careless','Done on purpose; intentional','Sudden and unexpected','Made by a group'],
+ ans:2, note:'As an adjective, "deliberate" = done consciously and intentionally, not by accident.'},
+
+{cat:'Vocabulary',q:'Choose the word most similar to "ENORMOUS".',
+ opts:['Tiny','Moderate','Vast','Average','Slight'],
+ ans:2, note:'"Enormous" and "vast" both mean very large in size or extent.'},
+
+{cat:'Vocabulary',q:'Which word means "to officially end or stop something"?',
+ opts:['Initiate','Abolish','Extend','Maintain','Enforce'],
+ ans:1, note:'"Abolish" means to formally end a system, practice, or law (e.g., abolish slavery).'},
+
+{cat:'Vocabulary',q:'"She made a CRUCIAL error in her report." What does "crucial" mean?',
+ opts:['Minor and unimportant','Extremely important or decisive','Repeated several times','Difficult to spot','Made intentionally'],
+ ans:1, note:'"Crucial" means of great importance, especially in determining a successful outcome.'},
+
+{cat:'Vocabulary',q:'Choose the correct definition of "DILEMMA".',
+ opts:['A simple solution to a problem','A situation where a choice must be made between two difficult options','A type of mathematical equation','An argument between two people','A list of possible solutions'],
+ ans:1, note:'A dilemma = a situation requiring a choice between two equally undesirable alternatives.'},
+
+{cat:'Vocabulary',q:'What does it mean when someone is described as "PESSIMISTIC"?',
+ opts:['They always expect the best outcomes','They are realistic about all situations','They tend to expect the worst outcomes','They avoid all decision-making','They are very energetic and active'],
+ ans:2, note:'Pessimistic = tending to see the worst aspect of things; lacking hope or confidence in the future.'},
+
+{cat:'Vocabulary',q:'Which word best fits? "The scientist gave a _____ explanation that even children could understand."',
+ opts:['complicated','obscure','vague','concise','technical'],
+ ans:3, note:'"Concise" means giving a lot of information clearly in a few words — ideal for a simple, clear explanation.'},
+
+{cat:'Vocabulary',q:'What does "ADEQUATE" mean?',
+ opts:['More than enough; excellent','Satisfactory or acceptable; enough for the purpose','Completely insufficient','Perfect in every way','Confusing and unclear'],
+ ans:1, note:'"Adequate" = sufficient for a specific need or requirement — neither too much nor too little.'},
+
+{cat:'Vocabulary',q:'"The politician\'s speech was full of VAGUE promises." What does "vague" mean?',
+ opts:['Very specific and detailed','Clear and easy to understand','Not clearly expressed; uncertain','Extremely long and detailed','Truthful and accurate'],
+ ans:2, note:'"Vague" means not clearly stated, uncertain, or not precise.'},
+
+{cat:'Vocabulary',q:'Choose the word closest in meaning to "COMMENCE".',
+ opts:['Finish','Pause','Begin','Repeat','Cancel'],
+ ans:2, note:'"Commence" is a formal word meaning to begin or start.'},
+
+{cat:'Vocabulary',q:'What does "VERSATILE" mean?',
+ opts:['Able to adapt to many different functions or activities','Limited to one specific task only','Extremely slow and inefficient','Very expensive and rare','Completely unreliable'],
+ ans:0, note:'"Versatile" = able to adapt or be adapted to many different functions — e.g., a versatile tool, a versatile actor.'},
+
+{cat:'Vocabulary',q:'Which word correctly completes: "Despite the storm, the boat remained _____ and did not sink."',
+ opts:['fragile','vulnerable','sturdy','ancient','narrow'],
+ ans:2, note:'"Sturdy" = strongly and solidly built; able to withstand pressure — the logical word here.'},
+
+// ════════════════════════════════════════
+// GRAMMAR  (20 questions)
+// ════════════════════════════════════════
+{cat:'Grammar',q:'Choose the correct sentence.',
+ opts:['She don\'t like coffee in the mornings.',
+       'She doesn\'t likes coffee in the mornings.',
+       'She doesn\'t like coffee in the mornings.',
+       'She not like coffee in the mornings.',
+       'She do not likes coffee in the mornings.'],
+ ans:2, note:'Third-person singular present simple uses "does not" (doesn\'t) + base verb (like), never "doesn\'t likes".'},
+
+{cat:'Grammar',q:'Which option correctly uses the Past Continuous tense?',
+ opts:['I was read a book when she called.',
+       'I were reading a book when she called.',
+       'I was reading a book when she called.',
+       'I reading a book when she called.',
+       'I had reading a book when she called.'],
+ ans:2, note:'Past Continuous = was/were + verb-ing. "I was reading" (singular subject "I" → "was").'},
+
+{cat:'Grammar',q:'Fill in the blank: "By the time the ambulance arrived, he _____ unconscious for ten minutes."',
+ opts:['was','is','has been','had been','were'],
+ ans:3, note:'Past Perfect (had been) is used for an action that was ongoing before another past action — "by the time" signals this.'},
+
+{cat:'Grammar',q:'Choose the correct question form.',
+ opts:['Where did she went yesterday?',
+       'Where she went yesterday?',
+       'Where did she go yesterday?',
+       'Where has she go yesterday?',
+       'Where does she went yesterday?'],
+ ans:2, note:'Yes/No and Wh-questions in Past Simple use "did" + base verb: "did she go".'},
+
+{cat:'Grammar',q:'Which sentence uses "much" and "many" correctly?',
+ opts:['There are much books on the table and many water in the glass.',
+       'There are many books on the table and much water in the glass.',
+       'There are many books on the table and many water in the glass.',
+       'There are much books on the table and much water in the glass.',
+       'There is many books on the table and much water in the glass.'],
+ ans:1, note:'"Many" = countable nouns (books); "much" = uncountable nouns (water).'},
+
+{cat:'Grammar',q:'Select the correct comparative form: "This exam is _____ than the previous one."',
+ opts:['more difficult','difficulter','most difficult','more difficultly','the most difficult'],
+ ans:0, note:'Long adjectives (3+ syllables) form comparatives with "more": more difficult, NOT "difficulter".'},
+
+{cat:'Grammar',q:'Which sentence is grammatically correct?',
+ opts:['He suggested to go to the cinema.',
+       'He suggested going to the cinema.',
+       'He suggested go to the cinema.',
+       'He suggested us go to the cinema.',
+       'He suggested we to go to the cinema.'],
+ ans:1, note:'"Suggest" is followed by a gerund (-ing form) or a "that" clause, NOT an infinitive: "suggested going" or "suggested that we go".'},
+
+{cat:'Grammar',q:'"If I _____ rich, I would travel the world." Choose the correct form.',
+ opts:['am','was','were','will be','would be'],
+ ans:2, note:'Second conditional (hypothetical): "If + were" for all subjects in formal English. "If I were rich..." expresses an unreal condition.'},
+
+{cat:'Grammar',q:'Choose the correctly punctuated sentence.',
+ opts:['Its a beautiful day, isnt it?',
+       'It\'s a beautiful day, isn\'t it?',
+       'Its a beautiful day, isn\'t it?',
+       'It\'s a beautiful day, isnt it?',
+       'Its\' a beautiful day, isn\'t it?'],
+ ans:1, note:'"It\'s" = contraction of "it is"; "isn\'t" = contraction of "is not". Both need apostrophes.'},
+
+{cat:'Grammar',q:'Which sentence uses the Future Perfect tense correctly?',
+ opts:['By next year, I finish my degree.',
+       'By next year, I will finishing my degree.',
+       'By next year, I will have finished my degree.',
+       'By next year, I had finished my degree.',
+       'By next year, I am finishing my degree.'],
+ ans:2, note:'Future Perfect = will have + past participle. Used for an action that will be completed before a future point in time.'},
+
+{cat:'Grammar',q:'Choose the correct form of the verb: "The news _____ very surprising."',
+ opts:['were','are','have been','was','be'],
+ ans:3, note:'"News" is an uncountable noun that looks plural but takes a singular verb: "The news was..."'},
+
+{cat:'Grammar',q:'Which sentence correctly uses a modal verb?',
+ opts:['You must to stop at the red light.',
+       'You must stop at the red light.',
+       'You must stopping at the red light.',
+       'You must stopped at the red light.',
+       'You musts stop at the red light.'],
+ ans:1, note:'Modal verbs (must, can, should, will) are always followed by the BASE form of the verb — no "to", no -ing.'},
+
+{cat:'Grammar',q:'Find the grammatical error: "She has been working here since three years."',
+ opts:['has been','working','here','since','three years'],
+ ans:3, note:'"Since" is used with a specific point in time (since 2020, since Monday). For duration, use "for": "for three years".'},
+
+{cat:'Grammar',q:'Choose the correct sentence using the passive voice.',
+ opts:['The letter was wrote by John.',
+       'The letter wrote by John.',
+       'The letter was written by John.',
+       'The letter is write by John.',
+       'The letter being written by John.'],
+ ans:2, note:'Passive voice = to be + past participle. "Written" is the past participle of "write", NOT "wrote".'},
+
+{cat:'Grammar',q:'Which sentence uses reported speech correctly? Original: "I am tired," she said.',
+ opts:['She said that she is tired.',
+       'She said that she was tired.',
+       'She said that she were tired.',
+       'She said that I was tired.',
+       'She told she was tired.'],
+ ans:1, note:'In reported speech, present tense shifts to past: "am" → "was". Also, "said that she" (pronoun shifts from "I" to "she").'},
+
+{cat:'Grammar',q:'"He is used to _____ early every morning." Choose the correct option.',
+ opts:['wake','wakes','woke','waking','have woken'],
+ ans:3, note:'"Be used to" + gerund (-ing). It means "be accustomed to". Compare with "used to + infinitive" for past habits.'},
+
+{cat:'Grammar',q:'Choose the correct sentence.',
+ opts:['Despite of the rain, we went for a walk.',
+       'Despite the rain, we went for a walk.',
+       'Despite the rain, we have went for a walk.',
+       'Despite of rain, we went for a walk.',
+       'Despite that the rain, we went for a walk.'],
+ ans:1, note:'"Despite" is a preposition followed by a noun/noun phrase, NOT "of". "Despite the rain" is correct.'},
+
+{cat:'Grammar',q:'Which sentence correctly uses "who" vs "whom"?',
+ opts:['Who did you speak to at the conference?',
+       'Whom called you this morning?',
+       'To whom did you address the letter?',
+       'Who did you gave the keys to?',
+       'Whom is coming to the party?'],
+ ans:2, note:'"Whom" is used as an object (after prepositions like "to"). "To whom" = correct. "Whom called you?" is wrong — it should be "who".'},
+
+{cat:'Grammar',q:'Choose the correct conjunction: "She studied hard, _____ she failed the exam."',
+ opts:['so','because','therefore','yet','since'],
+ ans:3, note:'"Yet" signals a contrast or unexpected result — despite studying hard, she still failed. "So" and "therefore" would imply she passed because she studied.'},
+
+{cat:'Grammar',q:'Select the correct preposition: "The meeting was postponed _____ next Monday."',
+ opts:['at','on','until','since','during'],
+ ans:2, note:'"Until" (or "till") = up to a specific time. "Postponed until Monday" = delayed to that point in time.'},
+
+// ════════════════════════════════════════
+// READING COMPREHENSION  (12 questions)
+// ════════════════════════════════════════
+{cat:'Reading',
+ passage:'Sleep is not a luxury — it is a biological necessity. During sleep, the brain consolidates memories, clears waste products, and repairs itself. Adults need between seven and nine hours of sleep per night, yet surveys show that one in three adults regularly sleeps fewer than six hours. The consequences include impaired concentration, weakened immunity, and an increased risk of heart disease, diabetes, and obesity. Experts warn that modern society\'s "always-on" culture — driven by smartphones and artificial lighting — is creating a sleep deprivation epidemic.',
+ q:'According to the passage, what happens in the brain during sleep?',
+ opts:['It shuts down all activity to rest completely.',
+       'It consolidates memories, removes waste, and repairs itself.',
+       'It only processes emotional experiences from the day.',
+       'It increases production of stress hormones.',
+       'It reduces its size to save energy.'],
+ ans:1, note:'Directly stated: "the brain consolidates memories, clears waste products, and repairs itself."'},
+
+{cat:'Reading',
+ passage:'Sleep is not a luxury — it is a biological necessity. During sleep, the brain consolidates memories, clears waste products, and repairs itself. Adults need between seven and nine hours of sleep per night, yet surveys show that one in three adults regularly sleeps fewer than six hours. The consequences include impaired concentration, weakened immunity, and an increased risk of heart disease, diabetes, and obesity. Experts warn that modern society\'s "always-on" culture — driven by smartphones and artificial lighting — is creating a sleep deprivation epidemic.',
+ q:'What does the author blame for the "sleep deprivation epidemic"?',
+ opts:['Poor diet and lack of exercise','Long working hours and commuting','Smartphones and artificial lighting','Stress caused by financial problems','Genetic factors in modern populations'],
+ ans:2, note:'The passage states: "driven by smartphones and artificial lighting — is creating a sleep deprivation epidemic."'},
+
+{cat:'Reading',
+ passage:'Sleep is not a luxury — it is a biological necessity. During sleep, the brain consolidates memories, clears waste products, and repairs itself. Adults need between seven and nine hours of sleep per night, yet surveys show that one in three adults regularly sleeps fewer than six hours. The consequences include impaired concentration, weakened immunity, and an increased risk of heart disease, diabetes, and obesity. Experts warn that modern society\'s "always-on" culture — driven by smartphones and artificial lighting — is creating a sleep deprivation epidemic.',
+ q:'The tone of the passage is best described as:',
+ opts:['Humorous and lighthearted','Cautionary and informative','Angry and aggressive','Optimistic and encouraging','Neutral with no opinion'],
+ ans:1, note:'The author uses facts and expert warnings to inform readers about a serious health concern — cautionary and informative.'},
+
+{cat:'Reading',
+ passage:'Recycling is often presented as the solution to the world\'s plastic pollution problem. However, the reality is far more complicated. Only around 9% of all plastic ever produced has been recycled. Most plastic ends up in landfill, is incinerated, or pollutes oceans and rivers. While recycling is important, experts argue that the real solution lies in reducing plastic production in the first place — and in holding manufacturers, not just consumers, responsible for the waste they create.',
+ q:'What is the main argument of the passage?',
+ opts:['Recycling is the best solution to plastic pollution.',
+       'Consumers are solely responsible for plastic waste.',
+       'Plastic should be banned completely worldwide.',
+       'Recycling alone is insufficient; production must also be reduced.',
+       'Only 9% of consumers recycle their plastic.'],
+ ans:3, note:'The passage argues that recycling is important but limited, and the real solution is reducing production and holding manufacturers responsible.'},
+
+{cat:'Reading',
+ passage:'Recycling is often presented as the solution to the world\'s plastic pollution problem. However, the reality is far more complicated. Only around 9% of all plastic ever produced has been recycled. Most plastic ends up in landfill, is incinerated, or pollutes oceans and rivers. While recycling is important, experts argue that the real solution lies in reducing plastic production in the first place — and in holding manufacturers, not just consumers, responsible for the waste they create.',
+ q:'The word "incinerated" in the passage most likely means:',
+ opts:['Recycled into new products','Returned to the manufacturer','Buried underground','Burned at high temperatures','Thrown into the ocean'],
+ ans:3, note:'Incinerate = to destroy by burning. Context: plastic "ends up in landfill, is incinerated, or pollutes oceans."'},
+
+{cat:'Reading',
+ passage:'The city of Venice in Italy is slowly sinking into the sea. Built on a series of wooden piles driven into soft mud, the city has been gradually subsiding for centuries. This natural process has been accelerated by human activity: the extraction of groundwater and the weight of modern construction have increased the rate of sinking. At the same time, rising sea levels caused by climate change mean that flood events — known locally as "acqua alta" — are becoming more frequent and more severe.',
+ q:'What does the Italian term "acqua alta" refer to, according to the passage?',
+ opts:['The sinking of buildings into mud','High tide that floods Venice','"High water" flood events in Venice','The wooden piles under Venice','The weight of modern construction'],
+ ans:2, note:'The passage states flood events "known locally as \'acqua alta\'" — literally "high water" flood events.'},
+
+{cat:'Reading',
+ passage:'The city of Venice in Italy is slowly sinking into the sea. Built on a series of wooden piles driven into soft mud, the city has been gradually subsiding for centuries. This natural process has been accelerated by human activity: the extraction of groundwater and the weight of modern construction have increased the rate of sinking. At the same time, rising sea levels caused by climate change mean that flood events — known locally as "acqua alta" — are becoming more frequent and more severe.',
+ q:'According to the passage, which TWO factors have accelerated Venice\'s sinking?',
+ opts:['Tourism and air pollution',
+       'Groundwater extraction and modern construction weight',
+       'Sea level rise and deforestation',
+       'Wood decay and salt water corrosion',
+       'Earthquakes and heavy rainfall'],
+ ans:1, note:'Stated directly: "extraction of groundwater and the weight of modern construction have increased the rate of sinking."'},
+
+{cat:'Reading',
+ passage:'Exercise has well-documented benefits for physical health, but its effects on mental health are equally significant. Regular physical activity reduces levels of stress hormones such as cortisol and adrenaline. It also stimulates the production of endorphins — the brain\'s natural mood elevators. Studies have shown that even 30 minutes of moderate exercise three times a week can significantly reduce symptoms of depression and anxiety. For some patients with mild to moderate depression, exercise has been found to be as effective as antidepressant medication.',
+ q:'What are endorphins described as in the passage?',
+ opts:['Stress hormones produced during exercise','Chemicals that cause anxiety and depression','The brain\'s natural mood elevators','A type of antidepressant medication','Hormones that reduce physical fitness'],
+ ans:2, note:'Directly stated: "endorphins — the brain\'s natural mood elevators."'},
+
+{cat:'Reading',
+ passage:'Exercise has well-documented benefits for physical health, but its effects on mental health are equally significant. Regular physical activity reduces levels of stress hormones such as cortisol and adrenaline. It also stimulates the production of endorphins — the brain\'s natural mood elevators. Studies have shown that even 30 minutes of moderate exercise three times a week can significantly reduce symptoms of depression and anxiety. For some patients with mild to moderate depression, exercise has been found to be as effective as antidepressant medication.',
+ q:'What can be inferred from the passage about the author\'s view of exercise?',
+ opts:['Exercise is only useful for improving physical fitness.',
+       'Antidepressants are always more effective than exercise.',
+       'Exercise should be considered as a treatment option for mental health conditions.',
+       'Exercise is too difficult for people with depression.',
+       'Only intense exercise has benefits for mental health.'],
+ ans:2, note:'The author implies exercise is effective for mental health ("as effective as antidepressants") — suggesting it should be considered as a treatment.'},
+
+{cat:'Reading',
+ passage:'Social media platforms have transformed how people communicate, consume news, and form opinions. While they connect people across the globe, they also contribute to the spread of misinformation at unprecedented speed. Algorithms designed to maximize engagement tend to amplify emotionally charged content, regardless of its accuracy. Critics argue that this "attention economy" prioritizes profit over truth, making platforms partly responsible for the erosion of shared reality in democratic societies.',
+ q:'What does the term "attention economy" refer to in the passage?',
+ opts:['A system where people pay money for social media access',
+       'A business model that profits from capturing and holding user attention',
+       'An educational approach that teaches media literacy',
+       'A government policy that regulates online content',
+       'A method of distributing news equally to all users'],
+ ans:1, note:'From context: platforms use algorithms to "maximize engagement" — capturing attention is the product that generates profit. This is the "attention economy."'},
+
+{cat:'Reading',
+ passage:'Social media platforms have transformed how people communicate, consume news, and form opinions. While they connect people across the globe, they also contribute to the spread of misinformation at unprecedented speed. Algorithms designed to maximize engagement tend to amplify emotionally charged content, regardless of its accuracy. Critics argue that this "attention economy" prioritizes profit over truth, making platforms partly responsible for the erosion of shared reality in democratic societies.',
+ q:'According to critics mentioned in the passage, what is one negative consequence of social media?',
+ opts:['People are spending less time online than before.',
+       'It is destroying the profitability of traditional media.',
+       'It is contributing to the breakdown of a shared sense of truth.',
+       'It has made democratic elections more transparent.',
+       'Algorithms now block all false information automatically.'],
+ ans:2, note:'Critics say platforms are "partly responsible for the erosion of shared reality in democratic societies" — breakdown of shared truth.'},
+
+{cat:'Reading',
+ passage:'Many people believe that humans only use 10% of their brains. This is one of the most persistent myths in popular culture, often cited to suggest untapped potential. In reality, brain imaging studies show that virtually all regions of the brain have some function and are active at various times throughout the day. While it is true that not all neurons fire simultaneously, the idea that 90% of the brain is unused is completely false. Neuroscientists have traced the myth\'s origins to misquoted statements from early 20th-century psychologists.',
+ q:'What is the main purpose of this passage?',
+ opts:['To explain how the human brain works in detail.',
+       'To encourage people to develop more brain power.',
+       'To correct a widely-believed misconception about the brain.',
+       'To describe the history of neuroscience.',
+       'To argue that all humans have equal brain capacity.'],
+ ans:2, note:'The passage directly addresses and disproves the "10% of the brain" myth — its purpose is to correct a misconception.'},
+
+// ════════════════════════════════════════
+// IDIOMS & PHRASES  (12 questions)
+// ════════════════════════════════════════
+{cat:'Idioms & Phrases',q:'What does the idiom "BITE THE BULLET" mean?',
+ opts:['To eat something very quickly','To endure a painful or difficult situation with courage','To argue aggressively with someone','To make a mistake and regret it','To give up on something too easily'],
+ ans:1, note:'"Bite the bullet" = endure a painful or difficult situation stoically. Origin: soldiers biting bullets during surgery to bear pain.'},
+
+{cat:'Idioms & Phrases',q:'"The project is still UP IN THE AIR." What does this mean?',
+ opts:['The project is proceeding smoothly.','It has been cancelled permanently.','It is uncertain and not yet decided.','It is very high quality.','It has been completed successfully.'],
+ ans:2, note:'"Up in the air" = undecided, uncertain, or not yet resolved.'},
+
+{cat:'Idioms & Phrases',q:'If someone says "BREAK A LEG" before your performance, they mean:',
+ opts:['Be careful not to fall on stage.','Good luck!','Try to relax and be calm.','Work harder than usual.','Do not make any mistakes.'],
+ ans:1, note:'"Break a leg" is a theatrical idiom meaning "good luck!" — the opposite is said to avoid bad luck (superstition in theater).'},
+
+{cat:'Idioms & Phrases',q:'What does "COST AN ARM AND A LEG" mean?',
+ opts:['Require physical effort','Be very expensive','Take a very long time','Be extremely dangerous','Need a lot of people to complete'],
+ ans:1, note:'"Cost an arm and a leg" = be extremely expensive. "That car costs an arm and a leg!"'},
+
+{cat:'Idioms & Phrases',q:'"She has a CHIP ON HER SHOULDER." This means she:',
+ opts:['Has an injury on her shoulder','Carries her food carelessly','Feels resentful or angry about a past injustice','Is very proud of her achievements','Has a very relaxed attitude to life'],
+ ans:2, note:'"A chip on your shoulder" = a persistent feeling of resentment, often from a past grievance or feeling of inferiority.'},
+
+{cat:'Idioms & Phrases',q:'What does "ONCE IN A BLUE MOON" mean?',
+ opts:['Every single night','Very rarely','During a full moon only','At midnight exactly','Every month without fail'],
+ ans:1, note:'"Once in a blue moon" = very rarely; on very infrequent occasions. ("I only see him once in a blue moon.")'},
+
+{cat:'Idioms & Phrases',q:'"Let\'s CALL IT A DAY." What does this expression mean?',
+ opts:['Agree on a date for the next meeting','Name the project after the current day','Stop working for the day','Make a phone call immediately','Celebrate what was achieved today'],
+ ans:2, note:'"Call it a day" = decide to stop working on something for the remainder of the day.'},
+
+{cat:'Idioms & Phrases',q:'What does it mean to "BEAT AROUND THE BUSH"?',
+ opts:['To work very hard outdoors','To avoid saying something directly; to speak indirectly','To search thoroughly for something hidden','To arrive somewhere very early','To fail to complete a task on time'],
+ ans:1, note:'"Beat around the bush" = to avoid coming to the main point; to talk around a subject without addressing it directly.'},
+
+{cat:'Idioms & Phrases',q:'"You are BARKING UP THE WRONG TREE." This means you are:',
+ opts:['Making too much noise','Looking in the wrong place for something','Extremely angry at someone','Working very hard for no reason','About to make a good decision'],
+ ans:1, note:'"Barking up the wrong tree" = pursuing a mistaken or misguided course of action; looking for something in the wrong place.'},
+
+{cat:'Idioms & Phrases',q:'What does the phrase "UNDER THE WEATHER" mean?',
+ opts:['Experiencing very bad weather conditions','Feeling slightly ill or unwell','Working outdoors in the rain','Being very stressed about something','Having a bad day at work'],
+ ans:1, note:'"Under the weather" = feeling slightly ill, unwell, or depressed.'},
+
+{cat:'Idioms & Phrases',q:'"He got COLD FEET before the wedding." What does this mean?',
+ opts:['His feet were physically cold.','He felt nervous and began to doubt his decision.','He became very excited and eager.','He changed the date of the wedding.','He arrived very late to the ceremony.'],
+ ans:1, note:'"Get cold feet" = to suddenly feel too nervous or afraid to do something you had planned.'},
+
+{cat:'Idioms & Phrases',q:'What does "THE BALL IS IN YOUR COURT" mean?',
+ opts:['It is time to play a sport.','You must make the next decision or take action.','Someone else is responsible now.','The situation is out of your control.','You have won the competition.'],
+ ans:1, note:'"The ball is in your court" = it is now your turn to take action or make a decision.'},
+
+// ════════════════════════════════════════
+// SENTENCE STRUCTURE  (10 questions)
+// ════════════════════════════════════════
+{cat:'Sentence Structure',q:'Which sentence is a COMPOUND sentence?',
+ opts:['She went to the market.',
+       'Because it was raining, she stayed home.',
+       'She wanted to go out, but it was raining heavily.',
+       'Despite the rain, she decided to leave.',
+       'Running quickly, she caught the bus.'],
+ ans:2, note:'A compound sentence = two independent clauses joined by a coordinating conjunction (FANBOYS: for, and, nor, but, or, yet, so).'},
+
+{cat:'Sentence Structure',q:'Identify the FRAGMENT (incomplete sentence).',
+ opts:['The dog barked loudly all night.',
+       'Although the weather was terrible.',
+       'We finished the project on time.',
+       'She loves reading mystery novels.',
+       'The children played in the garden.'],
+ ans:1, note:'A fragment is an incomplete sentence. "Although the weather was terrible" is a dependent clause — it needs a main clause to complete the thought.'},
+
+{cat:'Sentence Structure',q:'Which sentence uses PARALLEL STRUCTURE correctly?',
+ opts:['She likes swimming, to run, and cycling.',
+       'She likes swimming, running, and to cycle.',
+       'She likes swimming, running, and cycling.',
+       'She likes to swim, running, and cycling.',
+       'She likes to swim, to running, and cycling.'],
+ ans:2, note:'Parallel structure requires the same grammatical form for all items in a list. "swimming, running, cycling" — all gerunds — is correctly parallel.'},
+
+{cat:'Sentence Structure',q:'Find the RUN-ON sentence.',
+ opts:['I was tired, so I went to bed early.',
+       'It was a beautiful day, we decided to go to the beach.',
+       'Although he was busy, he helped us.',
+       'She studied for hours and then took a break.',
+       'They won the match; the crowd cheered loudly.'],
+ ans:1, note:'A run-on (comma splice) joins two independent clauses with only a comma. Need: "...day, so we decided..." or "...day. We decided..."'},
+
+{cat:'Sentence Structure',q:'Choose the best way to combine: "The food was cold. We still ate it." into one sentence.',
+ opts:['The food was cold and we still ate it.',
+       'Although the food was cold, we still ate it.',
+       'The food was cold because we still ate it.',
+       'The food was cold so we still ate it.',
+       'Since the food was cold, we still ate it.'],
+ ans:1, note:'"Although" signals contrast — the cold food would normally stop people eating, but they ate it anyway. Best expresses the relationship.'},
+
+{cat:'Sentence Structure',q:'Which sentence has a MISPLACED MODIFIER?',
+ opts:['Smiling happily, the child opened her present.',
+       'Running to catch the bus, he dropped his phone.',
+       'The boy watched the dog chasing the ball excitedly.',
+       'Carefully, she placed the vase on the shelf.',
+       'Exhausted from the journey, the travellers fell asleep.'],
+ ans:2, note:'"excitedly" is misplaced — it appears to modify "the ball", not "the boy". Correct: "Excitedly, the boy watched the dog chasing the ball."'},
+
+{cat:'Sentence Structure',q:'Choose the sentence that is CORRECT.',
+ opts:['Having finished the report, a meeting was called.',
+       'Having finished the report, the manager called a meeting.',
+       'After finishing the report, a meeting was called by the manager.',
+       'The manager, having finished the report was called a meeting.',
+       'Finished the report, a meeting was then called.'],
+ ans:1, note:'"Having finished the report" is a participial phrase — it must refer to the subject of the main clause, which must be "the manager", not "a meeting".'},
+
+{cat:'Sentence Structure',q:'Which option shows correct use of a SEMICOLON?',
+ opts:['She loves coffee; but hates tea.',
+       'She loves coffee; she hates tea, however.',
+       'She loves coffee; she hates tea.',
+       'She loves coffee, she hates tea;',
+       'She loves; coffee and hates; tea.'],
+ ans:2, note:'A semicolon connects two closely related independent clauses. "She loves coffee; she hates tea." — both are complete sentences.'},
+
+{cat:'Sentence Structure',q:'Choose the sentence with the most natural and correct word order.',
+ opts:['He almost drove his children to school every day.',
+       'He drove almost his children to school every day.',
+       'He drove his children to school almost every day.',
+       'Almost he drove his children to school every day.',
+       'He drove his children almost to every day school.'],
+ ans:2, note:'"Almost every day" — the adverb "almost" should directly modify "every day" (the phrase it limits), placed before it.'},
+
+{cat:'Sentence Structure',q:'Which sentence correctly uses a RELATIVE CLAUSE?',
+ opts:['The book that I borrowed it from you was excellent.',
+       'The book that I borrowed from you was excellent.',
+       'The book which I borrowed it was excellent.',
+       'The book, which I borrowed it from you, was excellent.',
+       'The book what I borrowed from you was excellent.'],
+ ans:1, note:'Relative clauses do not repeat the pronoun: "that I borrowed from you" (not "that I borrowed IT"). "What" cannot replace "that/which" for things.'},
+
+// ════════════════════════════════════════
+// SPELLING & WORD FORM  (8 questions)
+// ════════════════════════════════════════
+{cat:'Spelling & Word Form',q:'Choose the correctly spelled word.',
+ opts:['Accomodation','Acommodation','Accommodation','Accomadation','Acomodation'],
+ ans:2, note:'"Accommodation" — double "c" and double "m". One of the most commonly misspelled words in English.'},
+
+{cat:'Spelling & Word Form',q:'Which sentence uses the correct word form?',
+ opts:['She gave a very convince speech at the conference.',
+       'She gave a very convincing speech at the conference.',
+       'She gave a very convinced speech at the conference.',
+       'She gave a very conviction speech at the conference.',
+       'She gave a very convince-ful speech at the conference.'],
+ ans:1, note:'"Convincing" is the correct adjective form here. "Convince" is a verb; "convinced" describes the person persuaded; "convincing" describes what does the persuading.'},
+
+{cat:'Spelling & Word Form',q:'Choose the correctly spelled word.',
+ opts:['Embarassment','Embarrasment','Embarrassment','Embarassement','Embarrassement'],
+ ans:2, note:'"Embarrassment" — double "r" and double "s". A very commonly misspelled word.'},
+
+{cat:'Spelling & Word Form',q:'Which word correctly completes: "The government\'s _____ to reform the tax system was widely praised."',
+ opts:['decide','decision','decisive','decided','decidingly'],
+ ans:1, note:'"Decision" is the noun form needed after "government\'s" (possessive + noun). "Decide" is a verb; "decisive" is an adjective.'},
+
+{cat:'Spelling & Word Form',q:'Choose the sentence with the CORRECT word choice.',
+ opts:['The affect of the medicine was immediate.',
+       'The effect of the medicine was immediate.',
+       'The effection of the medicine was immediate.',
+       'The affecting medicine was immediate.',
+       'The medicine effected immediately.'],
+ ans:1, note:'"Effect" (noun) = the result or outcome. "Affect" (verb) = to have an impact on. "The effect was immediate" — noun needed here.'},
+
+{cat:'Spelling & Word Form',q:'Which is the correct spelling?',
+ opts:['Occurance','Occurence','Occurrence','Ocurrence','Occurrance'],
+ ans:2, note:'"Occurrence" — double "c" and double "r". From the verb "occur" + "-rence".'},
+
+{cat:'Spelling & Word Form',q:'Choose the correct word: "This information is completely _____ to our topic."',
+ opts:['irrelevant','unrelevant','disrelevant','misrelevant','nonrelevant'],
+ ans:0, note:'"Irrelevant" = not relevant; not connected to the matter at hand. The correct prefix is "ir-" (used before "r").'},
+
+{cat:'Spelling & Word Form',q:'Which sentence uses "ITS" and "IT\'S" correctly?',
+ opts:['Its a great day and the dog wagged it\'s tail.',
+       'It\'s a great day and the dog wagged its tail.',
+       'It\'s a great day and the dog wagged it\'s tail.',
+       'Its a great day and the dog wagged its tail.',
+       'Its\' a great day and its tail was wagged.'],
+ ans:1, note:'"It\'s" = it is (contraction). "Its" = belonging to it (possessive — no apostrophe). "It\'s a great day / the dog wagged its tail."'},
+
+]; // end questions array
+
+// ─── ENGINE ───
+const L=['A','B','C','D','E'];
+let idx=0, selected=null, checked=false;
+let correct=0, wrong=0, skipped=0;
+let startTime=null, timerInterval=null;
+let catResults={};
+Object.keys(CAT_STYLE).forEach(c=>catResults[c]={correct:0,total:0,wrong:0});
+let activeQuestions=[];
+
+function shuffle(arr){
+    const a=[...arr];
+    for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
     return a;
 }
 
-let activeQuestions = [];
-
-function startExam() {
-    idx=0; selected=null; checked=false;
-    correct=0; wrong=0; skipped=0;
-    Object.keys(CAT_STYLE).forEach(c => catResults[c]={correct:0,total:0,wrong:0});
-
-    // Group by category, shuffle within each, then concatenate
-    const byCat = {};
-    Object.keys(CAT_STYLE).forEach(c => byCat[c]=[]);
-    questions.forEach(q => byCat[q.cat].push(q));
-    activeQuestions = [];
-    Object.keys(CAT_STYLE).forEach(c => {
-        activeQuestions.push(...shuffle(byCat[c]));
-    });
-
-    // Count totals per category
-    activeQuestions.forEach(q => catResults[q.cat].total++);
-
-    startTime = Date.now();
+function startExam(){
+    idx=0;selected=null;checked=false;correct=0;wrong=0;skipped=0;
+    Object.keys(CAT_STYLE).forEach(c=>catResults[c]={correct:0,total:0,wrong:0});
+    // Shuffle within each category then interleave
+    const byCat={};
+    Object.keys(CAT_STYLE).forEach(c=>byCat[c]=[]);
+    questions.forEach(q=>byCat[q.cat].push(q));
+    // Interleave categories so user gets variety
+    const cats=Object.keys(CAT_STYLE);
+    const pools=cats.map(c=>shuffle(byCat[c]));
+    activeQuestions=[];
+    let remaining=true;
+    while(remaining){
+        remaining=false;
+        pools.forEach(pool=>{if(pool.length>0){activeQuestions.push(pool.shift());remaining=true;}});
+    }
+    activeQuestions.forEach(q=>catResults[q.cat].total++);
+    startTime=Date.now();
     showScreen('examScreen');
     startTimer();
     renderQuestion();
 }
 
-function startTimer() {
+function startTimer(){
     clearInterval(timerInterval);
-    timerInterval = setInterval(() => {
-        const s = Math.floor((Date.now()-startTime)/1000);
-        document.getElementById('timerPill').textContent =
-            String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+    timerInterval=setInterval(()=>{
+        const s=Math.floor((Date.now()-startTime)/1000);
+        document.getElementById('timerPill').textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
     },1000);
 }
 
-function showScreen(id) {
-    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-}
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
 
-function renderQuestion() {
-    selected=null; checked=false;
-    const q = activeQuestions[idx];
-    const total = activeQuestions.length;
-
-    document.getElementById('qIndicator').textContent = `Q ${idx+1} / ${total}`;
-    document.getElementById('scorePill').textContent = `✓ ${correct}`;
-    document.getElementById('progressFill').style.width = ((idx/total)*100)+'%';
-    document.getElementById('qNumTag').textContent = `Q${idx+1}`;
-    document.getElementById('qText').textContent = q.q;
-
-    // Category badge
-    const cs = CAT_STYLE[q.cat];
-    const badge = document.getElementById('catBadge');
-    badge.textContent = q.cat;
-    badge.style.color = cs.color;
-    badge.style.borderColor = cs.border;
-    badge.style.background = cs.bg;
-
-    // Passage
-    const pb = document.getElementById('passageBox');
-    if (q.passage) { pb.textContent = q.passage; pb.style.display='block'; }
-    else { pb.style.display='none'; }
-
-    // Options
-    const list = document.getElementById('optsList');
-    list.innerHTML = '';
-    q.opts.forEach((opt,oi) => {
-        const div = document.createElement('div');
-        div.className = 'option';
-        div.id = `o${oi}`;
-        div.innerHTML = `<div class="opt-letter">${L[oi]}</div><div class="opt-text">${opt}</div>`;
-        div.onclick = () => selectOpt(oi);
+function renderQuestion(){
+    selected=null;checked=false;
+    const q=activeQuestions[idx];
+    const total=activeQuestions.length;
+    document.getElementById('qIndicator').textContent=`Q ${idx+1} / ${total}`;
+    document.getElementById('scorePill').textContent=`✓ ${correct}`;
+    document.getElementById('progressFill').style.width=((idx/total)*100)+'%';
+    document.getElementById('qNumTag').textContent=`Q${idx+1}`;
+    document.getElementById('qText').textContent=q.q;
+    const cs=CAT_STYLE[q.cat];
+    const badge=document.getElementById('catBadge');
+    badge.textContent=q.cat;badge.style.color=cs.color;badge.style.borderColor=cs.border;badge.style.background=cs.bg;
+    const pb=document.getElementById('passageBox');
+    if(q.passage){pb.textContent=q.passage;pb.style.display='block';}else{pb.style.display='none';}
+    const list=document.getElementById('optsList');
+    list.innerHTML='';
+    q.opts.forEach((opt,oi)=>{
+        const div=document.createElement('div');
+        div.className='option';div.id=`o${oi}`;
+        div.innerHTML=`<div class="opt-letter">${L[oi]}</div><div class="opt-text">${opt}</div>`;
+        div.onclick=()=>selectOpt(oi);
         list.appendChild(div);
     });
-
-    // Reset feedback
-    const fb = document.getElementById('feedbackBanner');
-    fb.className = 'feedback-banner';
+    const fb=document.getElementById('feedbackBanner');
+    fb.className='feedback-banner';
     document.getElementById('fbNote').style.display='none';
-
-    const btn = document.getElementById('nextBtn');
-    const isLast = idx === activeQuestions.length-1;
-    btn.textContent = isLast ? 'See Results' : 'Next Question →';
-    btn.className = 'btn-next';
+    const btn=document.getElementById('nextBtn');
+    btn.textContent=idx===total-1?'See Results':'Next Question →';
+    btn.className='btn-next';
     document.getElementById('skipBtn').style.display='';
-    document.getElementById('qBody').scrollTop = 0;
+    document.getElementById('qBody').scrollTop=0;
 }
 
-function selectOpt(oi) {
-    if (checked) return;
-    selected = oi;
-    checkAnswer();
-}
+function selectOpt(oi){if(checked)return;selected=oi;checkAnswer();}
 
-function checkAnswer() {
-    checked = true;
-    const q = activeQuestions[idx];
-    const isCorrect = selected === q.ans;
-
+function checkAnswer(){
+    checked=true;
+    const q=activeQuestions[idx];
+    const isCorrect=selected===q.ans;
     document.querySelectorAll('.option').forEach(el=>el.classList.add('disabled'));
     document.getElementById(`o${selected}`).classList.remove('selected');
-
-    if (isCorrect) {
-        document.getElementById(`o${selected}`).classList.add('correct');
-        correct++;
-        catResults[q.cat].correct++;
-    } else {
-        document.getElementById(`o${selected}`).classList.add('wrong');
-        document.getElementById(`o${q.ans}`).classList.add('correct');
-        wrong++;
-        catResults[q.cat].wrong++;
+    if(isCorrect){document.getElementById(`o${selected}`).classList.add('correct');correct++;catResults[q.cat].correct++;}
+    else{document.getElementById(`o${selected}`).classList.add('wrong');document.getElementById(`o${q.ans}`).classList.add('correct');wrong++;catResults[q.cat].wrong++;}
+    const fb=document.getElementById('feedbackBanner');
+    if(isCorrect){
+        fb.className='feedback-banner correct-fb show';
+        document.getElementById('fbIcon').textContent='✅';
+        document.getElementById('fbTitle').className='fb-title correct-text';
+        document.getElementById('fbTitle').textContent='Correct!';
+        document.getElementById('fbSub').innerHTML='Great job — that\'s the right answer.';
+    }else{
+        fb.className='feedback-banner wrong-fb show';
+        document.getElementById('fbIcon').textContent='❌';
+        document.getElementById('fbTitle').className='fb-title wrong-text';
+        document.getElementById('fbTitle').textContent='Incorrect';
+        document.getElementById('fbSub').innerHTML=`Correct answer: <span>${L[q.ans]}: ${q.opts[q.ans]}</span>`;
     }
-
-    const fb = document.getElementById('feedbackBanner');
-    const fbNote = document.getElementById('fbNote');
-
-    if (isCorrect) {
-        fb.className = 'feedback-banner correct-fb show';
-        document.getElementById('fbIcon').textContent = '✅';
-        document.getElementById('fbTitle').className = 'fb-title correct-text';
-        document.getElementById('fbTitle').textContent = 'Correct!';
-        document.getElementById('fbSub').innerHTML = 'Great job — that\'s the right answer.';
-    } else {
-        fb.className = 'feedback-banner wrong-fb show';
-        document.getElementById('fbIcon').textContent = '❌';
-        document.getElementById('fbTitle').className = 'fb-title wrong-text';
-        document.getElementById('fbTitle').textContent = 'Incorrect';
-        document.getElementById('fbSub').innerHTML = `Correct answer: <span>${L[q.ans]}: ${q.opts[q.ans]}</span>`;
-    }
-    if (q.note) { fbNote.innerHTML=`<strong>Explanation:</strong> ${q.note}`; fbNote.style.display='block'; }
-    else { fbNote.style.display='none'; }
-
-    document.getElementById('scorePill').textContent = `✓ ${correct}`;
-    const btn = document.getElementById('nextBtn');
-    const isLast = idx === activeQuestions.length-1;
-    btn.textContent = isLast ? 'See Results' : 'Next Question →';
-    btn.className = 'btn-next active';
+    const fbNote=document.getElementById('fbNote');
+    if(q.note){fbNote.innerHTML=`<strong>Explanation:</strong> ${q.note}`;fbNote.style.display='block';}
+    else{fbNote.style.display='none';}
+    document.getElementById('scorePill').textContent=`✓ ${correct}`;
+    const btn=document.getElementById('nextBtn');
+    btn.textContent=idx===activeQuestions.length-1?'See Results':'Next Question →';
+    btn.className='btn-next active';
     document.getElementById('skipBtn').style.display='none';
 }
 
-function skipQuestion() {
+function skipQuestion(){
     skipped++;
-    const q = activeQuestions[idx];
+    const q=activeQuestions[idx];
     document.querySelectorAll('.option').forEach(el=>el.classList.add('disabled'));
     document.getElementById(`o${q.ans}`).classList.add('correct');
-
-    const fb = document.getElementById('feedbackBanner');
-    document.getElementById('fbIcon').textContent = '⏭️';
-    document.getElementById('fbTitle').className = 'fb-title wrong-text';
-    document.getElementById('fbTitle').textContent = 'Skipped';
-    document.getElementById('fbSub').innerHTML = `Correct answer: <span>${L[q.ans]}: ${q.opts[q.ans]}</span>`;
-
-    const fbNote = document.getElementById('fbNote');
-    if (q.note) { fbNote.innerHTML=`<strong>Explanation:</strong> ${q.note}`; fbNote.style.display='block'; }
-    else { fbNote.style.display='none'; }
-
-    fb.className = 'feedback-banner wrong-fb show';
-    checked = true;
-
-    const btn = document.getElementById('nextBtn');
-    const isLast = idx === activeQuestions.length-1;
-    btn.textContent = isLast ? 'See Results' : 'Next Question →';
-    btn.className = 'btn-next active';
+    const fb=document.getElementById('feedbackBanner');
+    document.getElementById('fbIcon').textContent='⏭️';
+    document.getElementById('fbTitle').className='fb-title wrong-text';
+    document.getElementById('fbTitle').textContent='Skipped';
+    document.getElementById('fbSub').innerHTML=`Correct answer: <span>${L[q.ans]}: ${q.opts[q.ans]}</span>`;
+    const fbNote=document.getElementById('fbNote');
+    if(q.note){fbNote.innerHTML=`<strong>Explanation:</strong> ${q.note}`;fbNote.style.display='block';}else{fbNote.style.display='none';}
+    fb.className='feedback-banner wrong-fb show';
+    checked=true;
+    const btn=document.getElementById('nextBtn');
+    btn.textContent=idx===activeQuestions.length-1?'See Results':'Next Question →';
+    btn.className='btn-next active';
     document.getElementById('skipBtn').style.display='none';
 }
 
-function handleNext() { advance(); }
-
-function advance() {
-    if (idx < activeQuestions.length-1) {
+function handleNext(){advance();}
+function advance(){
+    if(idx<activeQuestions.length-1){
         idx++;
-        const card = document.getElementById('qCard');
-        card.style.animation = 'slideOut 0.25s ease both';
-        setTimeout(() => { card.style.animation=''; renderQuestion(); }, 220);
-    } else {
-        showResults();
-    }
+        const card=document.getElementById('qCard');
+        card.style.animation='slideOut .25s ease both';
+        setTimeout(()=>{card.style.animation='';renderQuestion();},220);
+    }else{showResults();}
 }
 
-// ─── STUDY RECOMMENDATIONS DATA ───
-const RECOMMENDATIONS = {
-    'Vocabulary': {
-        low: {
-            priority:'High Priority',
-            color:'#ef4444',
-            title:'Vocabulary — Needs Significant Work',
-            tips:[
-                'Learn 10–15 academic words per day using the Academic Word List (AWL)',
-                'Use Quizlet or Anki flashcard apps for spaced repetition',
-                'Read The Economist, Nature News, or academic abstracts daily',
-                'Practice with Cambridge Vocabulary for IELTS (Pauline Cullen)',
-                'For each new word: learn its definition, part of speech, collocations, and example sentence'
-            ]
-        },
-        mid: {
-            priority:'Medium Priority',
-            color:'#f59e0b',
-            title:'Vocabulary — Strengthen Academic Register',
-            tips:[
-                'Focus on academic synonyms: e.g., "use" → "utilize/employ", "show" → "demonstrate/indicate"',
-                'Study word families (analyze/analysis/analytical/analytically)',
-                'Learn collocations: "conduct research", "draw conclusions", "significant correlation"',
-                'Read 1–2 journal article abstracts daily in your field'
-            ]
-        },
-        high: {
-            priority:'Good Standing',
-            color:'#10b981',
-            title:'Vocabulary — Strong Foundation',
-            tips:[
-                'Maintain your vocabulary by reading academic papers in your discipline',
-                'Expand into specialized vocabulary of your PhD subject area',
-                'Practice using advanced academic vocabulary in your own writing'
-            ]
-        }
+// ─── RECOMMENDATIONS ───
+const RECS={
+    'Vocabulary':{
+        low:{p:'High Priority',c:'#ef4444',t:'Vocabulary — Build Your Word Power',
+             tips:['Learn 10 new words daily using the Oxford 3000 word list','Use Anki or Quizlet with spaced-repetition flashcards','Read English novels, newspapers (BBC, Guardian) and note unfamiliar words','Study word families: happy → happiness → unhappy → unhappily','Use new words in sentences you write yourself to memorize them']},
+        mid:{p:'Medium Priority',c:'#f59e0b',t:'Vocabulary — Widen Your Range',
+             tips:['Focus on synonyms and register: formal vs informal equivalents','Study collocations: "make a decision" (not "do a decision")','Read novels and magazines outside your comfort genre','Play vocabulary games: Wordle, crosswords, word associations']},
+        high:{p:'Good Standing',c:'#10b981',t:'Vocabulary — Strong Foundation',
+              tips:['Explore advanced vocabulary: idioms, proverbs, phrasal verbs','Read challenging texts: opinion pieces, literary fiction, scientific magazines','Teach others — explaining word meanings reinforces your own knowledge']}
     },
-    'Grammar': {
-        low: {
-            priority:'High Priority',
-            color:'#ef4444',
-            title:'Grammar — Needs Significant Work',
-            tips:[
-                'Study English Grammar in Use (Raymond Murphy) — intermediate and upper-intermediate levels',
-                'Focus on: subject-verb agreement, tense consistency, articles (a/an/the)',
-                'Practice passive voice construction — essential for academic/scientific writing',
-                'Study conditional sentences (If + were, ... would)',
-                'Use Grammarly or LanguageTool to check your writing and learn from corrections'
-            ]
-        },
-        mid: {
-            priority:'Medium Priority',
-            color:'#f59e0b',
-            title:'Grammar — Refine Key Structures',
-            tips:[
-                'Review tricky areas: articles with academic nouns, relative clauses, gerunds vs infinitives',
-                '"Data" is plural — "the data were..." (common academic error)',
-                'Practice neither/nor, either/or subject-verb agreement',
-                'Study Advanced Grammar in Use (Martin Hewings) for PhD-level grammar'
-            ]
-        },
-        high: {
-            priority:'Good Standing',
-            color:'#10b981',
-            title:'Grammar — Solid Command',
-            tips:[
-                'Continue reviewing advanced structures: inversion, nominalization, complex conditionals',
-                'Proofread your academic writing carefully for minor errors',
-                'Use grammar variety: mix simple, compound, complex, and compound-complex sentences'
-            ]
-        }
+    'Grammar':{
+        low:{p:'High Priority',c:'#ef4444',t:'Grammar — Focus on Core Rules',
+             tips:['Work through English Grammar in Use by Raymond Murphy (start with intermediate)','Focus on: tenses (present perfect vs past simple), articles (a/an/the), subject-verb agreement','Use Grammarly or LanguageTool to analyse your writing errors','Do 20–30 minutes of grammar exercises every day from a structured workbook','Watch English TV shows with subtitles and notice sentence structures']},
+        mid:{p:'Medium Priority',c:'#f59e0b',t:'Grammar — Refine Your Accuracy',
+             tips:['Review tricky points: modal verbs, reported speech, conditionals (2nd and 3rd)','Learn prepositions of time: at/on/in; prepositions of place','Study passive voice — essential for formal and academic writing','Practice using conjunctions and linking words for complex sentences']},
+        high:{p:'Good Standing',c:'#10b981',t:'Grammar — Advanced Control',
+              tips:['Study Advanced Grammar in Use (Martin Hewings) for complex structures','Practice inversion: "Not only did he...", "Rarely have I seen..."','Work on consistency: tense, pronoun, and style coherence across long texts']}
     },
-    'Reading': {
-        low: {
-            priority:'High Priority',
-            color:'#ef4444',
-            title:'Reading Comprehension — Needs Development',
-            tips:[
-                'Practice reading 1 academic article per day and summarizing its main points',
-                'Learn to distinguish: main idea vs. supporting details vs. author\'s opinion',
-                'Practice IELTS Academic Reading past papers (Cambridge IELTS books 1–18)',
-                'Learn to identify text organization: compare/contrast, cause/effect, problem/solution',
-                'Build stamina: increase reading time gradually from 20 to 60+ minutes'
-            ]
-        },
-        mid: {
-            priority:'Medium Priority',
-            color:'#f59e0b',
-            title:'Reading Comprehension — Sharpen Analytical Skills',
-            tips:[
-                'Practice inference questions: "What does the author IMPLY?" vs. what is stated directly',
-                'Identify the author\'s tone and purpose (critical, neutral, persuasive, etc.)',
-                'Practice identifying signpost language: "However", "Nevertheless", "Consequently"',
-                'Time yourself: IELTS allows 60 minutes for 3 passages and 40 questions'
-            ]
-        },
-        high: {
-            priority:'Good Standing',
-            color:'#10b981',
-            title:'Reading Comprehension — Strong Skills',
-            tips:[
-                'Read cutting-edge journals in your PhD field to build discipline-specific literacy',
-                'Practice critical reading: evaluate methodology, identify limitations, assess arguments',
-                'Explore philosophy of science and research methodology texts'
-            ]
-        }
+    'Reading':{
+        low:{p:'High Priority',c:'#ef4444',t:'Reading — Build Comprehension Skills',
+             tips:['Read one short English article every day and write a 3-sentence summary','Practice identifying: main idea, supporting details, author\'s purpose','Use Cambridge English reading practice materials (A2–B2 level)','When you meet unknown words, try to guess meaning from context before checking a dictionary','Read simple fiction first (graded readers) then progress to authentic texts']},
+        mid:{p:'Medium Priority',c:'#f59e0b',t:'Reading — Sharpen Your Analysis',
+             tips:['Practice inference: what is implied but not directly stated?','Identify the author\'s tone (critical, neutral, enthusiastic, cautionary)','Learn to recognise signpost language: "However", "As a result", "In contrast"','Time yourself: aim to read 200–250 words per minute for general texts']},
+        high:{p:'Good Standing',c:'#10b981',t:'Reading — Strong Comprehension',
+              tips:['Read authentic long-form journalism: The Atlantic, New Yorker, Economist','Practise critical reading: evaluate the quality of arguments and evidence','Explore texts from your PhD field to build discipline-specific reading speed']}
     },
-    'Writing': {
-        low: {
-            priority:'High Priority',
-            color:'#ef4444',
-            title:'Academic Writing — Needs Significant Development',
-            tips:[
-                'Study IELTS Writing Task 2 structure: introduction (thesis), 2–3 body paragraphs, conclusion',
-                'Practice writing strong thesis statements that are specific and arguable',
-                'Learn academic hedging language: "may suggest", "appears to indicate", "could be attributed to"',
-                'Study Swales & Feak "Academic Writing for Graduate Students" — essential for PhD level',
-                'Write one essay per week and get feedback from a native speaker or writing center'
-            ]
-        },
-        mid: {
-            priority:'Medium Priority',
-            color:'#f59e0b',
-            title:'Academic Writing — Polish Your Style',
-            tips:[
-                'Work on paragraph coherence: topic sentence → evidence → analysis → link back to thesis',
-                'Use varied transition phrases: not just "however" and "therefore" — explore "notwithstanding", "in contrast", "it follows that"',
-                'Practice paraphrasing sources without plagiarizing',
-                'Study nominalization: turning verbs into nouns for formal style ("analyze" → "the analysis of")'
-            ]
-        },
-        high: {
-            priority:'Good Standing',
-            color:'#10b981',
-            title:'Academic Writing — Strong Foundation',
-            tips:[
-                'Develop your PhD writing by studying the structure of journal articles in your field',
-                'Practice writing literature reviews and methodology sections',
-                'Explore stylistic refinement: cohesion, coherence, register consistency'
-            ]
-        }
+    'Idioms & Phrases':{
+        low:{p:'High Priority',c:'#ef4444',t:'Idioms & Phrases — Learn Common Expressions',
+             tips:['Study the Oxford Dictionary of Idioms or Cambridge Idioms Dictionary','Learn 3–5 idioms per week with meaning, example sentence, and context','Watch American and British TV shows (Friends, The Crown) — rich in idioms','Keep an "idiom notebook" and review it weekly','Focus first on the most common 50 everyday English idioms']},
+        mid:{p:'Medium Priority',c:'#f59e0b',t:'Idioms & Phrases — Expand Your Range',
+             tips:['Learn phrasal verbs in groups by meaning (e.g., verbs of stopping: "give up", "call off", "cut out")','Study body-part idioms: "cost an arm and a leg", "bite the bullet", "cold feet"','Practice using idioms naturally in conversation or writing']},
+        high:{p:'Good Standing',c:'#10b981',t:'Idioms & Phrases — Solid Command',
+              tips:['Explore less common idioms and regional expressions','Study proverbs and their appropriate contexts','Practice recognising idioms in written texts and news media']}
     },
-    'Sentence Structure': {
-        low: {
-            priority:'High Priority',
-            color:'#ef4444',
-            title:'Sentence Structure — Needs Work',
-            tips:[
-                'Study the four sentence types: simple, compound, complex, compound-complex',
-                'Practice identifying and fixing: run-on sentences, comma splices, fragments',
-                'Learn parallel structure: lists must use consistent grammatical forms',
-                'Study dangling and misplaced modifiers — very common in non-native writing',
-                'Use short sentences first, then practice combining them with subordinating conjunctions'
-            ]
-        },
-        mid: {
-            priority:'Medium Priority',
-            color:'#f59e0b',
-            title:'Sentence Structure — Build Variety',
-            tips:[
-                'Vary your sentence length and structure to avoid monotony in academic writing',
-                'Use subordinate clauses to show logical relationships: because, although, whereas, while',
-                'Practice sentence combining exercises from grammar workbooks',
-                'Avoid starting too many sentences with "I", "The", or "It"'
-            ]
-        },
-        high: {
-            priority:'Good Standing',
-            color:'#10b981',
-            title:'Sentence Structure — Sophisticated Control',
-            tips:[
-                'Use inversion for emphasis in formal writing: "Not only did the study show X, but also Y"',
-                'Practice cleft sentences: "It is the methodology that distinguishes this research."',
-                'Focus on sentence-level cohesion between paragraphs'
-            ]
-        }
+    'Sentence Structure':{
+        low:{p:'High Priority',c:'#ef4444',t:'Sentence Structure — Build the Basics',
+             tips:['Learn the four sentence types: simple, compound, complex, compound-complex','Identify and fix: fragments (incomplete sentences) and run-ons (comma splices)','Practice joining sentences using coordinating conjunctions (FANBOYS: for, and, nor, but, or, yet, so)','Study subordinating conjunctions: because, although, while, unless, since','Write 10 varied sentences daily and check them for completeness and correctness']},
+        mid:{p:'Medium Priority',c:'#f59e0b',t:'Sentence Structure — Increase Variety',
+             tips:['Use subordinate clauses to show logical relationships: cause, contrast, condition','Learn to avoid misplaced and dangling modifiers','Practice parallel structure in lists: "swimming, running, and cycling" (not "swimming, to run, and cycling")','Vary sentence length deliberately — mix short, punchy sentences with longer, detailed ones']},
+        high:{p:'Good Standing',c:'#10b981',t:'Sentence Structure — Sophisticated Control',
+              tips:['Practice fronted adverbials for emphasis: "Only by working together can we succeed."','Study cleft sentences: "It is the preparation that makes the difference."','Experiment with inversion and ellipsis for stylistic effect']}
+    },
+    'Spelling & Word Form':{
+        low:{p:'High Priority',c:'#ef4444',t:'Spelling & Word Form — Focus Here',
+             tips:['Learn the most commonly misspelled English words: accommodation, occurrence, embarrassment, necessary, separate','Study prefixes and suffixes to predict correct forms: un-, re-, -tion, -ment, -ness','Learn the difference between commonly confused words: affect/effect, its/it\'s, their/there/they\'re','Use a spell-checker but also practise spelling without one','Practise writing out correctly spelled words 5 times each — muscle memory helps']},
+        mid:{p:'Medium Priority',c:'#f59e0b',t:'Spelling & Word Form — Polish Your Accuracy',
+             tips:['Focus on word family patterns: beauty → beautiful → beautifully → beautify','Learn spelling rules: "i before e except after c", doubling rules (running, stopped)','Review homophone pairs: wear/where, peace/piece, principal/principle']},
+        high:{p:'Good Standing',c:'#10b981',t:'Spelling & Word Form — Strong Accuracy',
+              tips:['Focus on rare exception words that break standard rules','Learn specialist vocabulary in your field with correct spelling','Proofread your writing carefully — even strong spellers make typing errors']}
     }
 };
 
-function showResults() {
+function showResults(){
     clearInterval(timerInterval);
-    const elapsed = Date.now()-startTime;
-    const total = activeQuestions.length;
-    const pct = Math.round((correct/total)*100);
-    const m = Math.floor(elapsed/60000);
-    const s = Math.floor((elapsed%60000)/1000);
-
-    document.getElementById('ringPct').textContent = pct+'%';
-    document.getElementById('sCorrect').textContent = correct;
-    document.getElementById('sWrong').textContent = wrong;
-    document.getElementById('sSkipped').textContent = skipped;
-    document.getElementById('sTime').textContent = `${m}m ${s}s`;
-
-    const circ = 2*Math.PI*52;
-    const ring = document.getElementById('ringArc');
-    ring.style.strokeDasharray = circ;
-    ring.style.strokeDashoffset = circ;
-
-    // IELTS band mapping
-    let grade, title, msg, gColor;
-    if      (pct>=90) { grade='Band 8–9  Proficient';  title='Outstanding!';  msg='Near-native academic English proficiency.'; gColor='#10b981'; }
-    else if (pct>=80) { grade='Band 7  Advanced';      title='Excellent Work!'; msg='Strong academic English — PhD-ready.'; gColor='#10b981'; }
-    else if (pct>=70) { grade='Band 6.5  Good';        title='Good Performance'; msg='Solid foundation — a few areas to polish.'; gColor='#00d4ff'; }
-    else if (pct>=60) { grade='Band 6  Adequate';      title='Adequate Level'; msg='Meets minimum requirements; focus on weak areas.'; gColor='#f59e0b'; }
-    else if (pct>=50) { grade='Band 5  Developing';    title='Developing Level'; msg='Dedicated study needed before PhD program.'; gColor='#f59e0b'; }
-    else              { grade='Band 4  Needs Work';    title='Needs Development'; msg='Intensive English preparation is recommended.'; gColor='#ef4444'; }
-
-    document.getElementById('resTitle').textContent = title;
-    document.getElementById('resMsg').textContent = msg;
-    const gp = document.getElementById('gradePill');
-    gp.textContent = grade;
-    gp.style.cssText = `background:${gColor}22;border:1px solid ${gColor}55;color:${gColor}`;
-
+    const elapsed=Date.now()-startTime;
+    const total=activeQuestions.length;
+    const pct=Math.round((correct/total)*100);
+    const m=Math.floor(elapsed/60000),s=Math.floor((elapsed%60000)/1000);
+    document.getElementById('ringPct').textContent=pct+'%';
+    document.getElementById('sCorrect').textContent=correct;
+    document.getElementById('sWrong').textContent=wrong;
+    document.getElementById('sSkipped').textContent=skipped;
+    document.getElementById('sTime').textContent=`${m}m ${s}s`;
+    const circ=2*Math.PI*52;
+    const ring=document.getElementById('ringArc');
+    ring.style.strokeDasharray=circ;ring.style.strokeDashoffset=circ;
+    let grade,title,msg,gColor;
+    if(pct>=90){grade='C1–C2  Proficient';title='Outstanding!';msg='Near-native English fluency. Excellent for PhD programs.';gColor='#10b981';}
+    else if(pct>=80){grade='B2–C1  Upper-Intermediate';title='Excellent Work!';msg='Strong English skills — very well prepared for graduate study.';gColor='#10b981';}
+    else if(pct>=70){grade='B2  Upper-Intermediate';title='Good Performance';msg='Good level — a few areas to strengthen before your exam.';gColor='#00d4ff';}
+    else if(pct>=60){grade='B1–B2  Intermediate';title='Adequate Level';msg='Solid foundation — focus on weaker areas to reach the next level.';gColor='#f59e0b';}
+    else if(pct>=50){grade='B1  Intermediate';title='Developing Level';msg='You need focused study in several areas before your PhD exam.';gColor='#f59e0b';}
+    else{grade='A2–B1  Elementary–Intermediate';title='Needs Development';msg='Dedicate time daily to English study. Progress is achievable!';gColor='#ef4444';}
+    document.getElementById('resTitle').textContent=title;
+    document.getElementById('resMsg').textContent=msg;
+    const gp=document.getElementById('gradePill');
+    gp.textContent=grade;gp.style.cssText=`background:${gColor}22;border:1px solid ${gColor}55;color:${gColor}`;
     showScreen('resultScreen');
+    setTimeout(()=>{ring.style.strokeDashoffset=circ-(pct/100)*circ;},200);
 
-    // Animate ring
-    setTimeout(() => { ring.style.strokeDashoffset = circ-(pct/100)*circ; }, 200);
-
-    // Category breakdown bars
-    const breakdown = document.getElementById('catBreakdown');
-    breakdown.innerHTML = '';
-    Object.keys(CAT_STYLE).forEach(cat => {
-        const r = catResults[cat];
-        const catPct = r.total > 0 ? Math.round((r.correct/r.total)*100) : 0;
-        const cs = CAT_STYLE[cat];
-        const div = document.createElement('div');
-        div.className = 'cat-row';
-        div.innerHTML = `
-            <div class="cat-row-top">
-                <span class="cat-name" style="color:${cs.color}">${cat}</span>
-                <span class="cat-score" style="color:${cs.color}">${r.correct}/${r.total} (${catPct}%)</span>
-            </div>
-            <div class="cat-bar-bg">
-                <div class="cat-bar-fill" id="bar-${cat.replace(' ','-')}" style="width:0%;background:${cs.color}"></div>
-            </div>`;
+    // Category bars
+    const breakdown=document.getElementById('catBreakdown');
+    breakdown.innerHTML='';
+    Object.keys(CAT_STYLE).forEach(cat=>{
+        const r=catResults[cat];
+        const cp=r.total>0?Math.round((r.correct/r.total)*100):0;
+        const cs=CAT_STYLE[cat];
+        const div=document.createElement('div');div.className='cat-row';
+        div.innerHTML=`<div class="cat-row-top"><span class="cat-name" style="color:${cs.color}">${cat}</span><span class="cat-score" style="color:${cs.color}">${r.correct}/${r.total} (${cp}%)</span></div><div class="cat-bar-bg"><div class="cat-bar-fill" id="bar-${cat.replace(/[& ]/g,'-')}" style="width:0%;background:${cs.color}"></div></div>`;
         breakdown.appendChild(div);
-        setTimeout(() => {
-            const bar = document.getElementById(`bar-${cat.replace(' ','-')}`);
-            if (bar) bar.style.width = catPct+'%';
-        }, 400);
+        setTimeout(()=>{const b=document.getElementById(`bar-${cat.replace(/[& ]/g,'-')}`);if(b)b.style.width=cp+'%';},400);
     });
 
     // Recommendations
-    const recDiv = document.getElementById('recommendations');
-    recDiv.innerHTML = '';
-    Object.keys(CAT_STYLE).forEach(cat => {
-        const r = catResults[cat];
-        const catPct = r.total > 0 ? Math.round((r.correct/r.total)*100) : 0;
-        const rec = RECOMMENDATIONS[cat];
-        let level;
-        if (catPct >= 80) level = 'high';
-        else if (catPct >= 55) level = 'mid';
-        else level = 'low';
-        const data = rec[level];
-
-        const card = document.createElement('div');
-        card.className = 'rec-card';
-        card.innerHTML = `
-            <div class="rec-priority" style="color:${data.color}">${data.priority} — ${catPct}%</div>
-            <div class="rec-title">${data.title}</div>
-            <div class="rec-body">
-                <ul>${data.tips.map(t=>`<li>${t}</li>`).join('')}</ul>
-            </div>`;
+    const recDiv=document.getElementById('recommendations');
+    recDiv.innerHTML='';
+    Object.keys(CAT_STYLE).forEach(cat=>{
+        const r=catResults[cat];
+        const cp=r.total>0?Math.round((r.correct/r.total)*100):0;
+        const rec=RECS[cat];
+        const level=cp>=80?'high':cp>=55?'mid':'low';
+        const data=rec[level];
+        const card=document.createElement('div');card.className='rec-card';
+        card.innerHTML=`<div class="rec-priority" style="color:${data.c}">${data.p} — ${cp}%</div><div class="rec-title">${data.t}</div><div class="rec-body"><ul>${data.tips.map(t=>`<li>${t}</li>`).join('')}</ul></div>`;
         recDiv.appendChild(card);
     });
 }
 
-function retryExam() { startExam(); }
-function goHome() { clearInterval(timerInterval); showScreen('startScreen'); }
+function retryExam(){startExam();}
+function goHome(){clearInterval(timerInterval);showScreen('startScreen');}
 </script>
 </body>
 </html>
