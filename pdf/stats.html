@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Usage Statistics — PDF Toolkit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #070b14; --bg2: #0d1526;
+      --surface: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.08);
+      --cyan: #00d4ff; --green: #00ff88; --purple: #8b5cf6;
+      --gold: #f59e0b; --red: #ff4757;
+      --text: #e2e8f0; --muted: #8892a4;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    body::before {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 10% 20%, rgba(0,212,255,.06) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 90% 80%, rgba(139,92,246,.06) 0%, transparent 60%);
+    }
+    ::selection { background: rgba(0,212,255,.2); }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-thumb { background: #00a8cc; border-radius: 3px; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 clamp(1.5rem, 5vw, 4rem); height: 64px;
+      background: rgba(7,11,20,.85); backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-back { text-decoration: none; color: var(--muted); font-size: .85rem; font-weight: 500; transition: color .2s; }
+    .nav-back:hover { color: var(--cyan); }
+    .nav-logo { font-family: 'JetBrains Mono', monospace; font-size: 1rem; font-weight: 700; color: var(--cyan); text-decoration: none; }
+    .nav-logo em { color: var(--green); font-style: normal; }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 900px; margin: 0 auto; padding: 2.5rem clamp(1.5rem, 5vw, 3rem) 5rem; position: relative; z-index: 1; }
+
+    /* ── HEADER ── */
+    .page-header { margin-bottom: 2.5rem; }
+    .page-label { font-family: 'JetBrains Mono', monospace; font-size: .75rem; font-weight: 500; color: var(--cyan); letter-spacing: .12em; text-transform: uppercase; margin-bottom: .5rem; }
+    .page-header h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; letter-spacing: -1px; }
+    .page-header p { color: var(--muted); margin-top: .5rem; font-size: .95rem; }
+
+    /* ── SUMMARY CARDS ── */
+    .summary-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem; }
+    @media (max-width: 600px) { .summary-row { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 380px) { .summary-row { grid-template-columns: 1fr; } }
+    .summary-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.25rem 1.5rem;
+      display: flex; flex-direction: column; gap: .35rem;
+    }
+    .sc-label { font-size: .75rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+    .sc-value { font-family: 'JetBrains Mono', monospace; font-size: 2rem; font-weight: 700; line-height: 1; }
+    .sc-sub { font-size: .75rem; color: var(--muted); }
+
+    /* ── SECTION ── */
+    .section-title { font-size: .75rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; }
+
+    /* ── TOOL ROWS ── */
+    .tools-table { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 2rem; }
+    .tool-row {
+      display: grid; grid-template-columns: 2.2rem 1fr auto auto;
+      align-items: center; gap: 1rem; padding: .85rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      transition: background .15s;
+    }
+    .tool-row:last-child { border-bottom: none; }
+    .tool-row:hover { background: rgba(255,255,255,.02); }
+    .tool-row.zero { opacity: .45; }
+    .tr-icon { font-size: 1.25rem; text-align: center; }
+    .tr-info { min-width: 0; }
+    .tr-name { font-size: .9rem; font-weight: 600; }
+    .tr-key { font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: var(--muted); margin-top: .1rem; }
+    .tr-bar-wrap { width: 130px; }
+    @media (max-width: 540px) { .tr-bar-wrap { display: none; } }
+    .tr-bar-bg { background: rgba(255,255,255,.05); border-radius: 50px; height: 5px; overflow: hidden; }
+    .tr-bar-fill { height: 100%; border-radius: 50px; transition: width .6s cubic-bezier(.4,0,.2,1); }
+    .tr-count { font-family: 'JetBrains Mono', monospace; font-size: .95rem; font-weight: 700; min-width: 2.5rem; text-align: right; }
+
+    /* ── CHART (Most used) ── */
+    .chart-wrap { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; }
+    .bar-chart { display: flex; align-items: flex-end; gap: .6rem; height: 140px; margin-top: 1rem; }
+    .bc-col { display: flex; flex-direction: column; align-items: center; gap: .4rem; flex: 1; min-width: 0; }
+    .bc-bar { width: 100%; border-radius: 6px 6px 0 0; transition: height .6s cubic-bezier(.4,0,.2,1); min-height: 4px; }
+    .bc-label { font-size: .65rem; color: var(--muted); text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
+    .bc-count { font-family: 'JetBrains Mono', monospace; font-size: .7rem; font-weight: 700; }
+
+    /* ── EMPTY STATE ── */
+    .empty-state { text-align: center; padding: 4rem 2rem; color: var(--muted); }
+    .empty-state .es-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .empty-state h2 { font-size: 1.25rem; font-weight: 700; color: var(--text); margin-bottom: .5rem; }
+    .empty-state p { font-size: .9rem; max-width: 360px; margin: 0 auto; }
+    .empty-state a { color: var(--cyan); text-decoration: none; }
+    .empty-state a:hover { text-decoration: underline; }
+
+    /* ── ACTIONS ── */
+    .actions-row { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; margin-top: .5rem; }
+    .btn-reset {
+      display: inline-flex; align-items: center; gap: .4rem;
+      padding: .45rem 1rem; border-radius: 8px;
+      border: 1px solid rgba(255,71,87,.3); background: rgba(255,71,87,.06);
+      color: var(--red); font-size: .82rem; font-weight: 600; cursor: pointer;
+      font-family: inherit; transition: background .2s, border-color .2s;
+    }
+    .btn-reset:hover { background: rgba(255,71,87,.14); border-color: rgba(255,71,87,.6); }
+    .btn-export {
+      display: inline-flex; align-items: center; gap: .4rem;
+      padding: .45rem 1rem; border-radius: 8px;
+      border: 1px solid var(--border); background: var(--surface);
+      color: var(--muted); font-size: .82rem; font-weight: 600; cursor: pointer;
+      font-family: inherit; transition: all .2s;
+    }
+    .btn-export:hover { border-color: var(--cyan); color: var(--cyan); }
+
+    /* ── PRIVACY NOTE ── */
+    .privacy-note { text-align: center; font-size: .78rem; color: var(--muted); margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+    .privacy-note strong { color: var(--green); }
+
+    /* ── REVEAL ANIMATION ── */
+    .fade-in { animation: fadeIn .4s ease both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+    .nav-author {
+      position: absolute; left: 50%; transform: translateX(-50%);
+      font-size: .78rem; font-weight: 600; color: var(--muted);
+      text-decoration: none; white-space: nowrap;
+      letter-spacing: .02em; transition: color .2s;
+    }
+    .nav-author:hover { color: var(--cyan); }
+    .nav-author span { color: var(--cyan); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/pdf/" class="nav-back">← PDF Tools</a>
+  <a href="/" class="nav-author" rel="noopener">by <span>Waleed Albusmait</span></a>
+  <a href="/pdf/" class="nav-logo">pdf<em>.tools</em></a>
+</nav>
+
+<div class="container">
+
+  <div class="page-header fade-in">
+    <div class="page-label">// statistics</div>
+    <h1>Usage Statistics</h1>
+    <p>Counts are stored locally in your browser — never sent anywhere.</p>
+  </div>
+
+  <div id="mainContent"></div>
+
+  <div class="privacy-note"><strong>🔒 100% local:</strong> All statistics are stored in <code>localStorage</code> on this device only. Nothing is ever sent to a server.</div>
+</div>
+
+<script>
+/* ── Tool metadata ── */
+const TOOLS = [
+  { key: 'merge',         name: 'Merge PDF',         icon: '🔀', href: '/pdf/merge.html',         color: '#00d4ff' },
+  { key: 'split',         name: 'Split PDF',         icon: '✂️', href: '/pdf/split.html',         color: '#00d4ff' },
+  { key: 'remove_pages',  name: 'Remove Pages',      icon: '🗑️', href: '/pdf/remove-pages.html',  color: '#00d4ff' },
+  { key: 'extract_pages', name: 'Extract Pages',     icon: '📤', href: '/pdf/extract-pages.html', color: '#00d4ff' },
+  { key: 'rotate',        name: 'Rotate PDF',        icon: '🔄', href: '/pdf/rotate.html',        color: '#00d4ff' },
+  { key: 'compress',      name: 'Compress PDF',      icon: '📦', href: '/pdf/compress.html',      color: '#00d4ff' },
+  { key: 'jpg_to_pdf',    name: 'JPG → PDF',         icon: '🖼️', href: '/pdf/jpg-to-pdf.html',    color: '#8b5cf6' },
+  { key: 'pdf_to_jpg',    name: 'PDF → JPG',         icon: '📸', href: '/pdf/pdf-to-jpg.html',    color: '#8b5cf6' },
+  { key: 'watermark',     name: 'Add Watermark',     icon: '💧', href: '/pdf/watermark.html',     color: '#00d4ff' },
+  { key: 'page_numbers',  name: 'Add Page Numbers',  icon: '🔢', href: '/pdf/page-numbers.html',  color: '#00d4ff' },
+  { key: 'protect',       name: 'Protect PDF',       icon: '🔐', href: '/pdf/protect.html',       color: '#00ff88' },
+  { key: 'unlock',        name: 'Unlock PDF',        icon: '🔓', href: '/pdf/unlock.html',        color: '#00ff88' },
+];
+
+const STATS_KEY = 'pdf_toolkit_stats';
+
+function loadStats() {
+  try { return JSON.parse(localStorage.getItem(STATS_KEY) || '{}'); }
+  catch { return {}; }
+}
+
+function fmtDate(ts) {
+  if (!ts) return '—';
+  return new Date(ts).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+function render() {
+  const stats = loadStats();
+  const total = stats._total || 0;
+  const container = document.getElementById('mainContent');
+
+  if (total === 0) {
+    container.innerHTML = `
+      <div class="empty-state fade-in">
+        <div class="es-icon">📊</div>
+        <h2>No operations recorded yet</h2>
+        <p>Use any <a href="/pdf/">PDF tool</a> and successful operations will appear here automatically.</p>
+      </div>`;
+    return;
+  }
+
+  // Per-tool counts
+  const toolCounts = TOOLS.map(t => ({ ...t, count: stats[t.key] || 0 }));
+  const maxCount = Math.max(...toolCounts.map(t => t.count), 1);
+  const usedCount = toolCounts.filter(t => t.count > 0).length;
+
+  // Most used (top 6 for chart)
+  const sorted = [...toolCounts].sort((a, b) => b.count - a.count);
+  const topTools = sorted.slice(0, 6);
+
+  container.innerHTML = `
+    <!-- Summary cards -->
+    <div class="summary-row fade-in">
+      <div class="summary-card">
+        <div class="sc-label">Total Operations</div>
+        <div class="sc-value" style="color:var(--cyan)">${total}</div>
+        <div class="sc-sub">across all tools</div>
+      </div>
+      <div class="summary-card">
+        <div class="sc-label">Tools Used</div>
+        <div class="sc-value" style="color:var(--purple)">${usedCount} <span style="font-size:1rem;font-weight:400;color:var(--muted)">/ 12</span></div>
+        <div class="sc-sub">distinct tools</div>
+      </div>
+      <div class="summary-card">
+        <div class="sc-label">Last Used</div>
+        <div class="sc-value" style="font-size:1.1rem;font-weight:600;color:var(--green);margin-top:.25rem">${fmtDate(stats._lastUse)}</div>
+        <div class="sc-sub">first: ${fmtDate(stats._firstUse)}</div>
+      </div>
+    </div>
+
+    <!-- Bar chart (top tools) -->
+    <div class="chart-wrap fade-in" style="animation-delay:.05s">
+      <div class="section-title">// most used tools</div>
+      <div class="bar-chart" id="barChart"></div>
+    </div>
+
+    <!-- Full table -->
+    <div class="section-title fade-in" style="animation-delay:.1s">// all tools</div>
+    <div class="tools-table fade-in" style="animation-delay:.1s" id="toolsTable"></div>
+
+    <!-- Actions -->
+    <div class="actions-row fade-in" style="animation-delay:.15s">
+      <button class="btn-export" id="exportBtn">⬇ Export JSON</button>
+      <button class="btn-reset" id="resetBtn">🗑 Reset Statistics</button>
+    </div>
+  `;
+
+  // Build bar chart
+  const chartEl = document.getElementById('barChart');
+  const chartMax = Math.max(...topTools.map(t => t.count), 1);
+  topTools.forEach(t => {
+    const pct = (t.count / chartMax * 100).toFixed(1);
+    const col = document.createElement('div');
+    col.className = 'bc-col';
+    col.innerHTML = `
+      <div class="bc-count" style="color:${t.color}">${t.count}</div>
+      <div class="bc-bar" style="background:${t.color};opacity:.7;height:${pct}%;min-height:4px"></div>
+      <div class="bc-label" title="${t.name}">${t.icon} ${t.name.replace(' PDF','').replace('→','→')}</div>`;
+    chartEl.appendChild(col);
+  });
+
+  // Build tool rows table
+  const tableEl = document.getElementById('toolsTable');
+  toolCounts.forEach(t => {
+    const barPct = (t.count / maxCount * 100).toFixed(1);
+    const row = document.createElement('a');
+    row.className = 'tool-row' + (t.count === 0 ? ' zero' : '');
+    row.href = t.href;
+    row.style.textDecoration = 'none'; row.style.color = 'inherit'; row.style.display = 'grid';
+    row.style.gridTemplateColumns = '2.2rem 1fr auto auto';
+    row.style.alignItems = 'center'; row.style.gap = '1rem'; row.style.padding = '.85rem 1.25rem';
+    row.style.borderBottom = '1px solid var(--border)'; row.style.transition = 'background .15s';
+    row.innerHTML = `
+      <div class="tr-icon">${t.icon}</div>
+      <div class="tr-info">
+        <div class="tr-name">${t.name}</div>
+        <div class="tr-key">${t.key}</div>
+      </div>
+      <div class="tr-bar-wrap">
+        <div class="tr-bar-bg">
+          <div class="tr-bar-fill" style="width:${barPct}%;background:${t.color};opacity:.75"></div>
+        </div>
+      </div>
+      <div class="tr-count" style="color:${t.count > 0 ? t.color : 'var(--muted)'}">${t.count}</div>`;
+    row.addEventListener('mouseenter', () => row.style.background = 'rgba(255,255,255,.025)');
+    row.addEventListener('mouseleave', () => row.style.background = '');
+    tableEl.appendChild(row);
+  });
+  // Remove border from last child
+  if (tableEl.lastChild) tableEl.lastChild.style.borderBottom = 'none';
+
+  // Export
+  document.getElementById('exportBtn').onclick = () => {
+    const data = JSON.stringify(stats, null, 2);
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'pdf_toolkit_stats.json';
+    document.body.appendChild(a); a.click();
+    setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 1000);
+  };
+
+  // Reset
+  document.getElementById('resetBtn').onclick = () => {
+    if (!confirm('Reset all statistics? This cannot be undone.')) return;
+    localStorage.removeItem(STATS_KEY);
+    render();
+  };
+}
+
+render();
+</script>
+</body>
+</html>

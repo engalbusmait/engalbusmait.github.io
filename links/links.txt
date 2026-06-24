@@ -1,0 +1,7 @@
+# Quick Links File
+# Format: NUMBER | URL | LABEL (optional)
+# Lines starting with # are comments
+# Example:
+1 | https://www.google.com | Google
+2 | https://www.linkedin.com/in/engalbusmait | LinkedIn
+3 | https://www.engalbusmait.com | My Website

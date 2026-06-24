@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <title>Quick Links</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #070b14;
+      --surface: #0d1526;
+      --border:  rgba(0, 212, 255, 0.15);
+      --cyan:    #00d4ff;
+      --green:   #00ff88;
+      --red:     #ff4757;
+      --text:    #e2e8f0;
+      --muted:   #64748b;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 40%, rgba(0,212,255,0.04) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 80% 70%, rgba(139,92,246,0.04) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3rem 2.5rem 2.5rem;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      box-shadow: 0 0 60px rgba(0, 212, 255, 0.06), 0 20px 60px rgba(0,0,0,0.4);
+    }
+
+    .icon {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, rgba(0,212,255,0.15), rgba(139,92,246,0.15));
+      border: 1px solid rgba(0,212,255,0.2);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem;
+      font-size: 1.5rem;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-bottom: 2rem;
+      line-height: 1.5;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 0.625rem;
+      margin-bottom: 1rem;
+    }
+
+    input {
+      flex: 1;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.15rem;
+      font-weight: 500;
+      padding: 0.8rem 1rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -moz-appearance: textfield;
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button { -webkit-appearance: none; }
+    input::placeholder { color: var(--muted); font-size: 1rem; }
+    input:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px rgba(0,212,255,0.1);
+    }
+
+    button {
+      background: linear-gradient(135deg, var(--cyan), #0099cc);
+      border: none;
+      border-radius: 12px;
+      color: #070b14;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 0.8rem 1.5rem;
+      transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+      white-space: nowrap;
+    }
+    button:hover:not(:disabled) {
+      opacity: 0.9;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(0,212,255,0.3);
+    }
+    button:active:not(:disabled) { transform: translateY(0); }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .message {
+      min-height: 1.4em;
+      font-size: 0.875rem;
+      border-radius: 8px;
+      padding: 0.35rem 0;
+      transition: color 0.2s;
+    }
+    .message.error   { color: var(--red); }
+    .message.success { color: var(--green); }
+
+    .loading-msg {
+      color: var(--muted);
+      font-size: 0.82rem;
+      margin-top: 0.5rem;
+    }
+
+    .back-link {
+      position: relative;
+      z-index: 1;
+      display: inline-block;
+      margin-top: 2rem;
+      color: var(--muted);
+      font-size: 0.83rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--cyan); }
+
+    @media (max-width: 460px) {
+      .card { padding: 2rem 1.25rem; }
+      .input-row { flex-direction: column; }
+      button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="icon">🔗</div>
+  <h1>Quick Links</h1>
+  <p class="subtitle">Enter a link number to be redirected instantly.</p>
+
+  <div class="input-row">
+    <input
+      type="number"
+      id="link-input"
+      placeholder="e.g.  42"
+      min="1"
+      autocomplete="off"
+      autofocus
+      aria-label="Link number"
+    >
+    <button id="go-btn" disabled>Go →</button>
+  </div>
+
+  <div class="message" id="message" role="alert" aria-live="polite"></div>
+  <div class="loading-msg" id="loading-msg">Loading links…</div>
+</div>
+
+<a href="/" class="back-link">← Back to main site</a>
+
+<script>
+(function() {
+  const inputEl  = document.getElementById('link-input');
+  const btnEl    = document.getElementById('go-btn');
+  const msgEl    = document.getElementById('message');
+  const loadMsg  = document.getElementById('loading-msg');
+
+  // Links map: number → url
+  let linksMap = {};
+  let loaded = false;
+
+  // Load links from txt file
+  fetch('links.txt')
+    .then(r => {
+      if (!r.ok) throw new Error('Failed to load links file');
+      return r.text();
+    })
+    .then(text => {
+      text.split('\n').forEach(line => {
+        line = line.trim();
+        if (!line || line.startsWith('#')) return;
+        const parts = line.split('|').map(s => s.trim());
+        if (parts.length >= 2) {
+          const num = parts[0];
+          const url = parts[1];
+          if (/^\d+$/.test(num) && url) {
+            linksMap[num] = url;
+          }
+        }
+      });
+      loaded = true;
+      loadMsg.style.display = 'none';
+      btnEl.disabled = false;
+    })
+    .catch(err => {
+      console.error(err);
+      loadMsg.textContent = 'Failed to load links. Please refresh.';
+      loadMsg.style.color = '#ff4757';
+    });
+
+  btnEl.addEventListener('click', handleRedirect);
+  inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') handleRedirect(); });
+
+  function handleRedirect() {
+    if (!loaded) return;
+
+    const raw = inputEl.value.trim();
+    if (!raw || !/^\d+$/.test(raw) || parseInt(raw, 10) < 1) {
+      showMsg('Please enter a valid positive number.', 'error');
+      return;
+    }
+
+    const url = linksMap[raw];
+    if (url) {
+      // Validate URL before redirecting
+      let parsed;
+      try { parsed = new URL(url); } catch { showMsg('Invalid URL stored for this number.', 'error'); return; }
+      if (!['http:', 'https:'].includes(parsed.protocol)) { showMsg('Invalid URL protocol.', 'error'); return; }
+
+      showMsg('Redirecting…', 'success');
+      const a = document.createElement('a');
+      a.href   = parsed.href;
+      a.target = '_blank';
+      a.rel    = 'noopener noreferrer';
+      a.click();
+    } else {
+      showMsg('No link found for that number.', 'error');
+    }
+  }
+
+  function showMsg(text, type) {
+    msgEl.textContent = text;
+    msgEl.className   = 'message ' + type;
+  }
+})();
+</script>
+
+</body>
+</html>
