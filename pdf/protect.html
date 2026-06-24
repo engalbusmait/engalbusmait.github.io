@@ -49,10 +49,6 @@
     .pw-toggle:hover { color:var(--text); border-color:rgba(255,255,255,.2); }
     .strength-bar { height:4px; border-radius:2px; margin-top:.4rem; transition:width .3s, background .3s; background:var(--border); }
     .strength-label { font-size:.75rem; color:var(--muted); margin-top:.25rem; }
-    .perms-grid { display:grid; grid-template-columns:1fr 1fr; gap:.5rem; margin-top:.5rem; }
-    @media(max-width:500px) { .perms-grid { grid-template-columns:1fr; } }
-    .perm-item { display:flex; align-items:center; gap:.5rem; font-size:.85rem; color:var(--text); cursor:pointer; }
-    .perm-item input[type="checkbox"] { accent-color:var(--green); width:15px; height:15px; }
     .info-box { background:rgba(0,255,136,.04); border:1px solid rgba(0,255,136,.12); border-radius:10px; padding:.85rem 1.1rem; margin-top:1.1rem; font-size:.8rem; color:var(--muted); line-height:1.6; }
     .info-box strong { color:var(--green); }
     .btn-primary { display:inline-flex; align-items:center; gap:.5rem; padding:.7rem 1.8rem; border-radius:10px; border:none; cursor:pointer; background:linear-gradient(135deg,var(--green),var(--cyan)); color:#070b14; font-size:.95rem; font-weight:700; font-family:inherit; transition:opacity .2s, transform .15s; margin-top:1.5rem; width:100%; justify-content:center; }
@@ -113,16 +109,7 @@
         <input type="password" id="confirmPw" placeholder="Re-enter password" autocomplete="new-password" />
       </div>
     </div>
-    <div class="opt-field">
-      <label>Permissions</label>
-      <div class="perms-grid">
-        <label class="perm-item"><input type="checkbox" id="perm-print" checked /> Allow printing</label>
-        <label class="perm-item"><input type="checkbox" id="perm-copy" /> Allow copying text</label>
-        <label class="perm-item"><input type="checkbox" id="perm-modify" /> Allow modifications</label>
-        <label class="perm-item"><input type="checkbox" id="perm-annot" checked /> Allow annotations</label>
-      </div>
-    </div>
-    <div class="info-box"><strong>AES-256 encryption</strong> via @cantoo/pdf-lib. The output PDF will be password-protected and require the password to open in any PDF viewer (Acrobat, Preview, Chrome, etc.).</div>
+    <div class="info-box"><strong>Full protection:</strong> The PDF will be fully locked with AES-256 encryption. No one can open, print, copy, or modify it without the password.</div>
   </div>
 
   <button class="btn-primary" id="processBtn" disabled>🔐 Protect PDF</button>
@@ -210,17 +197,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const ab = await PdfUtils.readFileAsArrayBuffer(currentFile);
       const pdf = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
 
-      // @cantoo/pdf-lib: call encrypt() BEFORE save()
+      // @cantoo/pdf-lib: call encrypt() BEFORE save() — lock everything
       pdf.encrypt({
         userPassword: pw,
         ownerPassword: pw + '_owner',
         permissions: {
-          printing: document.getElementById('perm-print').checked ? 'highResolution' : 'none',
-          copying: document.getElementById('perm-copy').checked,
-          modifying: document.getElementById('perm-modify').checked,
-          annotating: document.getElementById('perm-annot').checked,
-          fillingForms: true,
-          contentAccessibility: true,
+          printing: 'none',
+          copying: false,
+          modifying: false,
+          annotating: false,
+          fillingForms: false,
+          contentAccessibility: false,
           documentAssembly: false,
         },
       });
